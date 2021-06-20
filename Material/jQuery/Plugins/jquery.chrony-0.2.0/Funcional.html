@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		
+
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery.chrony.min.js"></script>
+	</head>
+	<body>
+		
+
+		<div id="content">
+
+			<span id="timer"></span>
+		</div>
+		
+		
+		
+
+		<script type="text/javascript">
+			$(function() {
+
+				$('#timer').chrony({
+					hour: 0,
+					minute	: 0,
+					second	: 15,
+					displayHours: true,
+					displayMinutes: true,
+					displaySeconds: true,
+					blink	: true,
+					finish: function() {
+						$(this).html('Finished!');
+						alert("cabou");
+						var url = "http://www.technotiger87.blogspot.com";
+						$(window.location).attr('href',url);
+						
+						//$("form:first").submit();
+					}
+				});
+
+
+
+
+			});
+		</script>
+	</body>
+</html>

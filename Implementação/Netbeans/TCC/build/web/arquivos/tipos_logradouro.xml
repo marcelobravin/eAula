@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet type="text/css" href="cd_catalog.css"?>
+
+<catalogo>
+	<jogo>
+		<titulo>Escolaridade</titulo>
+		<tipo>tipoLogradouro</tipo>
+                <opcoes>
+                    <valor>Aeroporto</valor>
+                    <nome>Aeroporto</nome>
+               
+                    <valor>Alameda</valor>
+                    <nome>Alameda</nome>
+               
+                    <valor>Área</valor>
+                    <nome>Área</nome>
+               
+                    <valor>Avenida</valor>
+                    <nome>Avenida</nome>
+               
+                    <valor>Campo</valor>
+                    <nome>Campo</nome>
+                    
+                    <valor>Chácara</valor>
+                    <nome>Chácara</nome>
+               
+                    <valor>Colônia</valor>
+                    <nome>Colônia</nome>
+               
+                    <valor>Condomínio</valor>
+                    <nome>Condomínio</nome>
+               
+                    <valor>Conjunto</valor>
+                    <nome>Conjunto</nome>
+               
+                    <valor>Distrito</valor>
+                    <nome>Distrito</nome>
+                    
+                    <valor>Esplanada</valor>
+                    <nome>Esplanada</nome>
+               
+                    <valor>Estação</valor>
+                    <nome>Estação</nome>
+               
+                    <valor>Estrada</valor>
+                    <nome>Estrada</nome>
+               
+                    <valor>Favela</valor>
+                    <nome>Favela</nome>
+               
+                    <valor>Fazenda</valor>
+                    <nome>Fazenda</nome>
+                    
+                    <valor>Feira</valor>
+                    <nome>Feira</nome>
+               
+                    <valor>Jardim</valor>
+                    <nome>Jardim</nome>
+               
+                    <valor>Ladeira</valor>
+                    <nome>Ladeira</nome>
+               
+                    <valor>Lago</valor>
+                    <nome>Lago</nome>
+               
+                    <valor>Lagoa</valor>
+                    <nome>Lagoa</nome>
+                    
+                    <valor>Largo</valor>
+                    <nome>Largo</nome>
+               
+                    <valor>Loteamento</valor>
+                    <nome>Loteamento</nome>
+               
+                    <valor>Morro</valor>
+                    <nome>Morro</nome>
+               
+                    <valor>Núcleo</valor>
+                    <nome>Núcleo</nome>
+               
+                    <valor>Parque</valor>
+                    <nome>Parque</nome>
+                    
+                    <valor>Passarela</valor>
+                    <nome>Passarela</nome>
+               
+                    <valor>Pátio</valor>
+                    <nome>Pátio</nome>
+               
+                    <valor>Praça</valor>
+                    <nome>Praça</nome>
+               
+                    <valor>Quadra</valor>
+                    <nome>Quadra</nome>
+               
+                    <valor>Recanto</valor>
+                    <nome>Recanto</nome>
+                    
+                    <valor>Residencial</valor>
+                    <nome>Residencial</nome>
+               
+                    <valor>Rodovia</valor>
+                    <nome>Rodovia</nome>
+               
+                    <valor>Rua</valor>
+                    <nome>Rua</nome>
+               
+                    <valor>Setor</valor>
+                    <nome>Setor</nome>
+               
+                    <valor>Sítio</valor>
+                    <nome>Sítio</nome>
+                    
+                    <valor>Travessa</valor>
+                    <nome>Travessa</nome>
+               
+                    <valor>Trecho</valor>
+                    <nome>Trecho</nome>
+               
+                    <valor>Trevo</valor>
+                    <nome>Trevo</nome>
+               
+                    <valor>Vale</valor>
+                    <nome>Vale</nome>
+               
+                    <valor>Vereda</valor>
+                    <nome>Vereda</nome>
+                                        
+                    <valor>Via</valor>
+                    <nome>Via</nome>
+               
+                    <valor>Viaduto</valor>
+                    <nome>Viaduto</nome>
+               
+                    <valor>Viela</valor>
+                    <nome>Viela</nome>
+               
+                    <valor>Vila</valor>
+                    <nome>Vila</nome>
+               
+                    <valor>Outros</valor>
+                    <nome>Outros</nome>
+                </opcoes> 
+	</jogo>
+</catalogo>

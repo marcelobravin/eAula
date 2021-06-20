@@ -1,0 +1,12 @@
+/*
+
+                <label for="txtCPF" accesskey="c"><u>C</u>PF:</label><input type="text" name="txtCPF" maxlength="14" />
+                <a href="index.jsp" accesskey="x" name="xxx" id="xxx"><u>X</u>ink</a>
+
+
+
+css reset */
+
+* {
+   color: orange;
+}

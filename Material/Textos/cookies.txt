@@ -1,0 +1,51 @@
+Não é muito dificil entender como os cookies funcionam.
+
+O que eu queria era aproveitar pra pergunta pra galera se existe a necesside de utilizar algum tipo de criptografia no conteudo dos cookies e das sessoes ou eu posso confiar que nenhum outro site irá recuperar o conteudo deles?
+
+
+//meu jsp1.jsp
+<%@page contentType="text/html"%>
+<%@page pageEncoding="UTF-8"%>
+<%@page import="java.net.*" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+String assinatura = "algumacoisa"
+String cookieName = "assinatura" ;
+Cookie cookie = new Cookie(cookieName, assinatura );
+cookie.setMaxAge( 10); // 10 segundos
+response.addCookie(cookie);
+%>
+<a href="recebido.jsp">recebido.jsp </a>
+
+
+//recebido.jsp
+<%@page contentType="text/html"%>
+<%@page pageEncoding="UTF-8"%>
+<%@page import="java.net.*" %>
+<%
+String cookieName = "assinatura";
+Cookie cookies[] = request.getCookies();
+Cookie Redcookie = null;
+if(cookies != null)
+{
+for( int x=0; x<cookies.length; x++ )
+{
+if( cookies[x].getName().equals(cookieName))
+{
+Redcookie=cookies[x];
+break;
+}
+}
+}
+if(Redcookie == null)
+{
+%>
+saindo...
+<%
+}
+else
+{
+%>
+<%= "assinatura =" + URLDecoder.decode(Redcookie.getValue() )%>
+<%}
+%> 

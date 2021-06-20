@@ -1,0 +1,219 @@
+<head>
+    <title>jValidation</title>	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.meiomask.js"></script>	
+	<script type="text/javascript" src="jValidation.js"></script>
+	<script>
+		jQuery(function($) {
+			//$(document).ready(function() {
+			//$("#data").mask("99/99/9999", {placeholder:" ", completed:function(){alert("You typed the following: "+this.val());}});
+			//$("#data").mask("99/99/9999", {placeholder:" ", completed:function(){verifyDate(this.val()) ;}});
+
+			// Adiciona máscaras
+			// Mascára corrige problema de preenchimento incorreto (campos só de números ou letras) e tamanho mínimo e máximo
+			// Casas após '?' são opcionais
+			$("#nome").mask("aa?aaaaaaaaaaaaaaaaaaaaaaaaaa", {placeholder:" "});
+			$("#numero").mask("9?9999", {placeholder:" "});
+			$("#ddd").mask("99", {placeholder:" "});
+			$("#fone").mask("9999-9999", {placeholder:" "});
+			$("#dddcel").mask("99", {placeholder:" "});
+			$("#celular").mask("9999-9999", {placeholder:" "});
+			$("#email").mask("*********?*********", {placeholder:" "});
+			$("#cpf").mask("999.999.999-99", {placeholder:" "});
+			$("#endereco").mask("aaaaa?aaaaaaaaaaaaaaa", {placeholder:" "});
+			$("#cidade").mask("aaa?aaaaaaaaaaaaaaaaa", {placeholder:" "});
+			$("#bairro").mask("aaa?aaaaaaaaaaaaaaaaa", {placeholder:" "});
+			$("#cep").mask("99999-999", {placeholder:" "});
+			$("#dt_nasc").mask("39/19/2999", {placeholder:" "});
+		});
+	</script>
+
+	<style>
+		.campoIncorreto {
+			border: 1px solid red
+		}
+		
+		.obrigatorio:after {
+			content: '*';
+		}
+		
+		.invisivel {
+			display: none
+		}
+	</style>
+</head>
+
+
+
+<form name="cadastro" action="ControleUsuario" method="post">
+
+	<div class="ok invisivel">
+		<h1>Cadastro concluído com sucesso!</h1>
+		<input id="cod_cons" type="hidden" disabled="" value="" name="cod_cons">
+	</div>
+	
+	<div class="erro invisivel">
+		<h1>Preencha todos os campos corretamente.</h1>
+	</div>
+	
+	<ul>
+		<li>
+			<label for="lblf_sabendo"  class="obrigatorio">
+				Como ficou sabendo da Casa Bombril?
+			</label>
+
+			<select id="f_sabendo" class="SelectBox" style="width:200px" name="f_sabendo">
+				<option value=""></option>
+				<option value="Estação de Metro">Estação de Metro</option>
+				<option value="Indicação Amigo">Indicação Amigo</option>
+				<option value="Indicação Patroa">Indicação Patroa</option>
+				<option value="Jornal Amarelinho">Jornal Amarelinho</option>
+				<option value="Jornal Metro">Jornal Metro</option>
+				<option value="Outros">Outros</option>
+				<option value="Passou em frente">Passou em frente</option>
+				<option value="Pela embalagem de bombril">Pela embalagem de bombril</option>
+				<option value="Programa Raul Gil">Programa Raul Gil</option>
+				<option value="Revista Claudia">Revista Claudia</option>
+				<option value="Revista Veja">Revista Veja</option>
+			</select>
+		</li>
+	
+		<li>
+			<label for="lblEu_sou"  class="obrigatorio">Eu sou:</label>
+			<select id="eu_sou" class="SelectBox" style="width:200px" name="eu_sou">
+				<option value=""></option>
+				<option value="Desempregada">Desempregada</option>
+				<option value="Empregada doméstica/ diarista">Empregada doméstica/ diarista</option>
+			</select>
+		</li>
+		
+		<li>
+			<label for="nome"  class="obrigatorio">Nome:</label>
+			<input id="nome" type="text" style="width:400px" name="nome">
+		</li>
+		
+		<li>
+			<label for="lblNarcimento"  class="obrigatorio">Data de Nascimento:</label>
+			<input id="dt_nasc" type="text" size="11" value="" onblur="if(verifica_data(dt_nasc.value)==false){alert('Informe uma data de nascimento válida.')};" onkeypress="MascaraData(dt_nasc)" style="width:90" maxlength="10" name="dt_nasc">
+		</li>
+		
+		<li>
+			<label for="lblSexo"  class="obrigatorio">Sexo:</label>
+			<select id="sexo" class="SelectBox" style="width:100px" name="sexo">
+				<option value=""></option>
+				<option value="masculino">Masculino</option>
+				<option value="feminino">Feminino</option>
+			</select>
+		</li>
+		
+		<li>
+		<label for="lblCep"  class="obrigatorio">CEP:</label>
+		<input id="cep" type="text" onchange="getAddress(getElementById('cep').value);" value="" size="8" maxlength="8" name="cep">
+		</li>
+		
+		<li>
+		<label for="lblendereco"  class="obrigatorio">Endereço:</label>
+		<input id="endereco" type="text" value="" size="50" maxlength="50" name="endereco">
+		</li>
+		
+		<li>
+		<label for="lblnumero"  class="obrigatorio">Número:</label>
+		<input id="numero" type="text" value="" size="6" maxlength="15" name="numero">
+		</li>
+		
+		<li>
+		<label for="lblcompl">Complemento:</label>
+		<input id="compl" type="text" value="" maxlength="150" name="compl">
+		</li>
+		
+		<li>
+		<label for="lblbairro"  class="obrigatorio">Bairro:</label>
+		<input id="bairro" type="text" value="" size="30" maxlength="150" name="bairro">
+		</li>
+		
+		<li>
+		<label for="lblcidade"  class="obrigatorio">Cidade:</label>
+		<input id="cidade" type="text" value="" size="40" maxlength="150" name="cidade">
+		</li>
+		
+		<li>
+		<label for="lblcidade"  class="obrigatorio">Estado:</label>
+		<select id="estado" style="width:50" name="estado">
+			<option value=""></option>
+			<option value="AC">AC</option>
+			<option value="AL">AL</option>
+			<option value="AM">AM</option>
+			<option value="AP">AP</option>
+			<option value="BA">BA</option>
+			<option value="CE">CE</option>
+			<option value="DF">DF</option>
+			<option value="ES">ES</option>
+			<option value="EX">EX</option>
+			<option value="GO">GO</option>
+			<option value="MA">MA</option>
+			<option value="MG">MG</option>
+			<option value="MS">MS</option>
+			<option value="MT">MT</option>
+			<option value="PA">PA</option>
+			<option value="PB">PB</option>
+			<option value="PE">PE</option>
+			<option value="PI">PI</option>
+			<option value="PR">PR</option>
+			<option value="RJ">RJ</option>
+			<option value="RN">RN</option>
+			<option value="RO">RO</option>
+			<option value="RR">RR</option>
+			<option value="RS">RS</option>
+			<option value="SC">SC</option>
+			<option value="SE">SE</option>
+			<option value="SP">SP</option>
+			<option value="TO">TO</option>
+		</select>
+		</li>
+		
+		<li>
+			<label for="lblTelefone"  class="obrigatorio">Telefone:</label>
+			<input id="ddd" type="text" value="" size="2" maxlength="3" name="ddd">
+			<input id="fone" type="text" value="" size="9" maxlength="30" name="fone">
+		</li>
+		
+		
+		<li>
+			<label for="lblCelular"  class="obrigatorio">Celular:</label>
+			<input id="dddcel" type="text" value="" size="2" maxlength="3" name="dddcel">
+			<input id="celular" type="text" value="" size="9" maxlength="30" name="celular">
+		</li>
+
+		<li>
+			<label for="mail"  class="obrigatorio">E-mail:</label>
+			<input id="email" type="text" size="50" name="email">
+		</li>
+		
+		<li>
+			<label for="lblCPF"  class="obrigatorio">CPF</label>
+			<input id="cpf" type="text" value="" onblur="ValidarCPF(cpf.value);" onkeypress="FormataCpf(cpf);" size="12" maxlength="15" name="cpf">
+		</li>
+
+		<li>
+			<label for="lblcurso"  class="obrigatorio">Curso:</label>
+			<select id="curso" class="SelectBox" style="width:200px" name="curso">
+				<option value=""></option>
+				<option value="BOMBRIL">BOMBRIL</option>
+				<option value="MON BIJOU">MON BIJOU</option>
+				<option value="LIMPOL">LIMPOL</option>
+				<option value="PRATICE">PRATICE</option>
+				<option value="ECOBRIL">ECOBRIL</option>
+			</select>
+		</li>
+		
+		<li>
+			<input id="r_infor" type="checkbox" value="" name="r_infor">
+			<label for="termos"  class="obrigatorio">Li e aceito os termos e condições</label>
+		</li>
+	</ul>
+
+
+
+	<input type="submit">
+	<input type="reset">
+</form>

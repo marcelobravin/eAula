@@ -1,0 +1,543 @@
+<%@ page language="java" import="java.sql.*" %>
+<html>
+<head>
+<title>Include example of JSP</title>
+</head>
+
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td colspan="3" align="center"><%@ include file="frames/header.jsp"%></td>
+  </tr>
+  <tr>
+    <td width="16%" height="138">&nbsp;</td>
+    <td width="65%" align="center">This is Home page and having
+                    header and footer included by include of JSP </td>
+    <td width="19%">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center"><%@ include file="footer.jsp"%></td>
+  </tr>
+</table>
+
+</body>
+</html>
+
+
+
+The include directive is used to include any file’s content into other desired file. This process is useful when need a separate header, footer, menu bar, or any common content need to reuse on other pages.
+
+This JSP include can be static or dynamic.
+Static include in JSP does include one file content into desired file at translation time, after that JSP page is compiled.
+
+Dynamic include in JSP
+Dynamic include is used in javabean as <jsp:include>. This include execute first file and then output of this file include in desired file.
+
+Include is useful for common and reusable code function method, variable.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%@ page language="java" import="java.sql.*" %>
+<html>
+<head>
+<title>do-while loop in JSP</title>
+</head>
+
+<body>
+<%
+int i=0;
+do{
+  out.print("While Loop through JSP count :"+i+"<br/>");
+  i++; 
+}
+while(i<=10);
+%>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Server variable
+
+Server variable give server information or client information. Suppose we need to get remote client IP address, browser, operating system, Context path, Host name any thing related to server can be get using request object in JSP.
+
+Server variable example in JSP
+
+serverVariable.jsp
+
+ 
+
+<%@ page contentType="text/html; charset=utf-8" language="java" %>
+<html>
+<head>
+<title>Server Variable in JSP</title>
+</head>
+
+
+<body>
+Character Encoding : <b><%=request.getCharacterEncoding()%></b><br />
+
+Context Path : <strong><%=request.getContextPath()%></strong><br />
+
+Path Info : <strong><%=request.getPathInfo()%></strong><br />
+
+Protocol with version: <strong><%=request.getProtocol()%></strong><br />
+
+Absolute Path file:<b><%=request.getRealPath("serverVariable.jsp")%></b><br/>
+
+Client Address in form of IP Address:<b><%=request.getRemoteAddr()%></b><br/>
+
+Client Host : <strong><%=request.getRemoteHost()%></strong><br />
+
+URI : <strong><%=request.getRequestURI()%></strong><br />
+
+Scheme in form of protocol : <strong><%=request.getScheme()%></strong><br />
+
+Server Name : <strong><%=request.getServerName()%></strong><br />
+
+Server Port no : <strong><%=request.getServerPort()%></strong><br />
+
+Servlet path current File name : <b><%=request.getServletPath()%></b><br />
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SP file handling is used to handle file in server and manipulate file related task, e.g copying file to another file, upload images or any file to web server, delete existing file from server, creating new file in web server.
+In this file handling we have to use input and output of java classes. This can be File, InputStream or with BufferedInputStream. Let take example to understand better.
+Example Reading text file in JSP
+
+fileRead.jsp
+
+<%@ page language="java" import="java.io.*" errorPage="" %>
+<html>
+<head>
+<title>File Handling in JSP</title>
+</head>
+
+<body>
+<%
+String fileName=getServletContext().getRealPath("jsp.txt");
+
+File f=new File(fileName);
+
+InputStream in = new FileInputStream(f);
+
+BufferedInputStream bin = new BufferedInputStream(in);
+
+DataInputStream din = new DataInputStream(bin);
+
+    while(din.available()>0)
+    {
+     out.print(din.readLine());
+    }
+in.close();
+bin.close();
+din.close();
+%>
+</body>
+</html>
+
+Make a text file name jsp.txt and put in same folder where this jsp file is exists.
+Create new file through JSP
+
+createNewFile.jsp
+
+ 
+
+<%@ page language="java" import="java.io.*" errorPage="" %>
+<html>
+<head>
+<title>File Handling in JSP</title>
+</head>
+
+<body>
+<%
+String fileName=getServletContext().getRealPath("test.txt");
+
+File f=new File(fileName);
+
+f.createNewFile();
+
+%>
+</body>
+</html>
+
+Examples of Delete file in JSP
+
+This example delete file from defined path.
+
+ 
+
+deleteFile.jsp
+
+ 
+
+<%@ page language="java" import="java.io.*" errorPage="" %>
+<html>
+<head>
+<title>File Handling in JSP</title>
+</head>
+
+<body>
+<%
+String fileName=getServletContext().getRealPath("test.txt");
+//// If you know path of the file, can directly put path instead of 
+///filename e.g c:/tomcat/webapps/jsp/myFile.txt
+File f=new File(fileName);
+
+boolean flag=f.delete(); 
+///return type is boolean if deleted return true, otherwise false
+
+%>
+</body>
+</html>
+
+Can check file exists or not is directory, or file
+Example of checking file type for existing, file or as directory
+
+fileType.jsp
+
+<%@ page language="java" import="java.io.*" errorPage="" %>
+<html>
+<head>
+<title>File Handling in JSP</title>
+</head>
+
+<body>
+<%
+String fileName=getServletContext().getRealPath("jsp.txt");
+
+File f=new File(fileName);
+
+out.print("File exists     : "+f.exists()+"<br>");
+/// return type is boolean exists return true else false
+
+out.print("File is Directory : "+f.isDirectory()+"<br>");
+/// return type is boolean exists return true else false
+
+out.print("File is File : "+f.isFile()+"<br>");
+/// return type is boolean exists return true else false
+
+out.print("File is creation Date : "+f.lastModified()+"<br>");
+/// return type is boolean exists return true else false
+
+%>
+</body>
+</html>
+
+Example of Rename file in JSP
+
+renameFile.jsp
+
+<%@ page language="java" import="java.io.*" errorPage="" %>
+<html>
+<head>
+<title>File Handling in JSP</title>
+</head>
+
+<body>
+<%
+String fileName=getServletContext().getRealPath("jsp.txt");
+
+File f=new File(fileName);
+
+boolean flag=f.renameTo(new File(getServletContext().getRealPath("myJsp.txt")));
+%>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+xample of Exception Implicit object in JSP
+
+exception.jsp
+
+<%@ page  language="java" errorPage="error.jsp" %>
+<html>
+<head>
+<title>Implicit Exception object</title>
+</head>
+
+<body>
+<%
+ String a=null;
+ int b=Integer.parseInt(a);
+%>
+</body>
+</html>
+
+error.jsp
+
+<%@ page  language="java" import="java.io.*" isErrorPage="true"  %>
+<html>
+<head>
+<title>Implicit Exception Error page</title>
+</head>
+
+<body>
+The Exception is <strong><%= exception.toString() %></strong><br>
+Message : <strong><%=exception.getMessage()%></strong><br>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7. config
+    config object is related to get servlet’s configuration information. It is in javax.servlet.ServletConfig interface. Servlet configuration object is used to pass information of servlet to Servlet container during initialization of servlet. This is defined in web.xml file with <init-param> and method is used to get getServletConfig()
+
+<servlet>
+    <servlet-name>ServletName</servlet-name>
+    <servlet-class>com.myapp.servlet.ServletName</servlet-class>    
+	<init-param>
+        <param-name>dbUserName</param-name>
+        <param-value>root</param-value>
+    </init-param>    
+</servlet>
+
+Method use to get init param is getInitParameter() to get value inside <param-value> and getInitParameterNames() to get name of <param-name>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+Declaration in JSP is way to define global java variable and method. This java variable method in declaration can be access normally. Normally declaration does not produce any output, and access of this code is also limited. The declaration code does not reside inside service method of JSP. Declaration we use method to convert null convert of string in JSP.
+Example of Declaration in JSP
+
+declaration.jsp
+
+<%@ page  language="java" errorPage="" %>
+<%!
+         public String nullconv(String str)
+         {    
+            if(str==null)
+                str="";
+            else if(str.equals("null"))
+                str="";
+            else if((str.trim()).equals(""))
+                str="";
+            else if(str.equals(null))
+                str="";
+            else
+                str=str.trim();
+            return str;
+         }
+
+%>
+
+<%
+ String myVariable=null;
+%>
+<html>
+<head>
+<title>Declaration in JSP</title>
+</head>
+
+<body>
+This is null variable : <%=nullconv(myVariable)%>
+</body>
+</html>
+
+We can see declaration code is not used to produce any direct output; it is used for reusable code.
+
+Instead of <%! Declaration code%> can use
+
+<jsp:declaration>
+        public String nullconv(String str)
+         {    
+            if(str==null)
+                str="";
+            else if(str.equals("null"))
+                str="";
+            else if((str.trim()).equals(""))
+                str="";
+            else if(str.equals(null))
+                str="";
+            else
+                str=str.trim();
+            return str;
+         }
+</jsp:declaration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+When session is no long needed, should be removed forcefully by user. This can be done by calling session method of invalidate method
+session.invalidate();
+
+session.invalidate();
+
+This method expires session for current user, who request for log out.
+
+New session can be find by isNew() method of session, when first time session is created, that is new session.
+
+session.isNew();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O java possui 8 wrappers para tipos primitivos que adicionam a funcionalidade de tratar tipos primitivos como classes. Quando você faz um:
+Integer i = Integer.valueOf(2);
+
+Você está criando uma classe, que "envolve" o número 2 (primitivo) e adiciona métodos como intValue() nele. Você ainda ganha a funcionalidade de trabalhar com o número 2 como se ele fosse um objeto. O java (a partir da versão 5) é inteligente o suficiente para criar ou desfazer wrappers de tipo primitivo automaticamente (Autoboxing), de tão útil e comum que é essa prática.
+
+Mas esses não são os únicos wrappers que o java possui. Ele ainda possui 6 wrappers adicionais para collections, que as tornam sincronizadas ou imutáveis.
+
+Por exemplo, você pode adicionar sincronização a listas. Todo arraylist não é sincronizado. Entretanto, se quisermos sincronizar um array list podemos fazer:
+List minhaLista = Collections.synchronizedList(new ArrayList());
+
+Ou podemos ter uma lista sincronizada e imutável:
+view plaincopy to clipboardprint?
+
+   1. List umaLista = new ArrayList();  
+   2. List umaListaSincronizada = Collections.synchronizedList(umaLista);  
+   3. List umaListaSincronizadaEImutavel = Collections.unmodifiableList(umaListaSincronizada);  
+
+List umaLista = new ArrayList(); List umaListaSincronizada = Collections.synchronizedList(umaLista); List umaListaSincronizadaEImutavel = Collections.unmodifiableList(umaListaSincronizada);
+
+Cada decorator desses adicionou uma funcionalidade a mais na lista. A primeira era a sincronização, a segunda imutabilidade.
+
+Se você procurar vai achar ainda mais exemplos de wrappers. Dê uma olhada nos OutputStreams e InputStreams, ou nas classes Reader e Writer...
+
+Existem dezenas de wrappers: para tratar o fluxo de conexões como orientado a objetos (ObjectInputStream), fluxos de audio (AudioInputStream), baseados em tipos primitivos (DataInputStream), ou adicionar buffers (BufferedInputStream) a eles... Todos esses são exemplos de wrappers para o básico e sem funcionalidade InputStream. E o interessante, é que, como demonstrado com as listas, esses wrappers podem ser combinados (pode-se fazer um FileInputStream, associa-lo a um BufferedInputStream e ler dados primitivos dele após associar o resultado a um DataInputStream). 

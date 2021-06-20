@@ -1,0 +1,1080 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Uploading Single File by Using JSP</title>
+<meta content="" name="description">
+<meta content="" name="keywords">
+
+<style type="text/css">
+<!--
+@import url("/d2/css/default.css");
+-->
+</style>
+
+
+<style type="text/css">
+label.error { width: 250px; color: red; display: block; float: left; padding-left: 10px; }
+</style>
+
+
+<script async="" src="Sinle_upload.xhtml_arquivos/cbgapi.loaded0"></script><script src="Sinle_upload.xhtml_arquivos/ga.js" async="" type="text/javascript"></script><script src="Sinle_upload.xhtml_arquivos/ddmenu.js" type="text/javascript"></script>
+
+<link href="Sinle_upload.xhtml_arquivos/prettify.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="Sinle_upload.xhtml_arquivos/prettify.js"></script>
+
+<script src="Sinle_upload.xhtml_arquivos/jquery-1.js"></script>
+<script src="Sinle_upload.xhtml_arquivos/jquery.js"></script>
+<script src="Sinle_upload.xhtml_arquivos/jquery_002.js"></script>
+
+
+<script type="text/javascript"> 
+       $(document).ready(function() { 
+		  $("#commentForm").validate({ 
+	       rules: { 
+          name: "required",subject: "required",captchavalue: "required", 
+          email: { 
+          required: false, 
+          email: true 
+		   
+        }, 
+        url: { 
+	          url: false 
+        },comment: { 
+          required: true 
+	        } 
+	        }, 
+	        messages: { 
+	          comment: "Please enter a comment." 
+	        }
+		 }); 
+			var options = { 
+				success: showResponse,  // post-submit callback
+				beforeSubmit: beforeSubmit // pre-submit callback
+			}; 
+			$('#commentForm').ajaxForm(options);
+        }); 
+
+
+	function showResponse(responseText, statusText){ // post-submit callback
+			if(responseText=="Yes"){
+				$('#commentForm').clearForm();
+				//document.getElementById("divStatus").innerHTML = responseText;//Remove loading image
+				alert("Thanks for your posting your comment! We are reviewing your comment.");
+			}else{
+				//$("#captchavalue").value="";
+				alert("Captcha validation error! Please enter the correct value.");
+				$("#captchavalue").focus();
+
+			}	
+			
+			document.getElementById("divStatus").innerHTML = "";
+
+	}
+
+	function beforeSubmit(){ // post-submit callback
+		document.getElementById("divStatus").innerHTML = "<img src=\"/d2/images/loading.gif\">";
+
+	}
+
+
+
+    </script> 
+
+
+
+    <script type="text/javascript">
+    //<![CDATA[
+
+    var tabLinks = new Array();
+    var contentDivs = new Array();
+
+    function init() {
+
+      // Grab the tab links and content divs from the page
+      var tabListItems = document.getElementById('tabs').childNodes;
+      for ( var i = 0; i < tabListItems.length; i++ ) {
+        if ( tabListItems[i].nodeName == "LI" ) {
+          var tabLink = getFirstChildWithTagName( tabListItems[i], 'A' );
+          var id = getHash( tabLink.getAttribute('href') );
+          tabLinks[id] = tabLink;
+          contentDivs[id] = document.getElementById( id );
+        }
+      }
+
+      // Assign onclick events to the tab links, and
+      // highlight the first tab
+      var i = 0;
+
+      for ( var id in tabLinks ) {
+        tabLinks[id].onclick = showTab;
+        tabLinks[id].onfocus = function() { this.blur() };
+        if ( i == 0 ) tabLinks[id].className = 'selected';
+        i++;
+      }
+
+      // Hide all content divs except the first
+      var i = 0;
+
+      for ( var id in contentDivs ) {
+        if ( i != 0 ) contentDivs[id].className = 'tabContent hide';
+        i++;
+      }
+    }
+
+    function showTab() {
+      var selectedId = getHash( this.getAttribute('href') );
+
+      // Highlight the selected tab, and dim all others.
+      // Also show the selected content div, and hide all others.
+      for ( var id in contentDivs ) {
+        if ( id == selectedId ) {
+          tabLinks[id].className = 'selected';
+          contentDivs[id].className = 'tabContent';
+        } else {
+          tabLinks[id].className = '';
+          contentDivs[id].className = 'tabContent hide';
+        }
+      }
+
+      // Stop the browser following the link
+      return false;
+    }
+
+    function getFirstChildWithTagName( element, tagName ) {
+      for ( var i = 0; i < element.childNodes.length; i++ ) {
+        if ( element.childNodes[i].nodeName == tagName ) return element.childNodes[i];
+      }
+    }
+
+    function getHash( url ) {
+      var hashPos = url.lastIndexOf ( '#' );
+      return url.substring( hashPos + 1 );
+    }
+
+    //]]>
+    </script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-6980313-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<body onload="prettyPrint()">
+<div class="wrapper">
+
+
+	<div class="header">
+		<div class="logo"><a href="http://www.roseindia.net/"><img src="Sinle_upload.xhtml_arquivos/logo.gif" alt=""></a></div>
+		<div class="rightHeader">
+			<div class="topLink">
+			<a href="http://www.roseindia.net/answers/questions/">View Latest Questions and Answers</a>|<a href="http://www.roseindia.net/answers/askquestions/askquestion.html">Ask Questions?</a>
+			
+			<br clear="all">
+			<div class="headerAd">
+			<script type="text/javascript"><!--
+   e9 = new Object();
+   e9.size = "728x90,468x60";
+   e9.noAd = 1;
+//--></script>
+
+<script type="text/javascript" src="Sinle_upload.xhtml_arquivos/tags.js"></script>
+
+			</div>
+		</div>
+	</div><br clear="all">
+	<div class="navigationBar">
+		<div class="navigationBarLeft">&nbsp;</div>
+		<div class="navigation">
+			<ul id="ddmenu">
+				<li class="top"><a href="http://www.roseindia.net/" class="top_link"><span>Home</span></a></li>
+				<li class="top"><a href="http://www.roseindia.net/java/" class="top_link"><span class="down">Java</span></a></li>
+				<li class="top"><a href="http://www.roseindia.net/frameworks/" class="top_link"><span class="down">Frameworks</span></a></li>
+				<li class="top"><a href="http://www.roseindia.net/databases/" class="top_link"><span class="down">Database</span></a></li>
+				<li class="top"><a href="http://www.roseindia.net/technology/" class="top_link"><span class="down">Technology</span></a></li>
+				<li class="top"><a href="http://www.roseindia.net/webdevelopment/" class="top_link"><span class="down">Web Development</span></a></li>
+				<li class="top"><a href="http://www.roseindia.net/testtools/" class="top_link"><span class="down">Build/Test Tools</span></a></li>
+				<li class="top"><a href="http://www.roseindia.net/servers/" class="top_link"><span class="down">Servers</span></a></li>
+				<li class="top"><a href="http://www.roseindia.net/php/" class="top_link"><span class="down">PHP</span></a></li>
+	
+
+				
+			</ul>
+		</div>
+		<div class="navigationBarRight">&nbsp;</div>
+	</div><br clear="all">
+
+	<div class="page">
+		<div class="bredcrum">
+			<a href="http://www.roseindia.net/">Home</a>
+			
+				
+							<a href="http://www.roseindia.net/jsp/index.shtml">Jsp</a>
+				
+							<a href="http://www.roseindia.net/jsp/file_upload/index.shtml">File_upload</a>
+				
+				Uploading Single File by Using JSP
+		</div><br clear="all">
+
+		
+		<div class="middleSecPage">
+
+	<ul id="tabs">
+      <li><a class="selected" href="#about">Google Advance Search</a></li>
+      <li><a href="#advantages">&nbsp; RoseIndia.Net Search</a></li>
+    </ul>
+
+    <div class="tabContent" id="about">
+		
+			<div class="innerpageSearch">
+				<div class="innerpageSearchMiddle2">
+
+					<form action="http://www.roseindia.net/customsearch/search.shtml" id="cse-search-box">
+						<input name="cx" value="partner-pub-0714075272818912:351fen-pwln" type="hidden">
+						<input name="cof" value="FORID:10" type="hidden">
+						<input style="border: 1px solid rgb(126, 157, 185); padding: 2px; background: url(&quot;http://www.google.com/cse/intl/en/images/google_custom_search_watermark.gif&quot;) no-repeat scroll left center rgb(255, 255, 255);" class="innerpageSearchinputtxt2" name="q" type="text">
+						<input name="sa" value="Search" class="innerpageSearchinputbtn2" type="submit">
+					<input value="www.roseindia.net/jsp/file_upload/Sinle_upload.xhtml.shtml" name="siteurl" type="hidden"><input value="www.roseindia.net/jsp/file_upload/index.shtml" name="ref" type="hidden"></form>
+					<script type="text/javascript" src="Sinle_upload.xhtml_arquivos/brand"></script>
+
+				</div>
+			</div><br clear="all">		
+			
+    </div>
+
+    <div class="tabContent hide" id="advantages">
+		
+			<div class="innerpageSearch">
+				<div class="innerpageSearchMiddle2">
+
+					<form action="/findtutorials/findtutorials.shtml" method="POST">
+						<input class="innerpageSearchinputtxt2" name="q" type="text">
+						<input value="Search" class="innerpageSearchinputbtn2" type="submit">
+					</form>
+					
+			</div>
+		</div><br clear="all">
+	 </div>
+ 
+<script language="Javascript">
+init();
+</script>
+		
+
+		
+			
+
+			<div class="pageTopicSec">Uploading Single File by Using JSP<br clear="all">
+				<span class="pageTopicpostsinfo">Posted on: February 25, 2008 at 12:00 AM </span>
+			</div>
+			<div class="topoicdetails">
+			
+				<div class="topicDetailsShow">
+					<div class="topicDetailsAdRight">
+					
+					<script type="text/javascript"><!--
+google_ad_client = "pub-0714075272818912";
+/* 336x280, created 10/26/10 */
+google_ad_slot = "9725061927";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript" src="Sinle_upload.xhtml_arquivos/show_ads.js">
+</script>
+					
+					</div>
+<!-- google_ad_section_start -->
+					<b>This tutorial will help you to understand how you can upload a 
+file by using the Jsp. As Jsp is mainly used for the presentation logic,
+ we should avoid to write a code in the jsp page, but at least we should
+ know how we can use a java code inside the jsp</b><br>
+
+					      <h1 align="left"><font color="#000080">Uploading Single File by Using JSP</font></h1>
+
+
+
+      <p align="center">
+      <a href="http://www.roseindia.net/jsp/file_upload/index.shtml">
+      <img src="Sinle_upload.xhtml_arquivos/previous.gif" border="0" height="13" width="13"></a>&nbsp;&nbsp;
+      &nbsp;<a href="http://www.roseindia.net/jsp/file_upload/index.shtml"><img src="Sinle_upload.xhtml_arquivos/bt_home.gif" border="0" height="19" width="96"></a>&nbsp;
+      <a href="http://www.roseindia.net/jsp/file_upload/employee_upload_profile_image.shtml">
+      <img src="Sinle_upload.xhtml_arquivos/next.gif" border="0" height="13" width="13"></a></p>
+
+
+<p class="MsoNormal"><span style="font-size: 11.0pt; mso-bidi-font-size: 12.0pt"><font color="#000099">This
+tutorial will help you to understand how you can upload a file by using the Jsp.
+As Jsp is mainly used for the presentation logic, we should avoid to write a
+code in the jsp page, but at least we should know how we can use a java code
+inside the jsp page. In Jsp the logic of the program or Java code is mainly written inside the <i>scriptlet</i>.
+In this example we are going to tell you how can make use of <i>scriptlet</i> to
+upload a file.</font></span></p>
+<p class="MsoNormal"><font color="#000099"><span style="font-size: 11.0pt; mso-bidi-font-size: 12.0pt">In
+this example we are going to tell you how we can upload a single file by using
+Jsp and how it will get stored on a particular memory area. To get the desired
+result firstly we need to need to make a jsp page which will work as a <i>
+controller,</i> and to fulfill our requirements we need to import some packages, classes and interfaces.
+For this program we are using one package <b> java.io.*</b> which provides us classes
+and interfaces for java input/output.&nbsp;</span></font></p>
+<p class="MsoNormal"><font color="#000099"><span style="font-size: 11.0pt; mso-bidi-font-size: 12.0pt">The
+logic of the program will be written inside the <i>scriptlet</i>. The <i> scriptlet</i> tag is
+mostly used for writing the java code inside the jsp.&nbsp; </span></font></p>
+<p class="MsoNormal"><font color="#000099"><span style="font-size: 11.0pt; mso-bidi-font-size: 12.0pt"> In the
+<i> scriptlet</i> we have
+used the method <b> getContentType( )</b> of the implicit object <b>request</b>. This method is
+used to get the content type information from the Jsp header. The next step we
+are going to do is to check
+the condition whether </span></font><font color="#000080">the content type is not equal to Null and as well as
+the passed data from mulitpart/form-data is greater than or equal to 0. If the
+condition is true make a object of <b>DataInputStream</b>. Inside the constructor of
+the <b> DataInputStream</b> pass the <b> getInputStream()</b> method of the implicit object
+<b>
+request</b> reference of the class <b>InputStream</b>. It will create a <b> DataInputStream</b>
+that uses the specified underlying <b> InputStream.</b> A data input stream read
+primitive Java data types from an underlying input stream.&nbsp;</font></p>
+<p class="MsoNormal"><font color="#000080">Now we need to get the length of the
+content type which will be passed as a parameter to the constructor of the <i>byte
+array</i>. Now declare two int variables and initialize their values as 0. To
+convert the uploaded file into the byte code use the <i>while</i> loop.&nbsp;
+Now pass the array of <i>dataBytes</i> in the constructor of <b>String</b> class
+and store it in the variable file. To save the file name we need to <i>substring</i>
+the file object. After making the <i>substring</i> of the string we need to
+extract the <i>index</i> of file. Upto now we have got the file name and the
+index of file, now what we need is create an new file with the same name and
+writing the content in new file. For this we will make a object of class <b>File</b>
+and pass a new directory name which we want to make as a parameter in the
+constructor of the <b>File</b> class. By using the <b>File</b> object method <b>mkdir()</b>
+we will make a directory. To write the content in new file make a object of
+class <b>FileOutputStream.</b>&nbsp;</font></p>
+<p class="MsoNormal"><font color="#000080">We need another jsp page which will
+be used for the presentation. This jsp page contains the information where the
+request will be sent whenever it will get a request for file uploading. To
+upload the file to the jsp page firstly we need to browse the files and get the
+appropriate file. This will be achieved by the input type <b>"file"</b>.
+To save the file to the particular location we need a <b>submit</b>
+button.&nbsp;</font></p>
+<p class="MsoNormal"><font color="#000080">In this program firstly you will get
+a jsp page which will have the option of browse and Send File. The logic behind
+it will be controlled by the controller.&nbsp; </font><font color="#000099"><span style="font-size: 11.0pt; mso-bidi-font-size: 12.0pt">&nbsp; </span></font></p>
+<p><b><font color="#000080">Here is the code of the </font><span style="font-size: 11.0pt; mso-bidi-font-size: 12.0pt"><font color="#000099">index_single_upload.jsp:</font></span></b><span style="font-size: 11.0pt; mso-bidi-font-size: 12.0pt"><font color="#000099">&nbsp;
+</font></span></p>
+<pre class="prettyprint lang-java"><span class="pun">&lt;%</span><span class="lit">@</span><span class="pln"> page language</span><span class="pun">=</span><span class="str">"java"</span><span class="pln"> </span><span class="pun">%&gt;</span><span class="pln"><br></span><span class="pun">&lt;</span><span class="typ">HTml</span><span class="pun">&gt;</span><span class="pln"><br></span><span class="pun">&lt;</span><span class="pln">HEAD</span><span class="pun">&gt;&lt;</span><span class="pln">TITLE</span><span class="pun">&gt;</span><span class="typ">Display</span><span class="pln"> file upload form to the user</span><span class="pun">&lt;/</span><span class="pln">TITLE</span><span class="pun">&gt;&lt;/</span><span class="pln">HEAD</span><span class="pun">&gt;</span><span class="pln"> &nbsp;<br></span><span class="pun">&lt;%</span><span class="pln"> </span><span class="com">// &nbsp;for uploading the file we used Encrypt type of multipart/</span><span class="pln"><br>form</span><span class="pun">-</span><span class="pln">data and input of file type to browse and submit the file </span><span class="pun">%&gt;</span><span class="pln"><br>&nbsp; </span><span class="pun">&lt;</span><span class="pln">BODY</span><span class="pun">&gt;</span><span class="pln"> </span><span class="pun">&lt;</span><span class="pln">FORM &nbsp;ENCTYPE</span><span class="pun">=</span><span class="str">"multipart/form-data"</span><span class="pln"> ACTION</span><span class="pun">=</span><span class="pln"><br></span><span class="str">"sinle_upload_page.jsp"</span><span class="pln"> METHOD</span><span class="pun">=</span><span class="pln">POST</span><span class="pun">&gt;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">&lt;</span><span class="pln">br</span><span class="pun">&gt;&lt;</span><span class="pln">br</span><span class="pun">&gt;&lt;</span><span class="pln">br</span><span class="pun">&gt;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">&lt;</span><span class="pln">center</span><span class="pun">&gt;&lt;</span><span class="pln">table border</span><span class="pun">=</span><span class="str">"2"</span><span class="pln"> </span><span class="pun">&gt;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">&lt;</span><span class="pln">tr</span><span class="pun">&gt;&lt;</span><span class="pln">center</span><span class="pun">&gt;&lt;</span><span class="pln">td colspan</span><span class="pun">=</span><span class="str">"2"</span><span class="pun">&gt;&lt;</span><span class="pln">p align</span><span class="pun">=</span><span class="pln"><br></span><span class="str">"center"</span><span class="pun">&gt;&lt;</span><span class="pln">B</span><span class="pun">&gt;</span><span class="pln">PROGRAM FOR UPLOADING THE FILE</span><span class="pun">&lt;/</span><span class="pln">B</span><span class="pun">&gt;&lt;</span><span class="pln">center</span><span class="pun">&gt;&lt;/</span><span class="pln">td</span><span class="pun">&gt;&lt;/</span><span class="pln">tr</span><span class="pun">&gt;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">&lt;</span><span class="pln">tr</span><span class="pun">&gt;&lt;</span><span class="pln">td</span><span class="pun">&gt;&lt;</span><span class="pln">b</span><span class="pun">&gt;</span><span class="typ">Choose</span><span class="pln"> the file </span><span class="typ">To</span><span class="pln"> </span><span class="typ">Upload</span><span class="pun">:&lt;/</span><span class="pln">b</span><span class="pun">&gt;</span><span class="pln"><br></span><span class="pun">&lt;/</span><span class="pln">td</span><span class="pun">&gt;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">&lt;</span><span class="pln">td</span><span class="pun">&gt;&lt;</span><span class="pln">INPUT NAME</span><span class="pun">=</span><span class="str">"F1"</span><span class="pln"> TYPE</span><span class="pun">=</span><span class="str">"file"</span><span class="pun">&gt;&lt;/</span><span class="pln">td</span><span class="pun">&gt;&lt;/</span><span class="pln">tr</span><span class="pun">&gt;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">&lt;</span><span class="pln">tr</span><span class="pun">&gt;&lt;</span><span class="pln">td colspan</span><span class="pun">=</span><span class="str">"2"</span><span class="pun">&gt;</span><span class="pln"><br></span><span class="pun">&lt;</span><span class="pln">p align</span><span class="pun">=</span><span class="str">"right"</span><span class="pun">&gt;&lt;</span><span class="pln">INPUT TYPE</span><span class="pun">=</span><span class="str">"submit"</span><span class="pln"> VALUE</span><span class="pun">=</span><span class="str">"Send File"</span><span class="pln"> </span><span class="pun">&gt;&lt;/</span><span class="pln">p</span><span class="pun">&gt;&lt;/</span><span class="pln">td</span><span class="pun">&gt;&lt;/</span><span class="pln">tr</span><span class="pun">&gt;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="pun">&lt;</span><span class="pln">table</span><span class="pun">&gt;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp;</span><span class="pun">&lt;/</span><span class="pln">center</span><span class="pun">&gt;</span><span class="pln"> &nbsp; &nbsp; &nbsp;<br>&nbsp; &nbsp; &nbsp;</span><span class="pun">&lt;/</span><span class="pln">FORM</span><span class="pun">&gt;</span><span class="pln"><br></span><span class="pun">&lt;/</span><span class="pln">BODY</span><span class="pun">&gt;</span><span class="pln"><br></span><span class="pun">&lt;/</span><span class="pln">HTML</span><span class="pun">&gt;</span></pre>
+<p><b><font color="#000080">Output for the </font><span style="font-size: 11.0pt; mso-bidi-font-size: 12.0pt"><font color="#000099">index_single_upload.jsp</font></span></b></p>
+<p><font color="#000099"><img src="Sinle_upload.xhtml_arquivos/Sinle_1.jpg" border="0" height="359" width="492"></font></p>
+<p><b><font color="#000080">Output After Clicking Browse Button:</font></b></p>
+<p><font color="#000099"><img src="Sinle_upload.xhtml_arquivos/19913.jpg" border="0"></font></p>
+<p><b><font color="#000080">Here is the code of the </font><font color="#000099">single_upload_page.jsp:&nbsp;</font></b></p>
+<pre class="prettyprint lang-java"><span class="pun">&lt;%</span><span class="lit">@</span><span class="pln"> page </span><span class="kwd">import</span><span class="pun">=</span><span class="str">"java.io.*"</span><span class="pln"> </span><span class="pun">%&gt;</span><span class="pln"><br></span><span class="pun">&lt;%</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="com">//to get the content type information from JSP Request Header</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="typ">String</span><span class="pln"> contentType </span><span class="pun">=</span><span class="pln"> request</span><span class="pun">.</span><span class="pln">getContentType</span><span class="pun">();</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="com">//here we are checking the content type is not equal to Null and</span><span class="pln"><br>&nbsp;as well as the passed data from mulitpart</span><span class="pun">/</span><span class="pln">form</span><span class="pun">-</span><span class="pln">data is greater than or<br>&nbsp;equal to </span><span class="lit">0</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">((</span><span class="pln">contentType </span><span class="pun">!=</span><span class="pln"> </span><span class="kwd">null</span><span class="pun">)</span><span class="pln"> </span><span class="pun">&amp;&amp;</span><span class="pln"> </span><span class="pun">(</span><span class="pln">contentType</span><span class="pun">.</span><span class="pln">indexOf</span><span class="pun">(</span><span class="str">"</span><span class="pln">multipart</span><span class="pun">/</span><span class="pln"><br>form</span><span class="pun">-</span><span class="pln">data</span><span class="str">")</span><span class="pln"> </span><span class="pun">&gt;=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">))</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="typ">DataInputStream</span><span class="pln"> in </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">DataInputStream</span><span class="pun">(</span><span class="pln">request</span><span class="pun">.</span><span class="pln"><br>getInputStream</span><span class="pun">());</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="com">//we are taking the length of Content type data</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="kwd">int</span><span class="pln"> formDataLength </span><span class="pun">=</span><span class="pln"> request</span><span class="pun">.</span><span class="pln">getContentLength</span><span class="pun">();</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="kwd">byte</span><span class="pln"> dataBytes</span><span class="pun">[]</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="kwd">byte</span><span class="pun">[</span><span class="pln">formDataLength</span><span class="pun">];</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="kwd">int</span><span class="pln"> byteRead </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="kwd">int</span><span class="pln"> totalBytesRead </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="com">//this loop converting the uploaded file into byte code</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="kwd">while</span><span class="pln"> </span><span class="pun">(</span><span class="pln">totalBytesRead </span><span class="pun">&lt;</span><span class="pln"> formDataLength</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; byteRead </span><span class="pun">=</span><span class="pln"> in</span><span class="pun">.</span><span class="pln">read</span><span class="pun">(</span><span class="pln">dataBytes</span><span class="pun">,</span><span class="pln"> totalBytesRead</span><span class="pun">,</span><span class="pln"> <br>formDataLength</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; totalBytesRead </span><span class="pun">+=</span><span class="pln"> byteRead</span><span class="pun">;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">}</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="typ">String</span><span class="pln"> file </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">String</span><span class="pun">(</span><span class="pln">dataBytes</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="com">//for saving the file name</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="typ">String</span><span class="pln"> saveFile </span><span class="pun">=</span><span class="pln"> file</span><span class="pun">.</span><span class="pln">substring</span><span class="pun">(</span><span class="pln">file</span><span class="pun">.</span><span class="pln">indexOf</span><span class="pun">(</span><span class="str">"</span><span class="pln">filename</span><span class="pun">=\</span><span class="pln"><br></span><span class="str">""</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="lit">10</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; saveFile </span><span class="pun">=</span><span class="pln"> saveFile</span><span class="pun">.</span><span class="pln">substring</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> saveFile</span><span class="pun">.</span><span class="pln">indexOf</span><span class="pun">(</span><span class="str">"\n"</span><span class="pun">));</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; saveFile </span><span class="pun">=</span><span class="pln"> saveFile</span><span class="pun">.</span><span class="pln">substring</span><span class="pun">(</span><span class="pln">saveFile</span><span class="pun">.</span><span class="pln">lastIndexOf</span><span class="pun">(</span><span class="str">"\\"</span><span class="pun">)</span><span class="pln"><br>&nbsp;</span><span class="pun">+</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">saveFile</span><span class="pun">.</span><span class="pln">indexOf</span><span class="pun">(</span><span class="str">"\""</span><span class="pun">));</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="kwd">int</span><span class="pln"> lastIndex </span><span class="pun">=</span><span class="pln"> contentType</span><span class="pun">.</span><span class="pln">lastIndexOf</span><span class="pun">(</span><span class="str">"="</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="typ">String</span><span class="pln"> boundary </span><span class="pun">=</span><span class="pln"> contentType</span><span class="pun">.</span><span class="pln">substring</span><span class="pun">(</span><span class="pln">lastIndex </span><span class="pun">+</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln"><br>contentType</span><span class="pun">.</span><span class="pln">length</span><span class="pun">());</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="kwd">int</span><span class="pln"> pos</span><span class="pun">;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="com">//extracting the index of file </span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pos </span><span class="pun">=</span><span class="pln"> file</span><span class="pun">.</span><span class="pln">indexOf</span><span class="pun">(</span><span class="str">"filename=\""</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pos </span><span class="pun">=</span><span class="pln"> file</span><span class="pun">.</span><span class="pln">indexOf</span><span class="pun">(</span><span class="str">"\n"</span><span class="pun">,</span><span class="pln"> pos</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="lit">1</span><span class="pun">;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pos </span><span class="pun">=</span><span class="pln"> file</span><span class="pun">.</span><span class="pln">indexOf</span><span class="pun">(</span><span class="str">"\n"</span><span class="pun">,</span><span class="pln"> pos</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="lit">1</span><span class="pun">;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pos </span><span class="pun">=</span><span class="pln"> file</span><span class="pun">.</span><span class="pln">indexOf</span><span class="pun">(</span><span class="str">"\n"</span><span class="pun">,</span><span class="pln"> pos</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="lit">1</span><span class="pun">;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="kwd">int</span><span class="pln"> boundaryLocation </span><span class="pun">=</span><span class="pln"> file</span><span class="pun">.</span><span class="pln">indexOf</span><span class="pun">(</span><span class="pln">boundary</span><span class="pun">,</span><span class="pln"> pos</span><span class="pun">)</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> </span><span class="lit">4</span><span class="pun">;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="kwd">int</span><span class="pln"> startPos </span><span class="pun">=</span><span class="pln"> </span><span class="pun">((</span><span class="pln">file</span><span class="pun">.</span><span class="pln">substring</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> pos</span><span class="pun">)).</span><span class="pln">getBytes</span><span class="pun">()).</span><span class="pln">length</span><span class="pun">;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="kwd">int</span><span class="pln"> endPos </span><span class="pun">=</span><span class="pln"> </span><span class="pun">((</span><span class="pln">file</span><span class="pun">.</span><span class="pln">substring</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> boundaryLocation</span><span class="pun">))</span><span class="pln"><br></span><span class="pun">.</span><span class="pln">getBytes</span><span class="pun">()).</span><span class="pln">length</span><span class="pun">;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="com">// creating a new file with the same name and writing the </span><span class="pln"><br>content in </span><span class="kwd">new</span><span class="pln"> file<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="typ">FileOutputStream</span><span class="pln"> fileOut </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">FileOutputStream</span><span class="pun">(</span><span class="pln">saveFile</span><span class="pun">);</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; fileOut</span><span class="pun">.</span><span class="pln">write</span><span class="pun">(</span><span class="pln">dataBytes</span><span class="pun">,</span><span class="pln"> startPos</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="pln">endPos </span><span class="pun">-</span><span class="pln"> startPos</span><span class="pun">));</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; fileOut</span><span class="pun">.</span><span class="pln">flush</span><span class="pun">();</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; fileOut</span><span class="pun">.</span><span class="pln">close</span><span class="pun">();</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">%&gt;&lt;</span><span class="typ">Br</span><span class="pun">&gt;&lt;</span><span class="pln">table border</span><span class="pun">=</span><span class="str">"2"</span><span class="pun">&gt;&lt;</span><span class="pln">tr</span><span class="pun">&gt;&lt;</span><span class="pln">td</span><span class="pun">&gt;&lt;</span><span class="pln">b</span><span class="pun">&gt;</span><span class="typ">You</span><span class="pln"> have successfully<br>&nbsp;upload the file by the name of</span><span class="pun">:&lt;/</span><span class="pln">b</span><span class="pun">&gt;</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">&lt;%</span><span class="pln"> out</span><span class="pun">.</span><span class="pln">println</span><span class="pun">(</span><span class="pln">saveFile</span><span class="pun">);</span><span class="pln"> </span><span class="pun">%&gt;&lt;/</span><span class="pln">td</span><span class="pun">&gt;&lt;/</span><span class="pln">tr</span><span class="pun">&gt;&lt;/</span><span class="pln">table</span><span class="pun">&gt;</span><span class="pln"> </span><span class="pun">&lt;%</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="pun">}</span><span class="pln"><br></span><span class="pun">%&gt;</span></pre>
+    
+<p><b><font color="#000080">Output for Sinle_upload_page.jsp</font></b></p>
+<p><font color="#000099"><img src="Sinle_upload.xhtml_arquivos/Sinle_3.jpg" border="0" height="356" width="489"><span style="font-size: 11.0pt; mso-bidi-font-size: 10.0pt; font-family: Times New Roman"><o:p></o:p></span></font></p>
+<p><font color="#000080"><a href="http://www.roseindia.net/jsp/file_upload/Single_Upload.zip">Download all files.</a></font></p>
+
+
+				
+					
+					<div class="AdsBottom336X280">
+					<script type="text/javascript"><!--
+google_ad_client = "pub-0714075272818912";
+/* bottom-1-336x280, created 5/20/11 */
+google_ad_slot = "0345760686";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript" src="Sinle_upload.xhtml_arquivos/show_ads.js">
+</script>
+					</div>
+					
+
+<!-- google_ad_section_end -->
+
+					<p class="relatedtagsshow">Related Tags for Uploading Single File by Using JSP:<br>
+
+				
+
+				
+					<a href="http://www.roseindia.net/tags/java" class="relatedtagsshow">java</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/c" class="relatedtagsshow">c</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/memory" class="relatedtagsshow">memory</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/jsp" class="relatedtagsshow">jsp</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/file" class="relatedtagsshow">file</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ide" class="relatedtagsshow">ide</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/class" class="relatedtagsshow">class</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/stl" class="relatedtagsshow">stl</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ui" class="relatedtagsshow">ui</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/interface" class="relatedtagsshow">interface</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/upload" class="relatedtagsshow">upload</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/script" class="relatedtagsshow">script</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/import" class="relatedtagsshow">import</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/input" class="relatedtagsshow">input</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/control" class="relatedtagsshow">control</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/io" class="relatedtagsshow">io</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/classes" class="relatedtagsshow">classes</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/interfaces" class="relatedtagsshow">interfaces</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/controller" class="relatedtagsshow">controller</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/make" class="relatedtagsshow">make</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/help" class="relatedtagsshow">help</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/load" class="relatedtagsshow">load</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/sed" class="relatedtagsshow">sed</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/output" class="relatedtagsshow">output</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/get" class="relatedtagsshow">get</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/logic" class="relatedtagsshow">logic</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/packages" class="relatedtagsshow">packages</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ip" class="relatedtagsshow">ip</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/page" class="relatedtagsshow">page</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/vi" class="relatedtagsshow">vi</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/tutorial" class="relatedtagsshow">tutorial</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/port" class="relatedtagsshow">port</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/requirements" class="relatedtagsshow">requirements</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/using" class="relatedtagsshow">using</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/int" class="relatedtagsshow">int</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ria" class="relatedtagsshow">ria</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/this" class="relatedtagsshow">this</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/id" class="relatedtagsshow">id</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/log" class="relatedtagsshow">log</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ai" class="relatedtagsshow">ai</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/package" class="relatedtagsshow">package</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/write" class="relatedtagsshow">write</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/js" class="relatedtagsshow">js</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/for" class="relatedtagsshow">for</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/example" class="relatedtagsshow">example</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/work" class="relatedtagsshow">work</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/program" class="relatedtagsshow">program</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/to" class="relatedtagsshow">to</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ram" class="relatedtagsshow">ram</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/void" class="relatedtagsshow">void</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/exam" class="relatedtagsshow">exam</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/store" class="relatedtagsshow">store</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/require" class="relatedtagsshow">require</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/presentation" class="relatedtagsshow">presentation</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/single" class="relatedtagsshow">single</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/sse" class="relatedtagsshow">sse</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ld" class="relatedtagsshow">ld</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ast" class="relatedtagsshow">ast</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/sh" class="relatedtagsshow">sh</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/e" class="relatedtagsshow">e</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/il" class="relatedtagsshow">il</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/main" class="relatedtagsshow">main</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/it" class="relatedtagsshow">it</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/area" class="relatedtagsshow">area</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/fill" class="relatedtagsshow">fill</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/des" class="relatedtagsshow">des</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/can" class="relatedtagsshow">can</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/put" class="relatedtagsshow">put</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/use" class="relatedtagsshow">use</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ul" class="relatedtagsshow">ul</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/result" class="relatedtagsshow">result</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/im" class="relatedtagsshow">im</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/first" class="relatedtagsshow">first</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/art" class="relatedtagsshow">art</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ce" class="relatedtagsshow">ce</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/in" class="relatedtagsshow">in</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/java.io" class="relatedtagsshow">java.io</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/no" class="relatedtagsshow">no</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/part" class="relatedtagsshow">part</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/as" class="relatedtagsshow">as</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/sta" class="relatedtagsshow">sta</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/m" class="relatedtagsshow">m</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/nt" class="relatedtagsshow">nt</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/out" class="relatedtagsshow">out</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/par" class="relatedtagsshow">par</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/tr" class="relatedtagsshow">tr</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/sid" class="relatedtagsshow">sid</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/side" class="relatedtagsshow">side</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ca" class="relatedtagsshow">ca</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/let" class="relatedtagsshow">let</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/j" class="relatedtagsshow">j</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/pack" class="relatedtagsshow">pack</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ad" class="relatedtagsshow">ad</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ace" class="relatedtagsshow">ace</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/cl" class="relatedtagsshow">cl</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/es" class="relatedtagsshow">es</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/faces" class="relatedtagsshow">faces</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/scriptlet" class="relatedtagsshow">scriptlet</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/em" class="relatedtagsshow">em</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/age" class="relatedtagsshow">age</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/oid" class="relatedtagsshow">oid</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/icu" class="relatedtagsshow">icu</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/memo" class="relatedtagsshow">memo</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/me" class="relatedtagsshow">me</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/how" class="relatedtagsshow">how</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/pro" class="relatedtagsshow">pro</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ack" class="relatedtagsshow">ack</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/stored" class="relatedtagsshow">stored</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/tor" class="relatedtagsshow">tor</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/xa" class="relatedtagsshow">xa</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/which" class="relatedtagsshow">which</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/xamp" class="relatedtagsshow">xamp</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/s" class="relatedtagsshow">s</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/su" class="relatedtagsshow">su</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/sp" class="relatedtagsshow">sp</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/so" class="relatedtagsshow">so</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ee" class="relatedtagsshow">ee</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/at" class="relatedtagsshow">at</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/pac" class="relatedtagsshow">pac</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/k" class="relatedtagsshow">k</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/is" class="relatedtagsshow">is</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ir" class="relatedtagsshow">ir</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ll" class="relatedtagsshow">ll</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/lf" class="relatedtagsshow">lf</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/mpl" class="relatedtagsshow">mpl</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/pre" class="relatedtagsshow">pre</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/go" class="relatedtagsshow">go</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ea" class="relatedtagsshow">ea</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/and" class="relatedtagsshow">and</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ar" class="relatedtagsshow">ar</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/cod" class="relatedtagsshow">cod</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/code" class="relatedtagsshow">code</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/rt" class="relatedtagsshow">rt</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/written" class="relatedtagsshow">written</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/va" class="relatedtagsshow">va</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/tt" class="relatedtagsshow">tt</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/tutor" class="relatedtagsshow">tutor</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/scr" class="relatedtagsshow">scr</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/s" class="relatedtagsshow">s</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/s" class="relatedtagsshow">s</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/roller" class="relatedtagsshow">roller</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ri" class="relatedtagsshow">ri</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/rip" class="relatedtagsshow">rip</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/th" class="relatedtagsshow">th</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/sho" class="relatedtagsshow">sho</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/av" class="relatedtagsshow">av</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/st" class="relatedtagsshow">st</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ati" class="relatedtagsshow">ati</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/face" class="relatedtagsshow">face</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/esi" class="relatedtagsshow">esi</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/esi" class="relatedtagsshow">esi</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ple" class="relatedtagsshow">ple</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/pl" class="relatedtagsshow">pl</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/pr" class="relatedtagsshow">pr</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/nd" class="relatedtagsshow">nd</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ode" class="relatedtagsshow">ode</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/on" class="relatedtagsshow">on</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/om" class="relatedtagsshow">om</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ogr" class="relatedtagsshow">ogr</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/ol" class="relatedtagsshow">ol</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/o" class="relatedtagsshow">o</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/np" class="relatedtagsshow">np</a>,&nbsp;
+					
+					<a href="http://www.roseindia.net/tags/nl" class="relatedtagsshow">nl</a>
+					
+
+
+					</p>
+					<div class="topicNavigations">
+						<a href="http://www.roseindia.net/jsp/file_upload/Sinle_upload.xhtml.shtml">«Previous</a>
+						<a href="http://www.roseindia.net/jsp/file_upload/Sinle_upload.xhtml.shtml">Index</a>
+						<a href="http://www.roseindia.net/jsp/file_upload/Sinle_upload.xhtml.shtml">Next»</a>
+					</div><br clear="all">
+
+ 
+
+	
+
+
+<div class="postcommentshow_tutorial">
+	<div class="postcomment_tutorial">
+		<p><a href="http://www.roseindia.net/answers/askquestions/askquestion.html"><b>Ask Questions?</b></a>  &nbsp;&nbsp;&nbsp;<b><a href="http://www.roseindia.net/discussion/19913-Uploading-Single-File-by-Using-JSP.html">Discuss: Uploading Single File by Using JSP</a> &nbsp; 
+		
+		<a href="http://www.roseindia.net/tutorialhelp/allcomments/3530"><b>View All Comments</b></a>
+		
+		
+		</b>
+		<br><br><b>Post your Comment</b>
+
+		</p><br>
+		<form id="commentForm" name="commentForm" action="/discussion/savecomments.html" method="post">
+		
+		<input name="articleid" value="19913" type="hidden">
+		<input name="commentOrder" value="1" type="hidden">
+		<input name="commentLevel" value="1" type="hidden">
+		
+		
+
+		<span class="writelvltxt_tutorial">Your Name (<span style="color:red">*</span>) :</span>
+		<input class="writefrmtxt_tutorial" id="name" name="name" type="text"><br clear="all">
+		<div class="label.error" id="errmsg"></div>
+
+		<span class="writelvltxt_tutorial">Your Email :</span>
+		<input class="writefrmtxt_tutorial" id="email" name="email" type="text"><br clear="all">
+		
+		<span class="writelvltxt_tutorial">Subject (<span style="color:red">*</span>):</span>
+
+		<input class="writefrmtxt_tutorial" id="subject" name="subject" type="text"><br clear="all">
+		
+		<span class="writelvltxt_tutorial">Your Comment (<span style="color:red">*</span>):</span>
+		<textarea class="writefrmtxt_tutorial" rows="8" id="comment" name="comment"></textarea><br clear="all">
+		
+		<span class="writelvltxt_tutorial">&nbsp;</span>
+		<img src="Sinle_upload.xhtml_arquivos/Captcha.jpg" id="siimage" name="siimage" border="0"> 
+		
+		<a href="#" title="Refresh Image" onclick="document.getElementById('siimage').src = '/Captcha.jpg?sid=' + Math.random(); return false"><img src="Sinle_upload.xhtml_arquivos/refresh.gif" alt="Reload Image" onclick="this.blur()" align="bottom" border="0"></a> 
+		
+		<br clear="all">
+		<span class="writelvltxt_tutorial">&nbsp;</span>
+
+		<input class="writefrmtxtCaptcha_tutorial" id="captchavalue" name="captchavalue" type="text"><br clear="all">
+		<span class="writelvltxt_tutorial">&nbsp;</span>
+		<div name="divStatus" id="divStatus"></div>
+		<input class="writefrmbtn_tutorial" value="submit" type="submit">
+		</form>
+	</div>
+</div>
+
+					
+				</div>
+			</div>
+		</div>
+
+		
+
+		
+
+<!-- Place this tag in your head or just before your close body tag -->
+<script gapi_processed="true" type="text/javascript" src="Sinle_upload.xhtml_arquivos/plusone.js"></script>
+
+<div class="rightbigcolumn">
+
+	
+		<div class="rightbigcolumn_ads">
+
+	<a href="http://newstrackindia.com/newsdetails/2012/4/12/258-Kings-XI-Punjab-will-look-to-avenge-Pune-Warriors.html" target="_blank"><img src="Sinle_upload.xhtml_arquivos/-1.jpg" border="0"><br>Kings XI Punjab will look to avenge Pune Warriors</a>
+
+
+</div>
+		
+
+			<div class="bigcolumnleftSecPage">
+
+
+
+
+			
+			<p><a href="http://www.roseindia.net/answers/askquestions/askquestion.html">Ask Questions?</a></p>
+			<p>If you are facing any programming issue, such as compilation errors or not able to find the code you are looking for. </p><p>Ask your questions, our development team will try to give answers to your questions.</p>
+
+<!-- Place this tag where you want the +1 button to render -->
+<div style="height: 24px; width: 106px; display: inline-block; text-indent: 0pt; margin: 0pt; padding: 0pt; background: none repeat scroll 0% 0% transparent; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline;" id="___plusone_0"><iframe title="+1" allowtransparency="true" hspace="0" marginheight="0" marginwidth="0" style="position: static; top: 0pt; width: 106px; margin: 0px; border-style: none; height: 24px; left: 0pt; visibility: visible;" tabindex="0" vspace="0" id="I1_1336405340475" name="I1_1336405340475" src="Sinle_upload.xhtml_arquivos/fastbutton.htm" frameborder="0" scrolling="no" width="100%"></iframe></div>
+
+<iframe src="Sinle_upload.xhtml_arquivos/like.htm" style="border: medium none; overflow: hidden; width: 158px; height: 110px;" allowtransparency="true" frameborder="0" scrolling="no"></iframe>
+
+
+			</div>
+			<div class="bigcolumnrightSecPage">
+			<div class="bigcolumnrightSecPagebox">
+				<div class="bigcolumnrightSecPagetitle">Tutorial Topics</div>
+				<div class="bigcolumnrightmenucategories">
+					<ul>
+						<li><a href="http://www.roseindia.net/programming-tutorial/Hibernate-Tutorials">Hibernate Framework<span class="counttopic">(&nbsp;1057&nbsp;)</span></a></li>
+						<li><a href="http://www.roseindia.net/programming-tutorial/Struts-Tutorials">Struts Framework<span class="counttopic">(&nbsp;836&nbsp;)</span></a></li>
+						<li><a href="http://www.roseindia.net/programming-tutorial/springframework">Spring Framework<span class="counttopic">(&nbsp;567&nbsp;)</span></a></li>
+						<li><a href="http://www.roseindia.net/programming-tutorial/xml">XML<span class="counttopic">(&nbsp;196&nbsp;)</span></a></li>
+						<li><a href="http://www.roseindia.net/programming-tutorial/Ajax">Ajax<span class="counttopic">(&nbsp;528&nbsp;)</span></a></li>
+						<li><a href="http://www.roseindia.net/programming-tutorial/JavaScript/JavaScript-Tutorial">JavaScript<span class="counttopic">(&nbsp;109&nbsp;)</span></a></li>
+						<li><a href="http://www.roseindia.net/programming-tutorial/core-java">Java<span class="counttopic">(&nbsp;1806&nbsp;)</span></a></li>
+						<li><a href="http://www.roseindia.net/programming-tutorial/Web-Services-Tutorials">Web Services<span class="counttopic">(&nbsp;71&nbsp;)</span></a></li>
+						<li><a href="http://www.roseindia.net/programming-tutorial/Database-Tutorials">Database<span class="counttopic">(&nbsp;145&nbsp;)</span></a></li>
+						<li><a href="http://www.roseindia.net/programming-tutorial/technology">Technology<span class="counttopic">(&nbsp;90&nbsp;)</span></a></li>
+						<li><a href="http://www.roseindia.net/programming-tutorial/Web-Development">Web Development<span class="counttopic">(&nbsp;503&nbsp;)</span></a></li>
+						<li><a href="http://www.roseindia.net/programming-tutorial/PHP">PHP<span class="counttopic">(&nbsp;406&nbsp;)</span></a></li>
+					</ul>
+				</div>
+			</div>
+
+
+
+
+</div>
+
+
+		<div class="rightbigcolumn_ads">
+	
+
+		<script type="text/javascript"><!--
+google_ad_client = "pub-0714075272818912";
+/* 336x280, created 8/17/11 */
+google_ad_slot = "6305346590";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript" src="Sinle_upload.xhtml_arquivos/show_ads.js">
+</script>
+
+
+		</div>
+
+		<div class="rightbigcolumn_ads_nobackground">
+			
+
+		<script type="text/javascript"><!--
+	e9 = new Object();
+    e9.size = "336x280,300x250,300x600";
+    e9.noAd = 1;
+//--></script>
+<script type="text/javascript" src="Sinle_upload.xhtml_arquivos/tags.js"></script>
+
+
+
+		</div>
+
+
+		<div class="rightbigcolumn_ads_nobackground">
+			
+		&nbsp;
+
+
+
+		</div>
+
+		<div class="rightbigcolumn_ads_nobackground">
+			
+
+		
+	<!-- ValueClick Media 300x250 Medium Rectangle CODE for Programming Tutorials -->
+	<script language="javascript" src="Sinle_upload.xhtml_arquivos/get.js"></script> <noscript><a href="http://media.fastclick.net/w/click.here?sid=53719&m=6&c=1" target="_blank"> <img src="http://media.fastclick.net/w/get.media?sid=53719&m=6&tp=8&d=s&c=1" width=300 height=250 border=1></a></noscript> <!-- ValueClick Media 300x250 Medium Rectangle CODE for Programming Tutorials -->
+
+
+
+		</div>
+
+		<div class="rightbigcolumn_ads_nobackground">
+		
+		 
+
+
+		</div>
+
+
+		<div class="rightbigcolumn_ads_nobackground">
+			
+
+		<script type="text/javascript"><!--
+	e9 = new Object();
+    e9.size = "160x600,120x600";
+    e9.noAd = 1;
+//--></script>
+<script type="text/javascript" src="Sinle_upload.xhtml_arquivos/tags.js"></script>
+
+
+		</div>
+
+		<div class="rightbigcolumn_ads_nobackground">
+			
+
+		<script type="text/javascript"><!--
+
+google_ad_client = "pub-0714075272818912";
+
+/* 180x90, created 8/18/11 */
+
+google_ad_slot = "9690256941";
+
+google_ad_width = 180;
+
+google_ad_height = 90;
+
+//-->
+
+</script>
+
+<script type="text/javascript" src="Sinle_upload.xhtml_arquivos/show_ads.js">
+
+</script>
+
+
+
+
+
+
+		</div>
+
+		<div class="rightbigcolumn_ads_nobackground">
+			
+		<p>&nbsp;</p>
+
+<script type="text/javascript"><!--
+
+google_ad_client = "pub-0714075272818912";
+
+/* 180x90, created 8/18/11 */
+
+google_ad_slot = "9690256941";
+
+google_ad_width = 180;
+
+google_ad_height = 90;
+
+//-->
+
+</script>
+
+<script type="text/javascript" src="Sinle_upload.xhtml_arquivos/show_ads.js">
+
+</script>
+
+<p>&nbsp;</p>
+
+<script type="text/javascript"><!--
+
+google_ad_client = "pub-0714075272818912";
+
+/* 180x90, created 8/18/11 */
+
+google_ad_slot = "9690256941";
+
+google_ad_width = 180;
+
+google_ad_height = 90;
+
+//-->
+
+</script>
+
+<script type="text/javascript" src="Sinle_upload.xhtml_arquivos/show_ads.js">
+
+</script>
+
+
+
+
+
+		</div>
+
+
+
+
+
+
+
+
+</div>
+
+</div>
+<div class="footer">
+	<div class="footerShow">
+		<span class="footerh1">Services</span>
+		<div class="footerLink">
+			<ul><a href="http://www.roseindia.net/services/software/index.shtml">Software Solutions</a><br>
+				<li><a href="http://www.roseindia.net/services/software/jsf-development.shtml">JSF Development</a></li>
+				<li><a href="http://www.roseindia.net/services/outsourcing/">Outsourcing</a></li>
+				<li><a href="http://www.roseindia.net/services/erp/erp.shtml">ERP</a></li>
+				<li><a href="http://www.roseindia.net/services/m-commerce/mobile-commerce.shtml">M-Commerce</a></li>
+				<li><a href="http://www.roseindia.net/services/flexdevelopment/flex-development-company-india.shtml">Flex Development</a></li>
+			</ul>
+			<ul><a href="http://www.roseindia.net/services/webdevelopement/web-developement-services.shtml">Website Development</a><br>
+				<li><a href="http://www.roseindia.net/services/webdesigning/">Web Designing</a></li>
+				<li><a href="http://www.roseindia.net/services/webdesigning/Website-Redesigning.shtml">Web Redesigning</a></li>
+				<li><a href="http://www.roseindia.net/services/webdevelopement/web-developement-services.shtml">Web Development</a></li>
+				<li><a href="http://www.roseindia.net/services/webdesigning/webdesigning.shtml#WebandGraphicDesign">Logo Design</a></li>
+				<li><a href="http://www.roseindia.net/services/webdesigning/Web-Designing-Cost.shtml">Web Design Packages</a></li>		
+				<li><a href="http://www.roseindia.net/services/webdevelopement/domain-registration.shtml">Domain Registration</a></li>
+			</ul>
+			<ul><a href="http://www.roseindia.net/services/webpromotion/Website-Promotion-Services.shtml">Web Promotion Services</a><br>
+				<li><a href="http://www.roseindia.net/services/seo/seo.shtml">SEO Services</a></li>
+				<li><a href="http://www.roseindia.net/webpromotion/searchengineoptimization.shtml">Search Eng. Optimization</a></li>		
+				<li><a href="http://www.roseindia.net/webpromotion/websubmission.shtml">Search Eng. Submission</a></li>
+				<li><a href="http://www.roseindia.net/webpromotion/search_engine_optimization_tips.shtml">SEO Tips</a></li>
+				<li><a href="http://www.roseindia.net/services/webpromotion/Website-Promotion-Services.shtml">SEO Portfolio</a></li>
+				<li><a href="http://www.roseindia.net/services/webpromotion/webpromotionplan.shtml">Web Promotion Plans</a></li>
+			</ul>
+			<ul><a href="http://www.roseindia.net/services/articles/writing/index.shtml">Content Development</a><br>
+				<li><a href="http://www.roseindia.net/services/articles/writing/index.shtml">Content Development</a></li>
+				<li><a href="http://www.roseindia.net/services/articles/writing/article-writing/index.shtml">Article Writing</a></li>
+				<li><a href="http://www.roseindia.net/services/articles/writing/Blog-Writing/index.shtml">Blog Writing</a></li>
+				<li><a href="http://www.roseindia.net/services/articles/writing/News-Articles/index.shtml">News Writing</a></li>
+				<li><a href="http://www.roseindia.net/services/articles/writing/SEO-Copywriting/index.shtml">SEO Copywriting</a></li>		
+				<li><a href="http://www.roseindia.net/services/technicaldocument/technicaldocumentation.shtml">Technical Documentation </a></li>
+				<li><a href="http://www.roseindia.net/services/articles/articlemarketing/articlemarketing.shtml">Article Marketing</a></li>
+			</ul>
+			<ul><a href="http://www.roseindia.net/services/webhosting/index.shtml">Web Hosting Services</a><br>
+				<li><a href="http://www.roseindia.net/webhosting/aspdotnethosting.shtml">ASP.NET Hosting</a></li>
+				<li><a href="http://www.roseindia.net/webhosting/UnixWebHosting.shtml">Unix Hosting</a></li>
+				<li><a href="http://www.roseindia.net/webhosting/ecommercewebhosting.shtml">E-Commerce Hosting</a></li>
+				<li><a href="http://www.roseindia.net/webhosting/WindowsWebHosting.shtml">Windows Hosting</a></li>
+				<li><a href="http://www.roseindia.net/services/webhosting/hosting-plan.shtml">Hosting Plan</a></li>
+			</ul>
+			<ul><a href="http://www.roseindia.net/services/ecomerce/services/ECommerce-Solutions-Services.shtml">E-Commerce Solutions</a><br>
+				<li><a href="http://www.roseindia.net/services/crm/CRM-solutions.shtml">CRM</a></li>
+			</ul>
+		</div>
+		<br clear="all">
+		<a href="http://www.roseindia.net/">Home</a>
+		
+		<a href="http://www.roseindia.net/sitemap/privacypolicy.shtml">Privacy Policy</a><br>
+		© All Rights are Reserved for Rose India 
+	</div>
+
+</div>
+
+
+</div></div></body></html>

@@ -1,0 +1,43 @@
+Manipulando cookies com jQuery
+Posted on November 9, 2010 by Flávio Ricardo
+ 
+ 
+ 
+ 
+ 
+ 
+Rate This
+
+jqueryTempos atrás era comum ver desenvolvedores passando horas trabalhando em códigos Javascript para tentar incrementar suas aplicações ou buscar soluções alternativas para seus problemas. Não só pelo fato de mais de 50% dos desenvolvedores fazerem uso da linguagem sem de fato estudá-la antes, o Javascript em si carece de uma sintaxe mais amigável e isso faz com que muita gente sinta um certo ódio pela linguagem.
+
+Felizmente com a evolução do desenvolvimento de software, surgiram muitas frameworks para Javascript como o jQuery, que trás uma infinidade de funções que facilitam a vida dos desenvolvedores além de contar com inúmeros plugins. O mais interessante é ver que a vasta gama de plugins existentes não se limita apenas a efeitos e firulas para nossas aplicações, existem solucões extremamente simples para problemas do dia-a-dia, como o jQuery Cookie.
+
+A utilização deste componente é bem fácil e necessita apenas da última versão do jQuery instalado para que ele comece a funcionar:
+view sourceprint?
+1.<script src='jquery.min.js'></script>
+2.<script src='jquery.cookie.js'></script>
+
+A declaração para criar um novo cookie na sessão é bastante simples. O primeiro parâmetro da função é o nome do cookie a ser criado e o segundo seu valor:
+view sourceprint?
+1.jQuery.cookie('usuario_logado', 'sim');
+
+Uma vez o cookie armazenado na sessão, ele será destruído assim que o usuário finalizar seu navegador. Caso você deseje que este fique ativo por mais tempo, podemos definir o tempo de expiração (vamos definir em 7 dias):
+view sourceprint?
+1.jQuery.cookie('usuario_logado', 'sim', { expires: 7 });
+
+Os exemplos acima aplicam o cookie na raiz do website. Porém se você quer aplicar um cookie apenas apartir de um endereço (para que este trate de casos específicos) defina o path (caminho) deste:
+view sourceprint?
+1.jQuery.cookie('usuario_logado', 'sim', { path: '/admin', expires: 7 });
+
+Trabalhar com o cookie já criado na sessão é bastante fácil, você pode acessar e manusear o valor deste a qualquer momento:
+view sourceprint?
+1.alert(jQuery.cookie('usuario_logado'));
+view sourceprint?
+1.if (jQuery.cookie('usuario_logado'))
+2.alert('Usuário logado com sucesso!')
+
+O último passo é deletar o valor do cookie gerado. Para isto, basta você sobreescrever o valor deste para nulo, com isso ele deixará de existir para o navegador e poderá ser escrito novamente quando necessário:
+view sourceprint?
+1.jQuery.cookie('usuario_logado', null);
+
+Um fato interessante é que diferente das variáveis dos Javascript que perdem seu valor a cada execução da página em que se encontram, com os cookies podemos trabalhar com determinados dados em diferentes páginas. Mais uma vantagem da utilização do jQuery.

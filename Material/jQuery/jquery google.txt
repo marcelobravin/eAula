@@ -1,0 +1,109 @@
+Alternatives to Downloading
+
+If you don't want to store the jQuery library on your own computer, you can use the hosted jQuery library from Google or Microsoft.
+Google
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+</head>
+
+Try it yourself »
+
+Microsoft
+<head>
+<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.2.min.js"></script>
+</head>
+
+
+
+
+
+
+
+
+
+
+
+:input 	$(":input") 	All input elements
+
+
+<html>
+<head>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("button").click(function(){
+    $("div").load('test1.txt');
+  });
+});
+</script>
+</head>
+<body>
+
+<div><h2>Let AJAX change this text</h2></div>
+<button>Change Content</button>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+<html>
+<head>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+$("button").click(function(){
+  $.ajax({
+  url:"test1.txt",
+  success:function(result){
+    $("div").html(result);
+  }});
+});});
+</script>
+</head>
+<body>
+
+<div><h2>Let AJAX change this text</h2></div>
+<button>Change Content</button>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html>
+<head>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("button").click(function(){
+    $("p:first").replaceWith("<b>Hello world!</b>");
+  });
+});
+</script>
+</head>
+<body>
+<p>This is a paragraph.</p>
+<p>This is another paragraph.</p>
+<button>Replace the first p element with some bold text</button>
+</body>
+</html>

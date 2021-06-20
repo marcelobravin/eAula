@@ -1,0 +1,43 @@
+--exatas
+	INSERT INTO materias(nome, area, descricao) VALUES ('Matemática', 1, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Ciência da computação', 1, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Astronomia', 1, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Química', 1, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Geociências', 1, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Ciências biológicas', 1, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Ecologia', 1, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Engenharias', 1, 'Descricao');
+--biológicas
+	INSERT INTO materias(nome, area, descricao) VALUES ('Medicina', 2, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Odontologia', 2, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Farmácia', 2, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Enfermagem', 2, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Saúde coletiva', 2, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Educação física', 2, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Ciências agrárias', 2, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Zootecnia', 2, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Medicina veterinária', 2, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Ciência e tecnologia de alimentos', 2, 'Descricao');
+--humanas
+	INSERT INTO materias(nome, area, descricao) VALUES ('Direito', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Administração', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Economia', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Arquitetura e urbanismo', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Planejamento urbano e regional', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Ciências sociais aplicadas', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Serviço social', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Filosofia', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Teologia', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Sociologia', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Antropologia', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('História', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Geografia', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Psicologia', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Educação', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Ciência política', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Linguística', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Artes', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Interdisciplinar', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Ensino', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Materiais', 3, 'Descricao');
+	INSERT INTO materias(nome, area, descricao) VALUES ('Biotecnologia', 3, 'Descricao');

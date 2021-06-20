@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<link rel="stylesheet" href="day.css"></style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+<script type="text/javascript"> 
+$(document).ready(function(){
+  $("button").click(function(){
+    $("div").animate({height:300},"slow");
+    $("div").animate({width:300},"slow");
+    $("div").animate({height:100},"slow");
+    $("div").animate({width:100},"slow");
+  });
+});
+</script> 
+</head>
+ 
+<body>
+<button>Start Animation</button>
+<br /><br />
+<div style="background:red;height:100px;width:10px;position:relative">
+</div>
+</body>
+</html>
+

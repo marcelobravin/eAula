@@ -1,0 +1,44 @@
+<script type="text/javascript" src="jquery-modal-window_files/jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {	
+
+	$('.modal').mouseenter(function(e) {
+		e.preventDefault();
+		
+		var id = $(this).attr('href');
+		var form = "<div class='tooltip'>a</div>";		
+		$('html').append(form);		
+	});
+	
+	$('.modal').mouseleave(function(e) {
+		e.preventDefault();
+		
+		//var id = $(this).attr('href');
+		//var form = "<div id='dialog' class='window'>a</div>";		
+		//$(this).append(form);
+		$(".tooltip").remove();
+	});
+});
+
+</script>
+<style type="text/css">	  
+	.tooltip {
+	  position:absolute;
+	  z-index:9999;
+	  padding:20px;
+	  width:375px; 
+	  height:203px;
+	  padding:10px;
+	  background-color:#777777;
+	}
+</style>
+</head>
+<body>
+
+<a class="modal">Janela Modal Simples</a>
+
+
+
+
+
+</body></html>

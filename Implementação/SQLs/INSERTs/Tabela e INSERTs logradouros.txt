@@ -1,0 +1,235 @@
+--Os Correios brasileiro, em seu sistema de endereçamento postal, tem como logradouro os seguintes endereços postais: aeroporto, alameda, área, avenida, campo, chácara, colônia, condomínio, conjunto, distrito, esplanada, estação, estrada, favela, feira, jardim, ladeira, lago, lagoa, largo, loteamento, morro, núcleo, parque, passarela, pátio, praça, quadra, recanto, residencial, rodovia, rua, setor, sítio, travessa, trecho, trevo, vale, vereda, via, viaduto, viela, vila.
+-- comentar todo resto
+
+DROP TABLE IF EXISTS logradouros;
+CREATE TABLE logradouros (
+	id SERIAL PRIMARY KEY,
+	nome VARCHAR(20) NOT NULL,
+	abreviacao VARCHAR(8) NOT NULL
+);
+
+--------------------------------------------------------------A
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Acampamento', 'Acamp');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Acesso', 'Ac');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Acesso', 'Acs');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Adro', 'Ad');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Aeroporto', 'Aer');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Alameda', 'Al');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Alto', 'At');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Area especial', 'Ae');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Área', 'A');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Arteria', 'Art');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Atalho', 'Atl');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Aterro', 'Ater');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Autódromo', 'Atd');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Avenida', 'Av');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Avenida contorno', 'Av-cont');
+
+--------------------------------------------------------------B
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Baia', 'Baia');??????????????????????????????????????????
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Bairro', 'B');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Baixa', 'Bx');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Balão', 'Blo');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Balneario', 'Bal');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Beco', 'Bc');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Belvedere', 'Blv');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Bloco', 'Bl');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Bosque', 'Bq');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Bosque', 'Bsq');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Boulevard', 'Bvd');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Boulevard', 'Bv');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Buraco', 'Bco');
+
+--------------------------------------------------------------C
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Cais', 'C');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Calcada', 'Calc');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Caminho', 'Cam');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Campo', 'Cpo');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Canal', 'Can');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Cartodromo', 'Ctd');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Chácara', 'Ch');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Chapadao', 'Chp');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Cidade', 'Cd');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Circular', 'Circ');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Colônia', 'Col');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Complexo viario', 'Cmp-vr');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Condominio', 'Cond');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Conjunto', 'Cj');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Corredor', 'Cor');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Corrego', 'Crg');
+
+--------------------------------------------------------------D
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Descida', 'Dsc');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Desvio', 'Dsv');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Distrito', 'Dt');
+
+--------------------------------------------------------------E
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Edificio', 'Ed');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Elevada', 'Evd');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Entrada particular', 'Ent-part');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Entre quadra', 'Eq');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Entreposto', 'Etp');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Entroncamento', 'Ent');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Escada', 'Esc');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Escadaria', 'Esd');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Escadinha', 'Esc');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Esplanada', 'Esp');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Estação', 'Etc');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Estacionamento', 'Estc');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Estadio', 'Etd');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Estancia', 'Etn');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Estrada', 'Est');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Estrada municipal', 'Est-mun');	
+
+--------------------------------------------------------------F
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Favela', 'Fav');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Fazenda', 'Faz');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Feira', 'Fra');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Ferrovia', 'Fer');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Fonte', 'Fnt');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Forte', 'Fte');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Freguesia', 'Frg');
+
+--------------------------------------------------------------G
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Galeria', 'Gal');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Galeria', 'Glr');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Granja', 'Gja');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Granja', 'Gr');
+	
+--------------------------------------------------------------H
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Habitacional', 'Hab');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Hipodromo', 'Hpd');
+
+--------------------------------------------------------------I
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Ilha', 'Ia');
+
+--------------------------------------------------------------J
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Jardim', 'Jd');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Jardinete', 'Jde');
+	
+--------------------------------------------------------------L
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Ladeira', 'Lad');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Ladeira', 'Ld');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Lago', 'Lg');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Lago', 'Lag');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Lagoa', 'Lga');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Largo', 'Lrg');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Largo', 'Lgo');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Limite', 'Lim');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Linha de transmissao', 'Linha');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Loteamento', 'Lot');
+
+--------------------------------------------------------------M
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Mangue', 'Mang');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Margem', 'Mgm');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Marina', 'Mna');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Modulo', 'Mod');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Monte', 'Mt');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Monte', 'Mte');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Morro', 'Mro');
+
+--------------------------------------------------------------N
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Núcleo', 'Muc');
+
+--------------------------------------------------------------P
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Parada', 'Pda');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Paradouro', 'Pdo');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Paralela', 'Par');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Parque', 'Pq');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Parque', 'Prq');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Passagem', 'Pas');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Passagem', 'Psg');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Passagem subterranea', 'Psc-sub');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Passarela', 'Psa');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Passeio', 'Pas');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Passeio', 'Pso');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Pátio', 'Pat');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Patio', 'Pto');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Planalto', 'Pl');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Plataforma', 'Plt');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Praca', 'Pca');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Praca', 'Pc');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Praca de esportes', 'Pc-esp');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Praia', 'Pr');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Ponta', 'Pnt');	
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Ponte', 'Pte');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Porto', 'Prt');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Porto', 'Pto');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Posto', 'Pos');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Prolongamento', 'Prl');
+
+--------------------------------------------------------------Q
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Quadra', 'Q');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Quinta', 'Qta');	
+
+--------------------------------------------------------------R
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Ramal', 'Ram');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Rampa', 'Rmp');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Recanto', 'Rec');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Rede eletrica', 'Rede');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Residencial', 'Res');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Reta', 'Rta');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Reta', 'Ret');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Retiro', 'Rer');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Retorno', 'Rtn');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Rio', 'Rio');???????????????????????????????????????????????
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Rodo anel', 'Rod-an');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Rodovia', 'Rdv');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Rodovia', 'Rod');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Rotatoria', 'Rtt');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Rotula', 'Rot');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Rua', 'R');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Rua de ligacao', 'R-lig');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Rua de pedestre', 'R-ped');	
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Ruela', 'Re');
+
+--------------------------------------------------------------S
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Serra', 'Serra');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Sertao', 'Ser');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Servidao', 'Svd');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Servidao', 'Srv');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Setor', 'St');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Sitio', 'Sit');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Subida', 'Sub');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Superquadra', 'Sqd');
+
+--------------------------------------------------------------T
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Terminal', 'Trm');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Terminal', 'Ter');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Terreno', 'Ter');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Transversal', 'Tsv');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Travessa', 'Tr');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Travessa', 'Tv');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Travessa particular', 'Tv-part');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Trevo', 'Trv');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Trecho', 'Trv');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Trincheira', 'Tch');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Tunel', 'Tun');
+
+--------------------------------------------------------------U
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Unidade', 'Unid');
+
+--------------------------------------------------------------V
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Vala', 'Val');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Vale', 'Vle');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Vargem', 'Vrg');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Variante', 'Vte');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Variante', 'Vrte');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Velodromo', 'Vld');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Vereda', 'Ver');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Via', 'V');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Via', 'Via');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Via de acesso', 'V-ac');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Via de pedestre', 'V-ped');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Via elevado', 'V-evd');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Via expressa', 'V-exp');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Viaduto', 'Vd');
+--INSERT INTO logradouros (nome, abreviacao) VALUES ('Viela', 'Vel');>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Viela', 'Vla');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Vila', 'Vl');
+
+--------------------------------------------------------------Z
+
+	
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Zigue-zague', 'Zig-zag');
+INSERT INTO logradouros (nome, abreviacao) VALUES ('Outros', 'Otrs');

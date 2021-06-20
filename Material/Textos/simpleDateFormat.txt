@@ -1,0 +1,101 @@
+    import java.text.SimpleDateFormat;  
+    import java.util.Date;  
+      
+    public class TratandoData {  
+      
+        public static void main(String[] args){  
+            Date d = new Date();  
+            System.out.print(d + "\n");  
+      
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");  
+            System.out.println(sdf.format(d));  
+      
+            sdf = new SimpleDateFormat("dd/MM");  
+            System.out.println(sdf.format(d));  
+      
+            sdf = new SimpleDateFormat("HH:mm:ss");  
+            System.out.println(sdf.format(d));  
+        }  
+      
+    }  
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	    /*
+    Java SimpleDateFormat example.
+    This Java SimpleDateFormat example describes how class is defined and being used
+    in Java language.
+    */
+     
+    import java.text.SimpleDateFormat;
+    import java.util.Date;
+     
+    public class JavaSimpleDateFormatExample{
+     
+      public static void main(String args[]){
+     
+      // Create Date object.
+      Date date = new Date();
+      //Specify the desired date format
+      String DATE_FORMAT = "MM/dd/yyyy";
+      //Create object of SimpleDateFormat and pass the desired date format.
+      SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+     
+      /*
+      Use format method of SimpleDateFormat class to format the date.
+      */
+      System.out.println("Today is " + sdf.format(date) );
+     
+      }
+     
+    }
+     
+    /*
+    OUTPUT of the above given Java SimpleDateFormat Example would be :
+    Today is 02/06/2005
+    */
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	Name 	Format String 	Comments
+RSS 2.0 	EEE, dd MMM yyyy HH:mm:ss z 	Example:
+Wed, 18 Apr 2012 14:12:07 EDT
+Atom (ISO 8601) 	yyyy-MM-dd'T'HH:mm:ssz 	You need to strip out the "GMT":
+result.substring(0, 19) + result.substring(22, result.length());
+
+See the W3C spec and Markus Kuhn's overview
+
+Example:
+2012-04-18T14:12:07EDT 

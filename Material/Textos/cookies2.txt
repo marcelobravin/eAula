@@ -1,0 +1,106 @@
+ Java tutorials
+ Java Search
+ Java database access
+ Java profiling
+ Java synchronization
+ Java collections
+	
+
+ Home  Servlets  Servlet hosting  Servlets intro  Sessions  Cookies  HTTP headers  Status codes  Keep-alive
+	Threads Database Profiling Regular expressions Random numbers Compression Exceptions C Equivalents in Java
+ Comment on this article  List of Java topics 	
+The Java Cookie class
+
+The Servlet API includes a Cookie class to wrap up the contents of a cookie plus a few attributes. There are generally two stages to using a cookie: first, at some point, we will want to ask the client set a cookie. Then, at some later stage, we'll want to read the value of the cookie. Once we ask a client to set a cookie, then the client should send us back that cookie in any request to the domain/path that the cookie is defined for.
+Setting a cookie
+
+To ask the client to set a cookie, we create a Cookie object and then add it to the HTTP response that our Servlet sends back:
+
+public void doGet(HttpServletRequest req, HttpServletResponse res)
+    throws ServletException, IOException {
+  // read from the request the uesr's desired result per page
+  Cookie ck = new Cookie("prefResultsPerPage", resPerPage);
+  res.addCookie(ck);
+  // now write response as normal...
+}
+
+The constructor takes the essential parameters of a cookie: a name and value. There's no absolute limit to the length of either, but the cookie specification1 only recommends 4K as the minimum requirement for the length of a cookie, and it appears that some browsers have indeed imposed this rather meagre limit. According to the specification, the 4K limit includes name, value plus the attributes (in the format sent in the HTTP header). In other words, the answer to the question "what is the maximum length of a cookie?" is "fairly short, but it's impossible to give a precise maximum that applies to all cases and/or all browsers".
+Cookie attributes
+
+As well as the necessary name and value, there are a few attributes that can be set on a cookie. Java doesn't actually support all possible cookie attributes, but it does support the most common, useful ones as outlined below.
+Maximum age (lifespan)
+
+Probably the most commonly-set attribute is the maximum life span of the cookie. This is set via the setMaxAge() method, which takes an integer value in seconds. So to make a cookie expire after 30 minutes (a possible value for the timeout of a 'session'), we could call:
+
+ck.setMaxAge(30 * 60);
+
+As a piece of trivia, the cookie specification (but not Java's Cookie API) actually allows decimal values for the maximum age, but it's not clear why you'd need split-second granularity on the age of a cookie...?
+Cookie path and domain
+
+The default behaviour is that a cookie applies to:
+
+    requests to the same host from which the cookie was set;
+    requests to subpaths of the parent from which the cookie was set. 
+
+These mean that by default, a cookie set when returning www.domain.com/directory/page.html will apply to— i.e. be sent by the browser when requesting— any page inside www.domain.com/directory/, but would not apply to www.domain.com/index.html or to www.section.domain.com/anything.
+
+To change these defaults, you can use two methods:
+
+Cookie ck = new Cookie(...);
+ck.setPath("/users/");
+ck.setDomain(".mydomain.com");
+
+In this case, we make the cookie applicable to any page or path inside /users/, and also make it apply to any subdomain of mydomain.com. Without the trailing dot, the domain is interpreted "literally". So a domain of www.mydomain.com wouldn't apply to www.users.mydomain.com.
+How to delete a cookie
+
+To tell the client to delete a cookie "now", add it to the response as above, but set its maximum age to zero. If you want the client to delete the cookie at the end of the current session, then set a negative maximum age (such as -1), though in fact this is the default behaviour.
+"Secure" cookies
+
+Cookies have a secure flag, indicating that the cookie should only be sent over a secure channel. The rationale is as follows: supposing that we set a session ID cookie in response to the user logging in over a secure connection. Since the session ID is what to the server "represents" the user name and password, we don't want that session ID to ever be sent over an insecure connection and be vulnerable to eavesdropping. Setting the secure flag asks the client not to ever send that cookie over an insecure connection. In theory, "secure" and "insecure" are left to the interpretation of individual clients, but in practice "secure" means "HTTPS connection".
+
+Call setSecure(true) on a Cookie object in order to mark the corresponding cookie as secure.
+
+Of course, setting setSecure() doesn't magically turn insecure connections into secure connections. In order to set up a secure connection, you have to make sure that the client is making an HTTPS request and that your server is set up to deal with HTTPS.
+Next: reading a cookie
+
+Once we have set a cookie, then on subsequent requests to the Servlet, we will probably want to read the cookie value back.
+
+1. See RFC 2965 for more information.
+
+Written by Neil Coffey. Copyright © Javamex UK 2008. All rights reserved.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The Java Cookie class: reading cookies
+
+On the previous page, we saw how to set a cookie by creating an instance of the Cookie class and attaching it to an HttpServletResposne object. To read cookies on subequent requests to the Servlet, we query the HttpServletRequest object. To find the cookie that we want, we actually get the list of cookies and cycle through, querying each to check if it matches the name— and possibly other cirteria— that we are looking for:
+
+Cookie[] cookies = req.getCookies();
+if (cookies != null)
+  for (Cookie ck : cookies) {
+    if ("prefResultsPerPage".equals(ck.getName())) {
+      String prefValue = ck.getValue();
+      ...
+    }
+
+This may seem a slightly paradoxical way of fetching the cookie— at first glance, a getCookieByName() method would have seemed more logical. The problem is that it is possible for more than one cookie to have the same name (and, for example, for one to belong to the host as a whole and another to a specific path). Thus, we are left with having to cycle through the cookies sent by the browser for the given URI and picking the one(s) we are interested in, using whatever means we feel appropriate in the case of a double match.
+
+Notice also a subtlty of the above method: if the client sent no cookies, then the getCookies() method can return null! 

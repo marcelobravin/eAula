@@ -1,0 +1,12 @@
+
+Além disso, como no banner acima é possível usar um link nessa imagem protegida, usando o código desse jeito:
+
+<div style="background-image: url(imagem protegida); width:480px; height:61px; text-align:center">
+	<a href="http://frasecurta.blogspot.com" target="_blank">
+		<img src="imagem transparente" width="480" height="61" border="0" title="Frases Curtas" />
+	</a>
+</div>
+
+Como você notou para colocar um link nessa imagem protegida na verdade o link vai na imagem transparente e o procedimento é normal como qualquer outro link. Outro detalhe é que você não precisa se preocupar com o tamanho da imagem transparente, pois colocando o tamanho dela no código o navegador vai deixá-la de qualquer tamanho. Se quiser salve o gif transparente que usamos aqui e hospede no http://imageshack.us , fazemos essa sugestão de salvar novamente e não usar a mesma que está neste blog porque algumas vezes o site de hospedagem pode bloquear uma imagem por excesso de uso(Bandwidth), portanto é mais confiável salvar e hospedar novamente, isso vale para qualquer imagem que você viu na internet e queira usar, afinal nunca sabemos quando o dono da imagem vai resolver apagá-la.
+
+Esse método ajuda a proteger suas imagens, porém esse como também outros truques para impedir a cópia de imagens do seu blog não consegue proteger totalmente as imagens, pois as pessoas sempre encontram um modo de copiar as imagens, apenas existem alguns jeitos de dificultar isso. Related Posts with Thumbnails

@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<style type="text/css"></style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+			
+				// colore linhas de tabela pares
+				$("tr:odd").css("background-color","yellow");
+				
+				// inicializa conteudo
+				var conteudo = "";
+			
+				$("button").click(function(){
+					conteudo += "<p><a id='remover' href='javascript:void(0)'>X</a> - Hello <b>world</b></p>";
+					$("#myDiv").html(conteudo);
+					
+					
+					//$("div").load('inss.txt');
+				});
+				
+				
+				
+				
+				
+				$("#button2").click(function () {
+					$("p").remove();
+					conteudo = "";
+				});	
+			});
+		</script>
+		
+
+		
+	</head>
+	<body>
+	
+		
+		<button type="button">Click Me!</button>
+		<button type="button" id="button2">2</button>
+		
+		<div id="myDiv">
+		</div>
+
+
+		
+		
+		
+		
+		<hr />
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+		<select id="x" style="width:200px;">
+			<option value="1">Mr</option>
+			<option value="2">Mrs</option>
+			<option value="3">Ms</option>
+			<option value="4">Dr</option>
+			<option value="5">Prof</option>
+		</select>
+		<input type="button" value="Get Value" onclick="alert($('#x').val())"/>
+		<input type="button" value="Get Text Value" onclick="alert($('#x option:selected').text())"/>
+		<br />
+		
+		<input type="button" value="Disable" onclick="$('#x').attr('disabled','disabled')"/>
+		<input type="button" value="Enable" onclick="$('#x').removeAttr('disabled')"/>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<hr />
+		
+		<label><input type="checkbox" id="c"/> I'll be checked/unchecked.</label>
+		<input type="button" value="Check" onclick='$("#c").attr("checked","checked")'/>
+		<input type="button" value="Uncheck" onclick='$("#c").removeAttr("checked")'/>
+		
+		
+		
+		<hr />
+		
+		
+		
+		
+		
+		
+		
+		<table class="reference">
+<tbody><tr>
+	<th align="left">Selector</th>
+	<th align="left">Example</th>
+	<th align="left">Selects</th>
+	</tr>
+	<tr>
+	<td><a href="sel_all.asp">*</a></td>
+	<td>$("*")</td>
+	<td>All elements</td>
+	</tr>
+
+	<tr>
+	<td><a href="sel_id.asp">#<em>id</em></a></td>
+	<td>$("#lastname")</td>
+	<td>The element with id=lastname</td>
+	</tr>
+	<tr>
+	<td><a href="sel_class.asp">.<em>class</em></a></td>
+	<td>$(".intro")</td>
+	<td>All elements with class="intro"</td>
+
+	</tr>
+	<tr>
+	<td><a href="sel_element.asp"><em>element</em></a></td>
+	<td>$("p")</td>
+	<td>All p elements</td>
+	</tr>
+	<tr>
+	<td>.<em>class</em>.<em>class</em></td>
+	<td>$(".intro.demo")</td>
+
+	<td>All elements with the classes "intro" and "demo"</td>
+	</tr>
+
+</tbody></table>
+	</body>
+</html>

@@ -1,0 +1,51 @@
+Introdução
+Muitas vezes precisamos disparar uma sequência de emails para os nossos clientes, avisando sobre promoções ou notificando os mais diversos assuntos. Queremos mostrar aqui como utilizar o pacote javax.mail, que fazem parte do J2EE. Como faz parte do J2EE, ele não vem junto com o seu J2SDK. Esse tutorial é bem simples!
+A biblioteca
+Antes de mais nada, você precisa pegar o .jar que contém a biblioteca javamail. Se você ainda não a tem, baixe ela em: http://java.sun.com/products/javamail/index.html Após extrair o .jar do pacote, coloque a biblioteca no seu classpath, ou no lib da sua aplicação web. O mail.jar fornece diversas funcionalidades, não apenas a de enviar email, mas vamos nos focar nesta aplicação. Lembre-se sempre de utilizar a documentação da API: http://java.sun.com/j2ee/sdk_1.3/techdocs/api/
+A API
+Agora vamos ver exemplos básicos de como a API funciona: Primeiro precisamos criar uma Properties, para armazenar alguns dados que serão utilizados para o envio do email. A informação principal é o servidor SMTP a ser utilizado.
+view plainprint?
+
+   1. Properties p = new Properties();  
+   2. p.put("mail.host", "smtp2.locaweb.com.br");  
+
+Properties p = new Properties(); p.put("mail.host", "smtp2.locaweb.com.br");
+Mas porque colocar esse tipo de informação em um java.util.Properties? Pois precisamos pegar uma "sessão de envio de email", e esta sessão pede várias propriedades, e essas propriedades podem mudar de acordo com o avanço do protocolo de email. O java não quer ficar atrelado a uma versão do protocolo, e ter de mudar a API toda vez que o protocolo mudar! A palavra sessão pode soar estranho, mas esse nome para uma classe aparece sempre quando você quer compartilhar dados.
+view plainprint?
+
+   1. Session session = Session.getInstance(p, null);  
+   2. MimeMessage msg = new MimeMessage(session);  
+
+Session session = Session.getInstance(p, null); MimeMessage msg = new MimeMessage(session);
+Pegamos a sessão, com as propriedades escolhidas. O segundo argumento é null porque sabemos que nosso smtp não precisa de autenticação para enviar email. Caso você precise de autenticação, consulte a classe java.mail.Authenticator. Depois criamos uma mensagem, é a mensagem que iremos enviar! Vamos começar a preparar os parâmetros da mensagem.
+view plainprint?
+
+   1. try {  
+   2.     // "de" e "para"!!  
+   3.     msg.setFrom(new InternetAddress("nos@guj.com.br"));  
+   4.     msg.setRecipient(Message.RecipientType.TO, new InternetAddress("voces@guj.com.br"));  
+   5.   
+   6.     // nao esqueca da data!  
+   7.     // ou ira 31/12/1969 !!!  
+   8.     msg.setSentDate(new Date());  
+   9.   
+  10.     msg.setSubject("assunto da mensagem");  
+  11.   
+  12.     msg.setText("corpo da mensagem");  
+  13.   
+  14.     // evniando mensagem (tentando)  
+  15.     Transport.send(msg);  
+  16. }  
+  17. catch (AddressException e) {  
+  18.     // nunca deixe catches vazios!  
+  19. }  
+  20. catch (MessagingException e) {  
+  21.     // nunca deixe catches vazios!  
+  22. }  
+
+try { // "de" e "para"!! msg.setFrom(new InternetAddress("nos@guj.com.br")); msg.setRecipient(Message.RecipientType.TO, new InternetAddress("voces@guj.com.br")); // nao esqueca da data! // ou ira 31/12/1969 !!! msg.setSentDate(new Date()); msg.setSubject("assunto da mensagem"); msg.setText("corpo da mensagem"); // evniando mensagem (tentando) Transport.send(msg); } catch (AddressException e) { // nunca deixe catches vazios! } catch (MessagingException e) { // nunca deixe catches vazios! }
+Muito simples não? O From e o Recipient utilizam a classe javax.mail.internet.InternetAddress, já que o método recebe um javax.mail.Address. Você ainda tem de tomar cuidado com o endereço de email que está criando (ter o @, etc...), e ver se a mensagem foi enviada, por isso tem essas exceções que podem ser lançadas!
+Conclusão
+Agora você está apto a enviar emails pelo Java. Existem ainda muitos outros recursos que o javamail disponibiliza, e você pode consultá-los na documentação em pdf que acompanha o pacote. Você deve dar atenção especial a internacionalização: isto é, usar outros encodings para mandar a mensagem, e também deve dar uma olhada em como mandar multipart, que é quando você quer atachar algum arquivo ou outro tipo de conteúdo ao email. Você pode baixar o Spammer.java do Rafael Steil neste tutorial, para ver como funciona, em uma simplíssima aplicação do javamail, e fácil de entender. Lembre-se: não faça SPAM! Mande emails somente com autorização. Hoje em dia o volume de emails é tão grande, que o SPAM machuca a imagem do seu serviço e da sua empresa!
+
+Apoiado e desenvolvido por Caelum Cursos Java - GUJ: desde 2002 

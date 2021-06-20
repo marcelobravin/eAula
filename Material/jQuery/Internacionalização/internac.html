@@ -1,0 +1,82 @@
+﻿<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<style>
+			.class {
+				width: 90px;
+				padding-bottom: 3px;
+				padding-top: 3px;
+				text-align: left;
+			}
+			
+			option {
+				background-position: right center;
+				background-repeat: no-repeat
+			}
+			
+			option[value=pt]		{	background-image: url(bandeira1.gif)	}
+			option[value=en]		{	background-image: url(bandeira2.gif)	}
+			option[value=es]		{	background-image: url(bandeira3.gif)	}
+			option[value=de]		{	background-image: url(bandeira5.gif)	}
+			option[value=jp]		{	background-image: url(bandeira4.gif)	}
+		</style>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				
+				// Inicializa exibindo apenas PT ou idioma da sessão
+				$('span[lang!=pt]').hide();
+
+				// Quando selecionado outro idioma
+				$('select').on('change', function(){
+					
+					// Esconde todos elementos que tenham um idioma
+					$('span[lang]').hide();
+					
+					// Exibe apenas elementos do idioma selecionado
+					var idioma = "span[lang=" + $(this).val() + "]";
+					$(idioma).show();
+					
+					$.ajax({
+						// Acessa objeto de controle e manda como argumento o idioma selecionado
+						url: 'ControleFrames?' + $(this).val(), // Insere na sessão o idioma selecionado
+						success: function() {
+							alert('Idioma:' + $(this).val() );
+						}, error: function() {
+							alert("falhou");
+						}
+					});
+					
+				});
+			});
+		</script>
+	</head>
+
+	<body>	
+		<div>
+			<select>
+				<option class="class" value="pt">Português</option>
+				<option class="class" value="en">English</option>
+				<option class="class" value="es">Español</option>
+				<option class="class" value="de">Deutsch</option>
+				<option class="class" value="jp">Nihon go</option>
+			</select>
+			
+			
+			<span lang="pt"><img src="bandeira1.gif" /></span>
+			<span lang="en"><img src="bandeira2.gif" /></span>
+			<span lang="es"><img src="bandeira3.gif" /></span>			
+			<span lang="jp"><img src="bandeira4.gif" /></span>
+			<span lang="de"><img src="bandeira5.gif" /></span>
+			
+
+			<p>
+				<span lang="pt">Bom dia</span>
+				<span lang="en">Good morning</span>
+				<span lang="es">¡Buenos dias</span>
+				<span lang="jp">Konitchiwa</span>
+				<span lang="de">Guten morgen</span>
+				!
+			<p>
+		</div>	
+	</body>
+</html>

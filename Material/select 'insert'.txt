@@ -1,0 +1,2 @@
+SELECT        'INSERT INTO Bombril_Gallery (num, name, image) VALUES (' + CONVERT(varchar, num) + ', ' + name + ', ' + image + ')' AS InsertStatement
+FROM            Bombril_Gallery

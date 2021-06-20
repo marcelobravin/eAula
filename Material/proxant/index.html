@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<style>
+			div {
+				position: relative;
+				border: 1px solid red;
+				width: 200px;
+				height: 200px;
+				background: silver
+			}
+			
+			div a {
+				top: 36%;
+				position: absolute;
+				width: 48px;
+				height: 48px;
+				border: 1px solid gray
+			}
+			
+			.prev {
+				background-image: url(prev.png);
+				left: 0;
+			}
+			
+			.next {
+				background-image: url(next.png);
+				left: 75%;
+			}
+		</style>
+	</head>
+	<body>
+		<center>
+			<div>
+				<a class="prev" href="javascript: void(0);"></a>
+				<a class="next" href="javascript: void(0);"></a>
+			</div>
+		</center>
+	</body>
+</html>

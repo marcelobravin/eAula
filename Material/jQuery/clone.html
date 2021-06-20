@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>-->
+		<script src="jquery-1.7.1.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('div.container').delegate('h2', 'click', function() {
+					$(this).clone().appendTo('.container');
+				});
+			});
+		</script>
+	</head>
+	<body>
+	
+		<div class="container">
+			<h2>Clique aqui</h2>
+			<h2>Clique aqui</h2>
+			<h2>Clique aqui</h2>
+			<h2>Clique aqui</h2>
+		</div>
+		
+	</body>
+</html>

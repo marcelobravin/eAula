@@ -1,0 +1,1886 @@
+Paul Irish
+I make the www fun.
+Switcher
+Conditional stylesheets vs CSS hacks? Answer: Neither!
+October 20th, 2008
+…or… <html>'s conditional classes
+
+From what I've seen a good number of developers these days are split between conditional stylesheets and css hacks.
+
+You're used to seeing this:
+
+  <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
+  <!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="css/ie7.css"  />< ![endif]-->
+  <!--[if IE 6]><link rel="stylesheet" type="text/css" media="screen" href="css/ie6.css"  />< ![endif]-->
+
+But probably also plenty of this:
+
+div.infoBox { float: left; margin-left: 10px; _margin-left: 5px; }
+
+CSS hacks to target specific browsers stay where the rest of your styles are, but they certainly don't validate. For sometime now, the standards community has rallied around conditional stylesheets as a solution to the validation problem.
+
+There are a few problems with it though:
+
+    Conditional stylesheets mean 1 or 2 additional HTTP requests to download
+    As they are in the the <head>, the rendering of the page waits until they're totally loaded.
+    Also – Yahoo's internal coding best practices do not recommend conditional stylesheets
+    It can separate a single CSS rule into multiple files. I've spent a lot of time wondering "Where the eff is that rule coming from!?" when it turned out to be tucked away in a conditional stylesheet.
+
+Here's my proposed solution:
+
+<!--[if lt IE 7]>      <html class="ie6"> <![endif]-->
+<!--[if IE 7]>         <html class="ie7"> <![endif]-->
+<!--[if IE 8]>         <html class="ie8"> <![endif]-->
+<!--[if gt IE 8]><!--> <html>         <!--<![endif]-->
+
+Using the same conditional comments, we're just conditionally adding an extra class onto the html tag. This allows us to keep our browser-specific css in the same file:
+
+ div.foo { color: inherit;}
+.ie6 div.foo { color: #ff8000; }
+
+Plus it totally validates and works in all browsers.
+
+(Hat tip to Paul Hammond and Adam McIntyre for being s-m-r-t.)
+2010.05.07: Patrick O'Neill put this technique on some steroids. I rather like it. See below:
+
+<!--[if lt IE 7]>  <html class="ie ie6 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 7]>     <html class="ie ie7 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 8]>     <html class="ie ie8 lte9 lte8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9 lte9"> <![endif]-->
+<!--[if gt IE 9]>  <html> <![endif]-->
+<!--[if !IE]><!--> <html>             <!--<![endif]-->
+
+Doug Avery of Viget points out he prefers to use this technique on the HTML tag, freeing the body tag for dynamic classes. That works just fine. I later changed all my sites to use it on HTML instead of body, actually… Also it combo's really well with the Avoiding the FOUC v3.0 technique as well as Modernizr.
+
+You fancy something different?
+2010.05.07: Oh sheesh ya'll. Mat Marquis pointed out the code would leave a page <body>-less in IE10, etc. (Well not really because IE would auto-construct a body tag, but anyway…) Some gt later and we're good.
+
+2010.05.20: Turns out IE conditionals around css files for IE6 can slow down your page load time in IE8! Crazy, right? The solution here avoids that, as does forcing IE to edge rendering.
+
+2010.06.08: And then… Rob Larsen points out that when these conditional classes are applied to the HTML element, it doesn't block. No empty comment necessary. I think that's a new winner.
+
+2010.09.07: Update follows!
+Throw it on the html tag
+
+Here is the new recommendation, and the one that's in use in the HTML5 Boilerplate.
+
+<!--[if lt IE 7 ]> <html class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class=""> <!--<![endif]-->
+
+Why?
+
+    This fixes a file blocking issue discovered by Stoyan Stefanov and Markus Leptien.
+    It avoids an empty comment that also fixes the above issue.
+    CMSes like WordPress and Drupal use the body class more heavily. This makes integrating there a touch simpler
+    It doesn't validate in html4 but is fine in html5. Deal with it.
+    It plays nicely with a technique to kick off your page-specific javascript based on your markup.
+    It uses the same element as Modernizr (and Dojo). That feels nice.
+
+I left an empty class in there because you'll probably be putting a no-js in there or something else. If not, delete.
+Also if the extra comments around that last tag look weird to you, blame Dreamweaver, which chokes on normal !IE conditional comments.
+2010.10.24: A sharp reminder and critique from Louis Lazaris follows. I asked him to summarize his viewpoint that he shared in his post Don’t Use Conditional Comments to Create Classes for IE7+, because I think it's a very wise point…
+
+    This solution tends to encourage developers to largely ignore IE during development, and just hack it into submission at the end. That’s actually the worst thing you can do when writing your CSS, because it will force you to use hacks or workarounds that aren’t necessary. Many hacks and workarounds can be avoided by just coding things to work in IE from the start.
+
+    If you test IE early in development, you should do your best to use good, standards-compliant code that is optimized for performance and future maintenance. Style forking creates code that's less optimized in both those areas. Although IE can often be difficult to work with, it is possible to get it to work in most circumstances using good code — it just takes some forethought. 
+
+It's very smart.
+
+In reply to his post I said..
+
+    When you are addressing IE’s inconsistencies, attempt to first fix them without singling out IE in particular. In many cases, this is a matter of adding a width or height.. or some overflow:hidden. In general, being more explicit about how the element should appear helps IE6 and IE7 greatly.
+
+Something to keep in mind. :)
+2011.03.18: Rachel Moore left a really nice comment exploring the pros and cons of this technique
+
+2011.04.11: The HTML5 Boilerplate community dug into this and figured out a lot more details around the syntax. Hopefully I'll get a chance to update this post with those learning, but until then.. click through!
+
+2011.05.18: Updated the main snippet to match the syntax tricks we used in h5bp. See above link for more crazy details.
+2011.09.02: Starting a list of languages this technique has been ported to
+Conditional classes, ported
+
+    In Thesis (php) sorta, uses UA sniffing. :/
+    in Slim (rails) by helloluis
+    in Jade (node) by kmiyashiro & monokrome
+    in HAML (rails) by gf3
+    thematic by scott nix 
+
+2011.11: Leif Halvard Silli, an awesome web standards hacker from Norway wrote in to say…
+
+    An earlier presentation of the idea that this page builds on, can be found at Big John’s classic IE hacking web site positioniseverything.net, in a guest article from February 2007 by Hiroki Chalfant entitled “#IEroot — Targeting IE Using Conditional Comments and Just One Stylesheet”.
+
+2012.01.17: Here is the current iteration that we have in the HTML5 Boilerplate. We actually tried to reduce it down to just a single .oldIE class for IE =8 (to use with safe css hacks), but that didn't fly. Anyway, our current version..
+
+<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>    <html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>    <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class=""> <!--<![endif]-->
+
+Comments (180) Leave a comment
+
+    Matt Dolan
+    November 8th, 2008 at 13:57 #1
+    Reply
+
+    Hi. I think you're on to something… I implemented this just last month at work.
+
+    I'm doing my detection in JSTL (its on a jsp) testing against the user agent string so have it working for all browsers. Perhaps not ideal but works for the majority of users.
+
+    One of the great reasons to implement this from my perspective was the ease at which it is to decommission styles for now unsupported browsers. One simple search for .ie6 (if only!) and you're done. Plus if multiple browsers need the same fix no need to look in hundreds of places they'll all be there next to each other.
+    Mike
+    December 8th, 2008 at 09:20 #2
+    Reply
+
+    Whilst I like the idea of adding a class to the body tag as a way of separation, I don't really understand the first problem you mentioned.
+
+    The HTTP requests only occur if you're using those browsers targetted, i.e. you don't get the additional requests, if you're using firefox.
+
+    Your third point contradicts what you're saying in your post. Although it's not a conditional stylesheet per-say, you are using conditional-comments to feed conditional-css.
+
+    Surely it's better to bloat the bad browsers with a couple of requests, than it is to bloat all browsers with unused css, example.. #ie8 .something{} won't apply to firefox, but you'll have loads of these littered in your stylesheets.
+    Paul Irish
+    December 8th, 2008 at 18:27 #3
+    Reply
+
+    Hey Mike,
+    True, the extra requests only go to IE.
+    And yes, it means extra KB on the wire for non-IE.
+
+    But on the whole, I'd think you're looking at a net gain for speed for all your users.
+    If I could prove this to you with numbers I'd try. :)
+    george
+    December 9th, 2008 at 07:31 #4
+    Reply
+
+    good idea… but this way you would invalidate your stylesheet (conditional stylesheets usually contain some hacks – e.g. zoom:1, or others.. )
+
+    reducing amount of requests is a great idea – even at the cost of bigger file size…
+
+    and then again, if you're doing optimization (sprites, minimize number of requests & gziping your css/js files), added filesize shouldn't be bigger than 1kb even for a huge site…
+    Eric
+    December 9th, 2008 at 14:49 #5
+    Reply
+
+    Hammond's post turned me on to this technique. I really like it; instead of breaking out the IE fixes into one or more extra files that I have to keep up-to-date, I just add the IE or IE6 adjustments below the relevant styles.
+    Josh
+    December 14th, 2008 at 02:45 #6
+    Reply
+
+    Interesting idea, Paul. But Mike makes some very good points in his earlier comment. What he didn't mention is that the repetition makes this solution less extensible. And what happens if someone fat fingers one of the Conditional Comments and the visiting user agent decides to march forward with the wrong BODY tag? Oh boy!
+
+    As an alternative to build on your idea, consider using script to set the value of the BODY tag's class attribute and save some repetition:
+
+    document.body.className += " ie"
+
+    Happy coding!
+    michael
+    December 17th, 2008 at 16:36 #7
+    Reply
+
+    Not unlike http://www.nikhilk.net/BrowserSpecificCSS.aspx
+    Paul Irish
+    December 17th, 2008 at 17:41 #8
+    Reply
+
+    Yeah definitely similar..
+
+    You can sniff on the backend, but that poses problems when it comes to caching.
+    Christopher Olberding
+    December 20th, 2008 at 21:08 #9
+    Reply
+
+    You mentioned this technique on 24 ways. I think I may start using it.
+
+    I think the reduction in http requests outweighs slightly larger stylesheets for non-IE browsers, as byte for byte the size of my IE style sheets are very very small.
+
+    Why would the suggestion made by Josh cause caching issues?
+    Paul Irish
+    December 22nd, 2008 at 09:38 #10
+    Reply
+
+    Christopher,
+
+    Thanks! I think it's better to develop with, too. :)
+
+    Serverside user agent sniffing means you're delivering different pages to different people. Means more effort if you want a comprehensive caching strategy. And likely not as responsive a response.
+    Kyle Bradshaw
+    December 26th, 2008 at 10:37 #11
+    Reply
+
+    Don't know if you were aware of this script
+    http://rafael.adm.br/css_browser_selector/
+
+    But you can target browsers via CSS inheritance with this script as well, but then again it's JS not a conditional comment so you're making concessions either way.
+    Paul Irish
+    December 26th, 2008 at 13:11 #12
+    Reply
+
+    Good link, Kyle.
+
+    Yeah my optimal solution would be one that works sans-javascript. (Heh, although most of the sites I make totally require javascript)
+
+    Maybe its the anal about performance part of me. :)
+
+    Thanks for pointing that out.
+    Alice
+    January 19th, 2009 at 10:57 #13
+    Reply
+
+    Thanks so much for this helpful post!
+    Paul Irish
+    February 4th, 2009 at 13:47 #14
+    Reply
+
+    FYI-
+    This is an interesting application of a similar technique, by Keenora. Probably my favorite js approach I've seen.
+    unclegrampa
+    April 24th, 2009 at 21:29 #15
+    Reply
+
+    Yes. This is a great thing for DB's to debate while actual worthwhile software is being created.
+
+    See you in Harvard Square Paul!
+    ????
+    April 25th, 2009 at 08:12 #16
+    Reply
+
+    This is very inspiring.
+    Thanks for sharing.
+    Me
+    April 26th, 2009 at 22:31 #17
+    Reply
+
+    Works great!! Thanks mate!
+    swed
+    April 27th, 2009 at 05:54 #18
+    Reply
+
+    Isn't CSS hacks to target specific browsers really totally obsolet? Sure thing! It's about time to force all browser creators to fully implement the W3C Recommendations. Yes, the same recommendations we use creating web contents. By publishing a totally W3C-validated work ur, of coz, done! I don't understand why we should make any effort to balance out all the browser shortcomings. These self-imposed tasks will only postpone the proper implementation of the W3C recommendations by browser creators. If I'm wrong, please correct me.
+    thedude
+    April 28th, 2009 at 13:12 #19
+    Reply
+
+    @george
+    and what happens when you invalidate a stylesheet? absolutely nothing. except that it "doesn't validate."
+
+    This approach is much smarter than serving multiple stylesheets.
+    abomb79
+    May 12th, 2009 at 23:24 #20
+    Reply
+
+    @swed
+    Sure we would all like to say the heck with non standard friendly browsers, but the truth is people still use them. I was in a presentation the other day given by the CEO of my company and he presented in a webex using IE6. It was a new release and I had missed a couple IE6 tweaks but luckily they were the kind of thing only a designer would notice. The point is IE6 is not dead yet. Let us hope the day is soon.
+    Kyle
+    May 19th, 2009 at 10:44 #21
+    Reply
+
+    Beautiful! Conditional comments are the safest way to go and require less page hits, but its a pain to maintain multiple sheets. With this I can keep all my css in one sheet and still have safe and accurate browser detection.
+    Erin
+    June 21st, 2009 at 10:49 #22
+    Reply
+
+    Great idea! You can get this to work in Dreamweaver by replacing the closing body tag with:
+    <!–[if lt IE 7 ]> </body> <![endif]–>
+    <!–[if IE 7 ]> </body> <![endif]–>
+    <!–[if IE 8 ]> </body> <![endif]–>
+    <!–[if !IE]>–> </body> <!–<![endif]–>
+    Bob
+    July 31st, 2009 at 16:19 #23
+    Reply
+
+    @Erin
+
+    Erin,
+
+    I have tried using your additional to get it to display correctly in DW CS4 but have been unable – any ideas?
+
+    Thanks,
+
+    Bob
+    Olly Hodgson
+    October 11th, 2009 at 07:13 #24
+    Reply
+
+    I've been using this technique for a while now. Works like a charm.
+
+    I've found that I very rarely need the .IE8 selector and the .IE6/7 selectors see minimal use once you've got your head around how they work. Mind you, with 94% of my user on some form of IE, I've long since learned to code defensively anyway :)
+    Andy Walpole
+    November 10th, 2009 at 07:32 #25
+    Reply
+
+    This is an excellent idea. I'm going to implement it asap.
+    Jaspero
+    November 24th, 2009 at 11:06 #26
+    Reply
+
+    I agree with abomb79. No matter how much we hate IE6, it is widely used than any other browsers. I work for a big company and average of 70% of users are IE users mostly IE6. And by the way, excellent post, ideas and discussions.
+    "Cowboy" Ben Alman
+    December 14th, 2009 at 11:46 #27
+    Reply
+
+    And just in case you're trying to get Paul's ie-conditional-body-tag technique to work in XSLT, I've created a small code sample (which even allows you to set an additional arbitrary body class or classes):
+
+    http://gist.github.com/256183
+    J. Hogue
+    December 18th, 2009 at 11:02 #28
+    Reply
+
+    I prefer a conditional stylesheet all of its own, and here is why… Other coders/programmers have proven that long descendent CSS selectors slow down render time of the page. So, a line for a bit of nested navigation might look like "body.ie6 #wrapper ul#nav li a { }". A long line like that slows down the page render. If it is in the main stylesheet, then ALL browsers are reading it, even if the rule wasn't meant for them.
+
+    When compared to the download time for another (hopefully short) stylesheet, I think I'd opt for the extra download time, as it is only being downloaded for IE users, so it is an extra step for one segment (albeit a large one) of the population.
+
+    By the time I am done coding a page, my stand-alone IE stylesheet needs maybe four to six rules to fix any IE-specific rendering issues. If you code defensively, and wrap things properly, and follow as many standards as possible, the difference between FF and webkit browsers vs. IE can be fairly minimal Plus, I like having all of the non-compliant/non-validating rules in one place… that way, my main screen.css will valdate just fine.
+    Doug Avery
+    May 7th, 2010 at 14:35 #29
+    Reply
+
+    I love this technique, but because the body tag is so useful, I've been putting this on the HTML tag instead and clearing up body for misc. dynamic tags. Any downsides to that?
+    Paul Irish
+    May 7th, 2010 at 14:44 #30
+    Reply
+
+    @Doug,
+
+    Yah up on the HTML tag is totally groovy for this. No downsides whatsoever.
+    Darrel
+    May 7th, 2010 at 15:26 #31
+    Reply
+
+    I started using this technique a few months ago and don't know why I never had before. It's great for keeping a readable CSS file. We still allow for a few 'zoom: 1's in our css but have also moved a lot of the IE6 wrangling over to jQuery.
+
+    It also makes it easy to find your IE6 hacks when the time comes to retire support for it.
+    Weston Ruter
+    May 7th, 2010 at 15:30 #32
+    Reply
+
+    IMHO, if you're using IE?8 you deserve the penalty of an extra HTTP request.
+    Wouter Bos
+    May 7th, 2010 at 16:04 #33
+    Reply
+
+    Sounds like a good idea. One problem of CSS filters is that they are as self-documenting as having a "body.ie6" selector.
+
+    But then again: I only use 2 CSS filters: "* html" and "*+html" and they don't give any problems with validation.
+    Daniel Shaw
+    May 7th, 2010 at 16:13 #34
+    Reply
+
+    Looks ugly as sin, but I love the idea. I feels very modernizer-esque. I wish there was a better way to externalize this a-la modernizr.
+
+    I especially like that the approach has better semantics and readability than browser hacks, yet it allows you apply IE specific modifications to style definitions together with the base definition for better maintainability.
+
+    Thankfully I'd use this on a template driven system so I wouldn't have to maintain this on a bunch of different pages. Without templates, this could become a nightmare to maintain.
+    Jamie Thompson
+    May 7th, 2010 at 17:05 #35
+    Reply
+
+    @Paul Irish
+    heh ehe heh, you said "sniff on the backend"
+    fearphage
+    May 8th, 2010 at 06:53 #36
+    Reply
+
+    I disagree with penalizing other browsers for the transgressions of a few. Chrome, Firefox, Opera, and Safari should not have to and have no need to download styles specific to IE. With the focus on performance, the goal is to reduce unnecessary code. Conditional comments allow the browsers that require the hacks and fixes to bear the weight of their shortcomings. I think that's how it should be really.
+
+    J. Hogue also raised a good point in terms of the speed of parsing rules.
+    Andrew Kolesnikov
+    May 12th, 2010 at 14:14 #37
+    Reply
+
+    Paul's technique translated to HAML:
+
+      /[if lt IE 7] 
+        %body{:class=>"ie6"}  
+      /[if IE 7] 
+        %body{:class=>"ie7"}  
+      /[if IE 8] 
+        %body{:class=>"ie8"}  
+      :plain
+        <!--[if !IE]><!--> 
+      %body
+        :plain
+           <!--
+
+    Scott Corgan
+    May 20th, 2010 at 12:36 #38
+    Reply
+
+    That is a solution, but really, you can code css to be cross browser compatible. You should also design your sites that they will be easy to implement as such.
+    Paul Irish
+    May 20th, 2010 at 12:47 #39
+    Reply
+
+    @Scott Corgan
+    Your own site would disagree with you. As much as I'd love to agree, it's just not practical to not have browser-specific styles.
+    I think most front-end developers rely on them too heavily. With good experience you can certainly reduce the amount of browser-specific stuff you have. But you'll still need them.
+    Rob Larsen
+    June 8th, 2010 at 16:08 #40
+    Reply
+
+    Was catching up on blog stuff and caught stoyan's post. I've used a variation of this pattern with the classes on the HTML element. I was happy to discover that that pattern doesn't block, no empty comment needed:
+
+    http://www.webpagetest.org/result/100608_0431442088c94bfba54f79e8ad027165/
+    bz
+    July 3rd, 2010 at 11:43 #41
+    Reply
+
+    This is my überbloat edition of this technique:
+
+    <!--[if !IE]><!--> <!--
+    <!--[if IE]>-->
+     
+     
+     
+     
+     
+     
+    //=0);
+      var ie_mac  =(s.indexOf('mac')>=0) && (s.indexOf('msie')>=0);
+      var ie6     =c.indexOf('MSIE6')>=0;
+      var ie7     =c.indexOf('MSIE7')>=0;
+      var ie_lte_6=c.indexOf('MSIE-lte-6')>=0;
+      var ie_lte_7=c.indexOf('MSIE-lte-7')>=0;
+      var ff_lte_2 =(ua.indexOf('firefox/0')>=0) || (ua.indexOf('firefox/1')>=0) || (ua.indexOf('firefox/2')>=0);
+      c=c.replace('JS-OFF', 'JS-ON');
+      c=c.replace('NA-IPHONE', (iPhone?'':'NOT-')+'IPHONE');
+      c=c.replace('NA-IEMAC',  (ie_mac?'':'NOT-')+'IEMAC');
+      var mode=(document.compatMode=='BackCompat')?' QUIRKS':' STRICT';
+                   c+=mode;
+      if(ie6)      c+=mode+'-IE6';
+      if(ie7)      c+=mode+'-IE7';
+      if(ie_lte_6) c+=mode+'-IE-lte-6';
+      if(ie_lte_7) c+=mode+'-IE-lte-7';
+      if(ie_mac)   c+=mode+'-IEMAC';
+      if(ff_lte_2) c+='FF-lte-2';
+      if(this.wp_bodyclass)c+=' '+wp_bodyclass;
+      document.body.className=c;
+    //]]>
+
+    bz
+    July 3rd, 2010 at 11:47 #42
+    Reply
+
+    Direct text pasting failed, so here is a textsnip link:
+    http://textsnip.com/3ef57a
+    Hans
+    July 16th, 2010 at 23:12 #43
+    Reply
+
+    Here’s the start of a method to enable developing multiple “full alternative” versions of browser-targeted stylesheets rather than the usual IE override technique. It uses diff, plus the Compass authoring toolset a “CSS meta-framework” (which in turn is based on Sass). This allows you to maintain ALL your style code in a single source file, and compile/output different versions of standard CSS by using variables, conditionals and other real programming features within your CSS. Feedback please – hansbkk [at] gmail
+
+    http://groups.google.com/group/compass-users/browse_thread/thread/23f81314c706d01
+    DudeWithAHat
+    August 10th, 2010 at 15:52 #44
+    Reply
+
+    Hi Paul,
+
+    If I use this technique on the HTML tag along with your Avoiding the FOUC technique, should I put the no-js class on each body tag including the final one?
+    DudeWithAHat
+    August 10th, 2010 at 15:56 #45
+    Reply
+
+    Sorry I mean on each HTML tag not each body tag, typo.
+    DudeWithAHat
+    August 10th, 2010 at 16:04 #46
+    Reply
+
+    Okay I got off my behind and tested it myself, the answer is yes (but html not body, typo).
+
+    However I have another question, is this what Rob is referring to as the empty comment:
+
+    Because it's not in his example.
+    lucideer
+    August 11th, 2010 at 14:41 #47
+    Reply
+
+    Came here after wondering why this method was being used in html5-boilerplate (from your link in comments)… and tbh I'm still quite baffled. You mentioned a lot of disadvantages to the conditional comment method (well you actually only mention one disadvantage but have somehow managed to split it out into 4 points), but you fail to mention any of the disadvantages of your suggested method:
+
+    1. It increases the size of the stylesheet for ALL standards-compliant browsers.
+    2. It impairs readability of the markup (and increases its size, albeit only a few bytes).
+    and most importantly, imo
+    3. It impairs readability of the stylesheet as you could have many rules that are all irrelevant to the browser you're currently testing in.
+
+    One of the advantages of conditional stylesheets is that you need not deal with IE's when testing in other browsers, and vice-versa.
+
+    You say conditional stylesheets means more http requests – but this is true only if you're serving IE the default one. Try doing this instead:
+
+    <!--[if !IE]<>!--<>link rel="stylesheet" href="css/style.combined.css"/><!-->![endif]-->
+      <!--[if IE 7]<>link rel="stylesheet" href="css/ie7.combined.css"/>< ![endif]-->
+      <!--[if IE 6]<>link rel="stylesheet" href="css/ie6.combined.css"/>< ![endif]-->
+
+    It also gives you more styling flexibility, and could be more efficient as IE-specific styles often need not override rules not intended for IE.
+    Julián Landerreche
+    August 12th, 2010 at 12:57 #48
+    Reply
+
+    lucideer, you raised some valid points, imho.
+
+    As most times, the "perfect" solution may come from balancing or combining a few techniques.
+    So, in my next project, I think I'll be combining the ugliness IE-specific classes on (or ), as this article suggests, with the tidiness of keeping an IE-only conditional stylesheet. So, all IE-specific styles will live on a single CSS, prefixed by proper .ieX, served only to IE users.
+
+    Thus, all IE users will be "punished" equally, as they will get an extra CSS, with all the IE-specific prefixed rules, no matter which IE version they are using. It's a fair price to pay, for making our life more miserable, by "choosing" to use a browser that is just a PITA, and the PITA is bigger on each new release of IE.
+    Julián Landerreche
+    August 12th, 2010 at 13:21 #49
+    Reply
+
+    Ops, the system ate some basic markup on my previous comment.
+
+    It should have read:
+
+        "(…)I think I'll be combining the ugliness of IE-specific classes on [body] (or [html]) (…)"
+
+    Savageman
+    August 12th, 2010 at 16:27 #50
+    Reply
+
+    Sorry to comment on a such old article. Wyy not prefer ID over CSS classes?
+    Tom
+    August 12th, 2010 at 18:44 #51
+    Reply
+
+    wow i wish i found this 2 years ago!
+    neXXus
+    August 13th, 2010 at 12:05 #52
+    Reply
+
+    doesnt IE ignore conditional comments starting with version 9? I remember reading that somewhere. That would mean the lines
+
+
+    would be senseless and also the statement that IE10 would have no body would be false.
+    neXXus
+    August 13th, 2010 at 13:11 #53
+    Reply
+
+    @neXXus
+
+    seems html comments are not escaped ;)
+    heavymark
+    August 13th, 2010 at 14:50 #54
+    Reply
+
+    It seems from the updates, that the best version of the code has changed since it was initially written. To now use html instead of body, and remove an empty tag. Thought I noticed that new version has not been posted here or as the recommended solution in the new html5boilerplate. Is their a reason for this, if using html instead of body is clearly a winner? Thanks!
+    Nacho
+    August 13th, 2010 at 15:46 #55
+    Reply
+
+    I don't get the point honestly.
+    DudeWithAHat
+    August 14th, 2010 at 08:24 #56
+    Reply
+
+    @heavymark
+
+    Which is the empty tag?
+    Joe Lencioni
+    August 25th, 2010 at 10:47 #57
+    Reply
+
+    I'm not sure if this is a big deal or not, but I found it interesting nonetheless. Using the Fetch as Googlebot function in Google's webmaster tools, I noticed that all of these conditional comments are interpreted simply as this:
+
+    &lt;!--[if IE]&gt;&lt;![endif]--&gt;
+
+    It appears that Googlebot doesn't see the final tag at all. I'm unaware if this may cause any problems.
+    Joe Lencioni
+    August 25th, 2010 at 10:50 #58
+    Reply
+
+    @Joe Lencioni Actually, I was completely mistaken. I was looking at a different part of my file on accident. Please delete/ignore my comments.
+    Paris Vega
+    August 26th, 2010 at 12:36 #59
+    Reply
+
+    About to implement HTML 5 Boilerplate on a WordPress install and came across this post in the comments. I love this idea.
+    Richard
+    August 27th, 2010 at 05:11 #60
+    Reply
+
+    Christ on a crutch, this is effing genius.
+
+    You are fast becoming my idol, I hope you know that.
+    mtness
+    August 31st, 2010 at 05:14 #61
+    Reply
+
+    I strongly dislike this hack. It is ugly, and I would never clutter my sources with that! Yeeh, I just get a headache just by looking at it!
+
+    I will keep delivering conditional stylesheets to IE7, IE6 and so on, and as #28 has said – those conditional stylesheets may contain invalid code, like expressions etc. And as #32 has said, users of those browsers may deserve an extra request.
+
+    Keeps the main stylesheet clean and standards-compliant. Which was the very idea of using conditional stylesheets at all.
+
+    Kind reagrds, mtness.
+    quiaro
+    September 1st, 2010 at 14:32 #62
+    Reply
+
+    Good stuff. Thanks, Paul!
+
+    Looking at the boilerplate code, I'm wondering … why instead of:
+
+    <!--[if (gt IE 9)|!(IE)]><!-->  <!--
+
+    not just have:
+
+    <!--[if (gt IE 9)|!(IE)]>-->  <!--
+
+    I still can't figure out why the "<!" in there. Can anyone tell me if I'm overlooking something? Thanks
+    Jacob Baker
+    September 5th, 2010 at 15:20 #63
+    Reply
+
+    I see problems using the FOUC v3.0 technique in combination as Javascript has to be put directly under the "body" tag. What happened to js being put in the "head" tags or in the footer?
+
+    Instead of using the "body" tag for "jsOn" or the "jsEnabled" why not use the "html" tag. This then frees up the "body" tag for the ie6-ie7-ie8 conditional commenting by which time the CSS file will already be loaded up
+    Paul Irish
+    September 6th, 2010 at 15:22 #64
+    Reply
+
+    @quiaro
+    No good reason except dreamweaver apparently barfs all over the first one.
+    Feel free to use your shorter version.
+    scott lepich
+    September 8th, 2010 at 17:06 #65
+    Reply
+
+    @fearphage
+
+    This is a really good point.
+
+    It may not affect performance for most sites, but it's worth noting that browsers generally read selectors right to left. Using a body or html class would force standards browsers to read selectors designed for IE up to the ie-specific class before discarding them, rather than having to do no work at all in the case of a conditional comment wrapping an external stylesheet. WIth an external sheet, only the browser that requires the help is subjected to the additional stylesheet downloading and parsing.
+
+    It might not be a huge deal for the handful of selectors generally needed to bring IE6 into line, but it's something to think about when designing larger solutions.
+    Brad Greenwald
+    September 14th, 2010 at 11:23 #66
+    Reply
+
+    Overall, I like using the conditional style sheets for small business websites. I definitely prefer putting IE specific CSS in a separate file if it's more than maybe 10 lines of code, and the empty comment tag is relatively harmless. It all could be added server side if you really don't want the other browsers to see it (mind you, I'm not a server-side expert and haven't weighed any pros and cons for that).
+
+    Now for high traffic websites -
+    If it's just a few lines of IE specific code, I don't see a problem dodging the extra HTTP request and using Paul's solution here.
+
+    If it's a ton of IE specific CSS, I'd prefer just including the empty comment tag to correct the blocking issue and still target IE with the hacks and extra rules if there are a lot of them.
+
+    All IMO. Btw, I just downloaded the boilerplate and the conditionals were all applied to the body tag still.
+    Alex
+    September 15th, 2010 at 17:23 #67
+    Reply
+
+    I made little Ruby on Rails helper method to aid with this. Maybe somebody will find it usefull: http://gist.github.com/581510
+    Andreas Becker
+    September 16th, 2010 at 06:56 #68
+    Reply
+
+    This is brilliant!
+    Why haven't i found this earlier? No more css-hacks.
+
+    Thx man
+    byLuka
+    September 21st, 2010 at 13:00 #69
+    Reply
+
+    First I'd like congrats you for another good article, even though I don't agree with the technique, here is my point of view:
+
+    From the description of the problem, here is what you came up with and my comments on each one:
+
+    - Conditional stylesheets mean 1 or 2 additional HTTP requests to download
+
+    This is true just for specific versions of IE, where the original (W3C Compliant) CSS files needed to be tweaked to make those versions of IE work well, and therefore the extra request is justified in this case. This doesn't mean that all browsers will have 1 or 2 extra request, not even that all versions of IE browsers will need extra requests.
+
+    - As they are in the the , the rendering of the page waits until they're totally loaded.
+
+    For styles I think this should be the expected results in most of the cases if not all of them. I don't want my users to see the content, and then the hole content changes so the style is applied to it. I think they should see the content with the style that was designed to it. (this might not be true for screen readers and might also not be true for mobiles)
+
+    - Also – Yahoo's internal coding best practices do not recommend conditional stylesheets
+
+    I really think the folks at yahoo are pretty smart, but just because they do not recommend the use of one technique, it doesn't mean it should not be used (specially if there is no better alternative), I've seen yahoo and google pages utilizing techniques that they do not recommend. I think you are trying to find a better alternative to conditional stylesheets, but as I will discuss bellow I don't think this is a better one.
+
+    - It can separate a single CSS rule into multiple files. I've spent a lot of time wondering "Where the eff is that rule coming from!?" when it turned out to be tucked away in a conditional stylesheet.
+
+    You are still going to have separate CSS rules, even if they are on the same file. and as for finding "Where the eff…" you might make use of one of the available dev tools to inspect the HTML and CSS of your documents. It is true that IE doesn't have tools such as firebug, but IE Developer Toolbar has done the basic job for me. Also if you don't make use of these tools I still think you would be better to find the rules you are looking for on a file with 10 to 15 lines of code, instead of searching for it on a file with 300 or 400 lines of code.
+
+    Here is my opinion about the solution:
+
+    PROS:
+    - Less http requests when using specifically versions of IE
+    - The IE fix will be close to the original code
+
+    CONS:
+    - Looks even more hackish
+    - The main css file may not validate since proprietary properties may be used to solve ie specific issues
+    - W3C compliant browsers will have to download extra code.
+    - This might slow down the style parsing of W3C compliant browsers since the rules are evaluated from right to left
+
+    Based on this I don't think this approach would be better than using conditional stylesheets
+
+    P.S: I know that this might have been said before on the comments, so credits to be given to the ones that first point them out
+    graham
+    September 22nd, 2010 at 05:20 #70
+    Reply
+
+    I agree with Luka.
+
+    I think you have over complicated a simple problem. Conditional style sheets are used because once said browser becomes redundant all you need to do is remove a single line of code and the associated files. Prefixing CSS with browser specific classes will litter your files with unnecessary code which will be hard to remove when, for example, IE6 use drops and we no longer need to support it.
+
+    Additionally, as IE progresses, it will be less and less likely we will need to use conditional style sheets or extra CSS to fix any browser issues (IE9 is looking really promising). Any decently built site should only need conditional styles for IE6 and, on rare occasions, for IE7.
+
+    This method looks hackish and unprofessional, there is no reason to add this mark up to either the body or html tag (which shouldn't have classes added anyway).
+
+    A more progressive enhancement way of coding would be to use methods like Modernizer (which is great) to detect feature support instead of browser version.
+    Dave
+    September 22nd, 2010 at 05:42 #71
+    Reply
+
+    I've been reading through this comment thread and I'm unconvinced by the need for this technique unless you wanted to deliver spectacularly tailored experiences to each browser.
+
+    In my experience, the amount of additional CSS required to tweak a site into behaving for IE can be kept pretty minimal. This seems like overkill for the majority of cases – it's still a clever idea though :)
+    Ian
+    September 22nd, 2010 at 11:39 #72
+    Reply
+
+    This, or rather your final development of this, is a really great idea.
+
+    I do kind of like putting all the nasty IE-only stuff in its own CSS file, but piling it up at the end of your main CSS file sounds like a pretty good solution.
+    Enrique Ramírez
+    September 22nd, 2010 at 13:32 #73
+    Reply
+
+    I have two major issues with this.
+
+    The first one is it uglyfies my code. Even more than conditional comments, it just looks plain awful. This is not just an eye-candy problem. A developer may be confused by the ammount of tags and remove them (I've seen it happen)… but striclty speaking, I just don't like how it looks.
+
+    Second, why should modern browsers load styles that are NOT intended for them? All the zoom: 1, the position: relative, the different margin sets… EVERYTHING will be loaded by all browsers (though not applied).
+
+    I much rather have all the extra styles (along with it's slowdowns) for IE users (which hopefully will make them realize IE is a BAD browser and just make them switch) than slow load times for my modern-browser users.
+
+    That being said, this is probably a better solution for BIG sites, since you have more control (specially on your javascript).
+    Tiffany
+    September 23rd, 2010 at 16:02 #74
+    Reply
+
+    Hmm what if you need a class on your body? Then IE6 wouldn't work as it can't read multiple class selectors. Otherwise, it's a pretty cool solution to a problem, which, well, isn't really a big problem…
+    DRoss
+    September 23rd, 2010 at 16:45 #75
+    Reply
+
+    Hey Paul – you said:
+
+    "Throw it on the html tag" "Here is the new recommendation, and the one that's in use in the HTML5 Boilerplate."
+
+    But it doesn't look like the boilerplate template has been updated.
+    Steve Antal
+    September 23rd, 2010 at 17:35 #76
+    Reply
+
+    I got a better approach:
+
+    First this.
+    http://james.padolsey.com/javascript/detect-ie-in-js-using-conditional-comments/
+
+    Then this:
+
+    if (IE==6) {
+        $.getScript('lib/DD_belatedPNG_0.0.8a-min.js', function() {
+            DD_belatedPNG.fix('.midbox-content, .png');
+        });
+    }
+     
+    if (IE) {
+        $('html').addClass('ie');
+        $('html').addClass('ie'+IE);
+    }
+
+    Much cleaner HTML and future ready for CSS.
+    Evert
+    September 24th, 2010 at 05:11 #77
+    Reply
+
+    So you're adding this instead of a simple css hack for the sake of getting it validated. CSS has specific rules around, well, css rules it doesn't understand. It ignores them. Except the browsers with the bugs of course.
+
+    Getting your css valid is to ensure it will work well, and browsers understand it. This is getting it valid for the sake of getting it valid.
+
+    There are some good uses for a validator, such as finding bugs. For that reason it can be helpful to make sure it's always in the green. I just don't get this convoluted setup for something that can be much easier.
+    guy
+    September 24th, 2010 at 08:57 #78
+    Reply
+
+    Could your website be any MORE CPU-intensive??? Get rid of that ridiculous drawing which slows everything down.
+    Steve Antal
+    September 24th, 2010 at 21:38 #79
+    Reply
+
+    @Evert
+
+    You can't target different IE versions with CSS hacks, not all IE versions behave the same.
+    Paul Irish
+    September 25th, 2010 at 03:27 #80
+    Reply
+
+    @DRoss
+    it's updated in github.
+
+    @Evert
+    I dont really give a shit about validation.
+
+    @guy
+    No.
+    Youngstream
+    September 25th, 2010 at 05:20 #81
+    Reply
+
+    What am I missing? Aren't conditional comments ignored by all browsers other than IE? If so, how other browsers get an tag?
+    Dave Bartlett
+    September 28th, 2010 at 01:33 #82
+    Reply
+
+    @Paul This is a beautiful solution to a very ugly problem.
+    macro
+    October 13th, 2010 at 08:44 #83
+    Reply
+
+    wow , these are awesome . tnx
+    JD Gomez
+    October 14th, 2010 at 17:03 #84
+    Reply
+
+    Hey Paul, You say "Here is the new recommendation, and the one that's in use in the HTML5 Boilerplate."
+
+    I just downloaded the "Boilerplate" and it is still using the body tag for conditional IE browser version.
+
+    Just to let you know. thanks.
+    Eric Smiling
+    October 18th, 2010 at 10:53 #85
+    Reply
+
+    @Paul Irish
+
+    Paul, I second what JD Gomez said as well about the usage of the body tag by "Boilerplate".
+
+    I also noticed something a bit unfortunate about the HTML tag solution. Perhaps there is something I am doing differently/a way around this.. but, in IE8, when the HTML tag solution is used on a page alongside an EmulateIE7 meta tag, it causes the Compatibility mode button to reappear. IMHO, this causes a new problem where an IE8 user can specify/switch modes and get contrasting results in the same browser/version based on stylesheet contents. Try it for yourself.
+    muley
+    October 18th, 2010 at 15:11 #86
+    Reply
+
+    paul, i use this all the time. works great… thanks for the awesomeness and keeping it updated (nice to see ie9 in here now too!)
+    Paul Irish
+    October 19th, 2010 at 23:09 #87
+    Reply
+
+    Ya'll.. look at the boilerplate in github
+    http://github.com/h5bp/html5-boilerplate/
+
+    its generally always better than the release version. :)
+    James R
+    October 26th, 2010 at 10:39 #88
+    Reply
+
+    This is an interesting thread. I have been on the comeback trail as a front end developer and finding that many of the problems with cross-browser compatibility are being attacked by s-m-r-t guys is awesome. Love the Boilerplate as its been helping me get up to speed as well as speed up my little projects. Thx Paul and other respondents. I'll be a regular here now!!
+    Wills Bithrey
+    November 12th, 2010 at 04:00 #89
+    Reply
+
+    Paul, Nice article, thanks for sharing!
+
+    I have an issue however. In firefox 3.6.12 I just seem to always get the html class of the first conditional comment listed. What's that all about? If i have:
+
+
+
+
+    <!–
+
+    Firefox's HTML tag will hav the classes "ie6 no-js". If I remove the ie6 conditional comment, the HTML tag adopts classes "ie7 no-js".
+
+    Works fine in Safari and Chrome, just what the hell is going on with FF?
+
+    Any Ideas?
+
+    Many thanks,
+    Regards,
+    Wills
+    Wills Bithrey
+    November 12th, 2010 at 04:01 #90
+    Reply
+
+    Oops, sorry I didn't escape my code paste. Here it is on pastebin: http://pastebin.com/RXPG1j78
+    Wills Bithrey
+    November 12th, 2010 at 04:02 #91
+    Reply
+
+    Sorry, I forgot to escape my code! Here it is on pastebin: http://pastebin.com/RXPG1j78
+    John Cionci
+    November 17th, 2010 at 09:26 #92
+    Reply
+
+    I use this for Drupal!
+
+
+
+
+     	<body class="">    		<!--
+
+    John Cionci
+    November 17th, 2010 at 09:30 #93
+    Reply
+
+    @John Cionci
+    Well that didnt work…
+
+    <!--[if IE 6 ]> 	<body class=" "> 		<![endif]-->
+    <!--[if IE 7 ]>    	<body class=" "> 	<![endif]-->
+    <!--[if IE 8 ]>		<body class=" "> <![endif]-->
+    <!--[if IE 9 ]>    	<body class=" "> 	<![endif]-->
+    <!--[if !IE]>--> 	<body class="">    		<!--
+
+    John Cionci
+    November 17th, 2010 at 09:36 #94
+    Reply
+
+    Sorry Im not smart….
+    Heres the snippet on Snipplr!
+    http://snipplr.com/view/44316/drupal-body-classes–based-on-paul-irish-script/
+    Bruce Keener
+    November 25th, 2010 at 14:48 #95
+    Reply
+
+    I like your proposal. But, unless I am misunderstanding something, it can cause problems with cached pages. I ran into this in using the BasicMaths theme (which I otherwise love) on a shared server, WordPress blog. I use SuperCache (WordPress barley delivers a page per second without it) and noticed that cached pages were often cached with
+
+     
+
+    even when viewed on a Mac, or vice versa. Bottom line: some cached pages did not view well on my Windows machine if they had been cached based on a view by a Chrome or Firefox or Safari browser.
+
+    (I've given a bit more detail here:http://www.keenerliving.com/wordpress-caching-and-choice-of-themes )
+
+    Is there a way to overcome this?
+    Paul Irish
+    November 25th, 2010 at 16:25 #96
+    Reply
+
+    @Bruce Keener
+    I'm unclear on what your problem here is, but the technique here is purely inside the browser.
+    Even with extremely heavy serverside caching, the conditional comments are evaluated runtime in the browser, so it ain't a problem.
+    Serverside browser detect solutions are more susceptible to the problems you're encountering.
+    Bruce Keener
+    November 25th, 2010 at 16:51 #97
+    Reply
+
+    Paul,
+
+    Thanks. Yes, i see your point. Perhaps something else was throwing off the theme I mentioned, or possibly its implementation of your conditional code was off in some way. I'll go off in a corner and study it.
+
+    Thanks again for clearing this up for me.
+    Khalid
+    December 16th, 2010 at 04:25 #98
+    Reply
+
+    I tried to mix the mentioned stuff for my own template, but I haven't IE9 to test, so does this work:
+
+
+    <!--
+
+    Or should I use:
+
+
+
+    <!--
+    Khalid
+    December 16th, 2010 at 04:26 #99
+    Reply
+
+    Oops, I just read the line above the comment box and I see that I should've used other code for code blocks. Please edit my previous post, so others can see it.
+    John
+    January 1st, 2011 at 18:32 #100
+    Reply
+
+    Great post that has created some great debates which has served as an interesting read. My question is why are you using Dreamweaver?
+    Oli Studholme
+    January 8th, 2011 at 05:05 #101
+    Reply
+
+    Just remember that in HTML5 you should have your charset declared in the first 512 bytes, so make sure you add your charset early when using this on <html> — at least before the ASCII art!
+    ;)
+    Willabee
+    January 13th, 2011 at 03:08 #102
+    Reply
+
+    Great post @Paul and love the idea of the HTML5 boilerplate, especially for all its performance inclusions.
+
+    Debates like this will always lead to the best solution; which I'm sure you will implement after consideration of pros and cons.
+
+    I like your 'delete if you don't like' philosphy and I'm afraid I do delete your current solution to the IE presentation problems.
+
+    To avoid repeating what others have said, let me start by saying I totally agree with all that @byLuka says.
+
+    In addition to those points I do the following:
+
+    If my customer agrees, I use the IE Universal style-sheet approach; see http://forabeautifulweb.com/blog/about/universal_internet_explorer_6_css, to help promote the end of IE6.
+
+    For those customers that demand support all the way down to IE5; if necessary (they still have version 5 users), I use one set of conditional comments that target all browsers less than IE9; I consider IE9 standards compliant.
+
+    All browsers get a standards compliant style-sheet; one http request.
+
+    All IE<9 browsers get an additional style-sheet, which contains IE hacks not seen by the validator due to conditional comments; two http requests for these IE browsers.
+
+    In this ie.css file, which eventually will no longer be used, I target specific versions of IE as follows:
+
+    IE8 and below
+    background: #00f;
+    Overrides compliant property
+
+    IE7 and below
+    *background: #f61;
+    Overrides IE8 property
+
+    IE6 and below
+    _background: #f00;
+    Overrides IE7 property
+
+    IE6 only
+    _bac\kground: #930;
+    Targets only IE6
+
+    * Site passes CSS validation
+    * One http request for compliant browsers, including IE9
+    * One extra http request for diminishing, buggy, IE browsers
+    * One place to maintain IE
+    * Targets IE versions down to IE5 if required
+    * Overall, much less code
+    * Compliant browsers only see one hack, a single HTML conditional comment, which even validates XHTML; when required.
+
+    Once again, Microsoft continues to make our life difficult by not supporting IE9 on its most popular OS; Windows XP. Big mistake; users will convert to a CSS3/HTML5 compliant browser (with a little help from us) and never go back to IE.
+
+    Keep up the good work guys.
+
+    PS: Comments on the Boilerplate site not showing in Firefox 3.6; I have to use Chrome!
+    MCZ
+    January 17th, 2011 at 08:28 #103
+    Reply
+
+    Hello, thanks for the idea, how about this version? (Hope it's not already here somewhere).
+
+    <html class="some other classes <!--[if lt IE 7 ]>ie6<![endif]--><!--[if IE 7 ]>ie7<![endif]--><!--[if IE 8 ]>ie8<![endif]--><!--[if IE 9 ]>ie9<![endif]-->">
+
+    MCZ
+    January 18th, 2011 at 04:54 #104
+    Reply
+
+    Damn, just found out that using comments inside attributes (or tags) it's not the best thing you can do to your markup. Back to the trees…
+
+    Funny, never really thought about that, must be early deformation from phpBB's template engine which uses comments as commands anywhere.
+    Dave Smith
+    January 27th, 2011 at 01:07 #105
+    Reply
+
+    Just started implementing this technique via the HTML5 Boilerplate and I ended up deciding to go with Patrick O'Neill's slightly more verbose version (http://misteroneill.com/improved-internet-explorer-targeting-through-body-classes/)
+
+    WORD OF WARNING:
+
+    If you're using Patrick's version remember that he's adding classes to the BODY tag whilst Paul add's classes to the HTML tag. Had me confused for a while.
+
+    Personally I prefer adding to the HTML tag because it fits better with the Modernizr model and keeps things neater.
+    Jack
+    February 16th, 2011 at 10:40 #106
+    Reply
+
+    Paul this looks like a good technique but since I've been reading about multiple ways to do conditional statements, I'm wondering about deployment. Two questions. 1) Is this an IE only fix… could it be applied, for example, to iPad or Opera Mini users? 2) Can this be previewed locally or does it always have to be uploaded and parsed to view the results as is necessary when embedding conditional comments directly into CSS files?
+    Jon z
+    March 4th, 2011 at 10:40 #107
+    Reply
+
+    If we are using a server side scripting language, is there any reason not to determine the user agent on the server side and use slightly less markup, something like this:
+
+     
+
+    Jon z
+    March 4th, 2011 at 10:42 #108
+    Reply
+
+    re-paste..trying to entity encode my angle brackets
+
+    &lt;html lang="en" class="no-js{%=$ieConditionalBullshit%}"&gt;
+
+    @Jon z
+    Jon z
+    March 4th, 2011 at 10:43 #109
+    Reply
+
+    html lang="en" class="no-js"
+
+    @Jon z
+    Will
+    March 4th, 2011 at 13:30 #110
+    Reply
+
+    "If we are using a server side scripting language, is there any reason not to determine the user agent on the server side"
+
+    Yes. User agents are easy to fake. You may say "well, if someone fakes their user agent they can expect my site to not work properly for them", but a lot of people change their user agent with good intention. It reduces effectiveness of browser exploits, for instance.
+    Neha
+    March 7th, 2011 at 20:51 #111
+    Reply
+
+    Hi,
+
+    The fix is great but want to know
+
+    when putting class="ie6"
+
+    what actually it is doing?How it is fixing the IE issues?
+
+    Thanks
+    Rhy
+    March 10th, 2011 at 10:04 #112
+    Reply
+
+    I began using this method on my last site, and now I suggest it to others. So I came here because I was looking up the article to show someone & I'm now wondering why there's so much drama in the comments.
+
+    There are certainly pros and cons to each method. At first I took these 'conditional selectors' out of the boilerplate because I really, really didn't like the way they looked aesthetically in the source code. When they were moved to the html tag I found it less obtrusive. Then I figured I should try it before I decided I hated it.
+
+    I've been a big proponent of conditional stylesheets for years. But whenever experimenting or doing a demo, I would utilize simple hacks to target IE and comment /* move to ie stylesheet */. Mostly because it kept all styles for a single element together.
+
+    For production sites I'd move things to an IE stylesheet after the layout got mostly in shape. But I started to think, if it consistently feels more convenient to put the hacks in the same block that way, maybe this 'conditional selector' thing would feel just as convenient.
+
+    Conditional Stylesheets – Facts
+
+    Pros
+    1. Adds HTTP request to IE alone.
+    2. Adds extra bytes for workarounds to IE alone.
+    2. Support can be removed by removing the comment & stylesheet.
+    3. Allows for validation of regular stylesheet.
+    (This is not a tragedy of gigantic proportions, but validation IS helpful to spot syntax problems. CSS3 + vendor prefixes already invalidate (heh) this argument, though.)
+    4. The strange looking stuff looks slightly less strange than conditional selectors.
+    (But not only is this subjective, it's arguably less strange looking only through familiarity.)
+
+    Cons
+    1. Adds around 200 characters to HTML as most commonly used.
+    2. Adds 1 or more HTTP requests.
+    3. Adds strange looking stuff to your HTML.
+
+    'Conditional Selectors' – Facts
+
+    Pros
+    1. Adds safe browser detection for IE that could be used in multiple ways.
+    (Though, mostly, it shouldn't be…)
+    2. Pre-combined, no extra HTTP request.
+    3. Arguably, self documenting.
+    4. Arguably, maintainable.
+
+    Cons
+    1. Adds about 300 characters to HTML as shown in boilerplate.
+    2. Adds descendant selectors to all browsers.
+    (Though this is somewhat less of an issue if your selectors are somewhat OOCSS-ey in the first place rather than already being 3+ levels deep)
+    3. Adds extra bytes to CSS in all browsers.
+    (Though depending on how you separate your regular v. IE stylesheets in the first place, this may not mean much.)
+    4. Adds strange looking stuff to your HTML.
+    5. Arguably, more work to remove support.
+
+    When I think about it, conditional stylesheets might be objectively preferable, as they restrict most of their effects to IE. And IE IS the problem in the first place, right? The best arguments in favor of 'conditional selectors' are subjective — err, that is, unless an extra HTTP request trumps EVERY other possible consideration.
+
+    Subjectively, what happened when I tried this was a choir of angels started singing. In my personal experience conditional stylesheets led to code kudzu. Selectors and properties in the IE files are sometimes not updated with the main files, leading to inconsistency. Once or twice I've wasted time by having a problem in IE that I tracked to my OWN conditional stylesheet. And I've been accused of writing the most anal CSS in the universe.
+
+    So, I liked it. I may not use it on everything ever, though. Because really, it's our job as developers to weigh the pros and cons according to the unique set of requirements and circumstances for each site and choose the least awful :-). I don't think summarily dismissing a method I haven't tried is faithful to that mission. Nor is insisting that one possible solution is always the best fit.
+    rs459
+    March 11th, 2011 at 10:10 #113
+    Reply
+
+    Why not ?
+
+    <!--[if lt IE 7 ]&gt;&lt;![endif]-->
+    04.<!--[if IE 7 ]&gt;&lt;![endif]-->
+    05.<!--[if IE 8 ]&gt;&lt;![endif]-->
+    06.<!--[if (gte IE 9)|!(IE)]&gt;&lt;!-->  &lt;!--
+
+    #nav { box-shadow : 1px 1px 5px #000; }
+    .ie678 #nav {border-bottom : 1px #ccc;}
+    or
+    .ie6 #nav, .ie7 #nav, .ie8 #nav {border-bottom : 1px #ccc;}
+
+    rs459
+    March 11th, 2011 at 10:16 #114
+    Reply
+
+    sorry i'm tired, you can erase my previous comment.
+    Bran van der Meer
+    March 28th, 2011 at 01:09 #115
+    Reply
+
+    About the "Oh sheesh ya'll":
+
+    Even IE9 breaks with -less pages, for example a
+
+     
+
+    element cannot be styled if its the first element in the body, and the opening -tag is ommited. You'll always want a body-tag.
+    Bran van der Meer
+    March 28th, 2011 at 01:12 #116
+    Reply
+
+    Nice escaping on your blog, I meant a <form> element on that previous comment
+    Brandon Wittwer
+    April 4th, 2011 at 07:17 #117
+    Reply
+
+    We're using this method to avoid a flash of unstyled content in ie versions. However, when used in a Sharepoint project with a custom masterpage, this method causes problems with intellisense within the markup. No ASP tags will give intellisense. Visual Studio 2010 requires a body tag to exist before it will provide intellisense. I've managed to get around it with a conditional compiler which prints the following:
+
+    Doing this will cause the compiler to NEVER print the extra body tag out to the aspx, but will allow Visual Studio to render intellisense for the markup.
+    Brandon Wittwer
+    April 4th, 2011 at 07:19 #118
+    Reply
+
+    Lets try that code formatting again
+
+    <% #if False %>
+
+    <%  #endif %>
+
+    Brandon Wittwer
+    April 4th, 2011 at 07:21 #119
+    Reply
+
+    @Brandon Wittwer
+
+    One more time for ol time's sake
+
+    <% #if False %>
+    <body>
+    <%  #endif %>
+
+    Werner
+    April 16th, 2011 at 21:14 #120
+    Reply
+
+    hey people,
+
+    I've found if the comment at the beginning of the Documents, then the meta tag can also be in a comment.
+
+    It works anyway and then it is valid HTML5 !
+
+    In this situation, like IE8 and IE9 but not the content="IE=Edge,Chrome"
+
+    So please only content="IE-Edge"
+
+    Greetings
+
+    Werner
+    Werner
+    April 16th, 2011 at 21:19 #121
+    Reply
+
+    unforgiving code was not adopted
+
+    <!–[if IE]><![endif]–>
+    <!DOCTYPE html>
+    <html lang="de">
+    <head>
+
+    <title></title>
+    <!–[if gte IE 8]><meta http-equiv="X-UA-Compatible" content="IE=Edge" /><![endif]–>
+    NickG
+    May 19th, 2011 at 05:00 #122
+    Reply
+
+    Awesome and easy solution.
+
+    On smaller websites where i dont have access to backend developers i always use this method to target IE when i really need to. On the more larger projects i always ask the backend developers to add the specific classes on the html tag serverside. Ussualy i tend to ask 'renderengine', 'browser' and 'browserversion'.
+    Thierry Koblentz
+    May 20th, 2011 at 09:05 #123
+    Reply
+
+    A few selector hacks for those who prefer to stay away from Conditional Comments:
+
+    selector, x:-IE7 {} /* IE7 only */
+
+    selector,{…} /* lte ie7 */
+
+    _selector {…} /* lte ie6 */
+
+    .ie6.someClass {…} /* lte ie6 */
+
+    The advantage of these vs. filters like "* html selector {…}" is that they don't add weight to the rule.
+    Thierry Koblentz
+    May 22nd, 2011 at 17:26 #124
+    Reply
+
+    Hi Paul,
+
+    I'm not sure about the hack example at the beginning of the article:
+
+    div.infoBox { 
+        float: left; 
+        padding-right: 10px; 
+        _padding-right: 5px; 
+    }
+
+    I don't think many people will relate to that. If it is supposed to refer to the double margin bug, I'd say it should look like this:
+
+    div.infoBox { 
+        float: left; 
+        margin-left: 10px; 
+        _margin-left: 5px; 
+    }
+
+    Paul Irish
+    May 22nd, 2011 at 17:31 #125
+    Reply
+
+    @Thierry Koblentz
+
+    Good call. No idea why i had that messed up. fixed now ;)
+    Thierry Koblentz
+    May 22nd, 2011 at 18:52 #126
+    Reply
+
+    Not quite yet ;)
+
+    For the bug to be triggered, float and margin directions must match.
+
+    In my previous comment, I have float:left and margin-left, not float:left and margin-right
+    Paul Irish
+    May 22nd, 2011 at 18:55 #127
+    Reply
+
+    Hah. never knew that!
+    Gerelt Od
+    May 22nd, 2011 at 21:12 #128
+    Reply
+
+    Why I never thought about it o.0 Very smart, easy, simple way.
+    Colin Lieberman
+    June 2nd, 2011 at 15:07 #129
+    Reply
+
+    Hi there. We tried implementing this technique recently and encountered a parsing problem in IE 7 and 8:
+
+    <!–
+
+    causes the page to not render, and in the DOM inspector, I see that this malformed version in the text content of the html node: ""
+
+    Some googling found that others have encountered something similar: http://stackoverflow.com/questions/4499378/ie8-render-issue
+
+    The problem was fixed by using correct syntax (per Microsoft http://msdn.microsoft.com/en-us/library/ms537512%28v=vs.85%29.aspx ) for the !IE case:
+    Colin Lieberman
+    June 2nd, 2011 at 15:09 #130
+    Reply
+
+    (sorry for comment 129's brokeness)
+
+    Hi there. We tried implementing this technique recently and encountered a parsing problem in IE 7 and 8:
+
+    <!–[if !IE]><!–> <html> <!–<![endif]–>
+
+    causes the page to not render, and in the DOM inspector, I see that this malformed version in the text content of the html node: ""
+
+    Some googling found that others have encountered something similar: http://stackoverflow.com/questions/4499378/ie8-render-issue
+
+    The problem was fixed by using correct syntax (per Microsoft http://msdn.microsoft.com/en-us/library/ms537512%28v=vs.85%29.aspx ) for the !IE case:
+
+    <![if !IE]> <html> <![endif]>
+    Frank Conijn
+    June 11th, 2011 at 19:34 #131
+    Reply
+
+    Hi,
+
+    The W3 validator will not validate this code:
+
+     
+     
+    <!--[if lt IE 7]&gt;   &lt;![endif]-->
+    <!--[if IE 7]&gt;      &lt;![endif]-->
+    <!--[if IE 8]&gt;      &lt;![endif]-->
+    <!--[if IE 9]&gt;      &lt;![endif]-->
+    <!--[if gt IE 9]&gt;   &lt;![endif]-->
+    <!--[if !IE]&gt;&lt;!-->              &lt;!--
+
+    Neither does it when I replace the !IE line with this line:
+
+    Am I doing something wrong?
+    Frank Conijn
+    June 11th, 2011 at 19:41 #132
+    Reply
+
+    Something very weird happened with the rendering of my post. I will put things online and give you a url to have validated. Can't do that now because my computer with the ftp access codes is gone for repair due to a faulty fan.
+
+    I will be back.
+    Frank Conijn
+    June 11th, 2011 at 19:49 #133
+    Reply
+
+    @Frank Conijn
+
+    Something very weird happened with the rendering of my post. However, I will put things online to have validated. May take a while cos' my laptop with ftp access data has a serious overheating problem, but I will be back.
+    Frank Conijn
+    June 18th, 2011 at 12:37 #134
+    Reply
+
+    I found out where things went wrong. I had removed the original html tag in the head. That makes the W3 validator act crazy.
+
+    My posts may be removed.
+    Laurence Cope
+    July 7th, 2011 at 13:18 #135
+    Reply
+
+    This is great, thanks a lot. I've sworn by conditionals for years and this technique, although obvious now, never occurred to me. Always looking to speed up sites so will give this a go. Thanks.
+    Steve L
+    July 26th, 2011 at 08:54 #136
+    Reply
+
+    nice article, helpful comments; bravo.
+
+    I've also used, at one time or another, basically all of these techniques; although I never thought to put the 'IE' class on the html element before – that is an inspired bit of genius at work.
+
+    I also agree that the technique employed may by case.
+
+    Submitted for your approval / scorn, here's the solution I'm going with on my current project: (first try at getting html in here… bear with me)
+
+    <html>
+    <!--[if IE]>
+    	<script>
+    		if((/MSIE\s(\d+)/).test(navigator.userAgent))
+    			document.getElementsByTagName('html')[0].className+=' IE'+RegExp.$1+(RegExp.$1<8?' lteIE7':'');
+    	</script>
+    <![endif]-->
+
+    this is a bit of a hybrid solution using a conditional to detect IE and then using javascript to rip the version number out of the useragent. This will add a class to the HTML element of 'IE'+version number regardless of the version number (IE10, IE11) and append a 'lteIE7' class for IE7 and under.
+    Nathan
+    August 8th, 2011 at 15:31 #137
+    Reply
+
+    If you wrap the html tag in conditionals ie 9 is going to throw the browser into quirks mode by default – which means that if you attempt to use the boilerplate code as is on an existing website, there is a good chance a standards compliant layout not intended for quirks mode is going to be destroyed. Just a heads up because some of the comments here are probably due to this.
+    Jeff Sebring
+    September 10th, 2011 at 00:09 #138
+    Reply
+
+    Would there be any benefit in older browsers if we were to use a class like "notoldie" for features that aren't going to render anyway?
+
+    <!--[if lt IE 7 ]&gt;  &lt;![endif]-->
+    <!--[if IE 7 ]&gt;     &lt;![endif]-->
+    <!--[if IE 8 ]&gt;     &lt;![endif]-->
+    <!--[if IE 9 ]&gt;     &lt;![endif]-->
+    <!--[if (gt IE 9)|!(IE)]&gt;&lt;!-->  &lt;!--
+
+    Laurence Cope
+    September 10th, 2011 at 02:33 #139
+    Reply
+
+    Hi Paul.
+
+    I found an issue (I think) adding the IE classes to the tag and not
+
+    I use the Emulate IE7 trick to tell IE8 to render like IE7:-
+
+    I notice when adding the IE classes to this no longer works. I have been using EmulateIE7 for years and know it works, but had come customers report their website did not work in IE7 even though I (though) I tested (using IE8 with EmulateIE7).
+
+    I have done some tests and turns out EmulateIE7 works fine as it should when using the IE classes in but as soon as you switch it to the it stops working.
+    Laurence Cope
+    September 10th, 2011 at 02:44 #140
+    Reply
+
+    @Laurence Cope
+
+    Sorry some code was stripped in my post. The above post post basically stated adding the classes to the HTML tag breaks the Emulate IE7 trick. Adding the classes to the BODY tag like originally suggested does not break Emulate IE7.
+    Laurence Cope
+    September 10th, 2011 at 02:48 #141
+    Reply
+
+    Sorry some code was stripped in my post. The above post post basically stated adding the classes to the HTML tag breaks the Emulate IE7 trick. Adding the classes to the BODY tag like originally suggested does not break Emulate IE7.
+    Alejandro Valensuela
+    September 13th, 2011 at 12:32 #142
+    Reply
+
+    Tabulose Bekanntschaften sind irgendwie nix für mich.
+    Ian Miles
+    September 29th, 2011 at 11:11 #143
+    Reply
+
+    @swed
+
+    Cannot agree more. Leave i.e. behind people…
+    Mark Anthony Degamo
+    October 6th, 2011 at 20:35 #144
+    Reply
+
+    Hi, my code doesn't seem to work.
+    I'm trying to set min-height on ie6
+
+    heres my code:
+
+    .ie6 #body{
+    height: auto !important;
+    height: 300px;
+    }
+
+    where #body is a div container not the body element.
+    Mark
+    October 11th, 2011 at 15:18 #145
+    Reply
+
+    I'm curious, why do you need conditional tags for each version of IE? If all that's being done is adding a class to the html tag for use with a particular version of IE, couldn't you simply add all the classes to only one html tag? After all, you'll only use the classes as you need them.
+
+     
+
+    I don't see the need for multiple conditionals to display different html tags. With this one tag you could then:
+
+    .ie7 .container { width: 960px; }
+
+    Am I missing something, or does this achieve the same thing as multiple conditional tags?
+    Mark
+    October 11th, 2011 at 15:21 #146
+    Reply
+
+    @Mark
+
+    Apparently my html pre tag was not written correctly. Here's what I meant to display after the first paragraph:
+
+    html class="ie6 ie7 ie8 ie9"
+
+    Mark
+    October 11th, 2011 at 15:23 #147
+    Reply
+
+    @Mark
+
+    Sorry all, I don't know what's going on with my comment. the empty pre code space should read:
+
+    html class="ie6 ie7 ie8 ie9"
+    Bernard Chen
+    October 17th, 2011 at 09:47 #148
+    Reply
+
+    We're using this technique, but I found that it was triggering the compatibility mode button to be displayed in IE9. IE9 still picks up my X-UA-Compatible meta tag, but because IE9 initially sees strange code, it is making the compatibility mode button visible, which introduces the risk that people will turn on compatibility mode.
+
+    If I reduce the html tag to a single element, rather than one selected by conditional comments, then the compatibility mode button is not displayed at all, which is preferable for us. I'm thinking that I'll need to render the right variation of the html tag through server-side code.
+    Thomas Glynn
+    October 18th, 2011 at 04:56 #149
+    Reply
+
+    Wow what a fantastic solution, so simple yet effective. Thank-you very much.
+    joe
+    October 25th, 2011 at 22:34 #150
+    Reply
+
+    This is a great solution! but I have a newbie question…
+
+    When I attempt to target some of my page elements with three selectors using this method (.ie7 .node-22 #siteContent), IE7 does not recognize the css. It works great with two (.ie7 #siteContent), but in order to target the #siteContent, I also need .node-22.
+
+    What am I doing incorrectly?
+
+    Thank you.
+    Tai
+    October 31st, 2011 at 10:17 #151
+    Reply
+
+    It keeps your code in the same stylesheet and clearly identifies the problem. Once IE7 is no more it can be as simple as search, replace, delete. However, I think I am going to stick with conditionally loading Modernizer. It seems more future compatible. Unless Internet Explorer 10 ignores conditional comments like they said they would!
+    Please Microsoft support don't do it!
+    (unless they adopt webkit for IE10, then maybe it ok :)
+    usman
+    November 2nd, 2011 at 06:49 #152
+    Reply
+
+    This is great. Thank you for sharing.
+    LukeB
+    November 2nd, 2011 at 15:31 #153
+    Reply
+
+    link 404: https://github.com/paulirish/html5-boilerplate/issues/425/#
+    l2aelba
+    November 3rd, 2011 at 07:16 #154
+    Reply
+
+    Best and simple idea ever ! with no .js needed ! but i dont support ie6 anymore
+    Leif Halvard Silli
+    November 6th, 2011 at 12:29 #155
+    Reply
+
+    An earlier presentation of the idea that this page builds on, can be found at Big John’s classic IE hacking web site positioniseverything.net, in a guest article from February 2007 by Hiroki Chalfant entitled “#IEroot — Targeting IE Using Conditional Comments and Just One Stylesheet”.
+    Alex
+    November 17th, 2011 at 05:37 #156
+    Reply
+
+    @Joe Lencioni
+
+    I noticed that actually you cannot verify your site in Webmasters Tooks if this code is in place. I had to simply replace the whole thing with a HTML tag only to work.
+
+    Anyone else?
+    TJ
+    December 23rd, 2011 at 12:38 #157
+    Reply
+
+    This snippet of code is causing my page to show the Compatibility Mode button in IE9. Is anyone else seeing this?
+
+    Normally not a problem but we've been experiencing customer complaints because they've been accidentally clicking it on and it breaks the page. If I remove this snippet of code, targeting different IEs, it doesn't show the compatibility mode button.
+    Peter
+    December 31st, 2011 at 19:32 #158
+    Reply
+
+    Thank Paul. This does seem to work in webmaster tools for me.
+    Christian Augustin
+    January 1st, 2012 at 08:57 #159
+    Reply
+
+    To add to those who saw a problem with IE8 and IE9 when placing conditional comments around the HTML tag: When doing so, IE8 starts to behave weird by switching between IE7 and IE8 rendering modes (as can be seen by inspecting document.documentMode) depending on context (security settings, as far as I can see, and therefor triggered by the "security zone" or whatever it is called in English versions of IE); and the X-UA-Compatible tag is no longer honored by IE8 (it ignores IE=edge)! This makes it nearly impossible to get a consistent rendering behavior out of IE8 …
+
+    With the problems I experienced I would consider using conditional comments around the HTML tag a bad recommendation as far as IE8 is concerned.
+    Tito
+    January 4th, 2012 at 16:55 #160
+    Reply
+
+    @Paul Irish I prefer to never sniff anything's backend
+    Alex C
+    January 6th, 2012 at 11:39 #161
+    Reply
+
+    @Mike I am no expert, but this is EXACTLY what i was thinking the whole way through! there was a time when the web was littered with "built for ie only" . The code above should be used to display a modal window with links to standards based browsers.
+    Lukom
+    January 12th, 2012 at 16:13 #162
+    Reply
+
+    I don`t like conditional stylesheets too because of «maintain problem», but I think that it`s better when element is single and all IE-related classes are generated on serverside – this way html-code is clean and IDE`s with code-highlight don`t go crazy because of many .
+    Lukom
+    January 12th, 2012 at 16:14 #163
+    Reply
+
+    I don`t like conditional stylesheets too because of «maintain problem», but I think that it`s better when html-element is single and all IE-related classes are generated on serverside – this way html-code is clean and IDE`s with code-highlight don`t go crazy because of many html-elements.
+    Marush Denchev
+    January 27th, 2012 at 11:36 #164
+    Reply
+
+    Although I subscribe to the idea of not sniffing and targeting specific browser that last approach for adding classes for old ies is just brilliant!
+
+    For websites which does not want to support Internet Explorer 6 (which I think should not be supported) the first comment could be removed.
+    Frederik Krautwald
+    January 30th, 2012 at 19:13 #165
+    Reply
+
+    Why are CSS hacks then being used in the HTML5 Boilerplate normalize.css?
+    tomexsans
+    February 6th, 2012 at 08:43 #166
+    Reply
+
+    Cool site. i spent a huge amount iof time filling it with black. hahaha nice tips.
+    Maxime Euziere
+    February 9th, 2012 at 05:54 #167
+    Reply
+
+    Hi,
+
+    Very nice solution!
+
+    In PHP, it's easy and fast to generate the good classnames for the html element and avoid unnecessary HTML comments.
+
+    Here's the shortest PHP code I managed to write to do this job:
+
+    <html class="<?php $u=$_SERVER["HTTP_USER_AGENT"];$p=strpos($u,"MSIE");if($p){$v=$u{$p+5};while($v">
+
+    Any other solution?
+    Maxime Euziere
+    February 16th, 2012 at 02:57 #168
+    Reply
+
+    Oops.
+    The PHP snippet I was trying to paste was:
+
+    <html class="<?php $u=$_SERVER["HTTP_USER_AGENT"];$p=strpos($u,"MSIE");if($p){$v=$u{$p+5};while($v<10)echo " lt-ie".++$v;}?&gt:">
+    Gaurav M
+    February 20th, 2012 at 04:16 #169
+    Reply
+
+    Thanks Paul!
+
+    I tried that on body also!
+    Currently working fine for IE6,7,8 & 9! Opera, chrome and Safari.
+    Tried installing IE 10 also, but only available for Win8 developer preview. I am on Win7, 64 bit :- )
+
+
+
+
+
+
+    <body class="" > <!–
+    Gaurav M
+    February 20th, 2012 at 04:18 #170
+    Reply
+
+    Trying to share the code
+
+    . css
+
+
+
+
+
+     <body class="" > <!--
+
+    Gaurav M
+    February 20th, 2012 at 04:21 #171
+    Reply
+
+    Posted at http://twitpic.com/8mdn6o
+    Ward
+    February 20th, 2012 at 21:36 #172
+    Reply
+
+    Dear Paul,
+    Get my car washed and pick me up some sharp cheddar from trader joes.. That New Zealand grass fed preferably.
+
+    W.
+    alfieindesigns
+    March 2nd, 2012 at 02:07 #173
+    Reply
+
+    Hi Paul Irish,
+
+    Nice article, actually i'm a front-end developer. I was using IE hack before.. but then i realized that maybe there is more effective solution to the problem. Browsers are different on rendering the website.
+
+    The solution is just do the proper coding(W3 Compliant code). And most of the time the main problem why some layout look weird on IE is that, coder uses excess 'margin or padding' that overflow to IE(meaning on FF, Safari etc it looks good but on IE it look weird).
+
+    Best practice is always check for the best code to use. Example: it is applicable to put margin or padding… then compare with all browsers, later on you will discover how to code html/css that is not using any IE hacks.
+
+    If you are interested to know how it looks you can check this examples, here are some of my html/css works:
+    http://www.alfieindesigns.com/nw/
+    http://www.alfieindesigns.com/ck/
+    http://www.alfieindesigns.com/fs/
+
+    The only hack there is PNG hack, lol.
+
+    Best regards,
+    alfieindesigns
+    Zaenal
+    March 2nd, 2012 at 23:25 #174
+    Reply
+
+    Change to on the fly will reflow the browser, isn't it? That's the way Modernizr works, and it's so obvious when we visit modernizr.com. On mobile phone, browser reflow will eat your batteries.
+
+    So I guess it's not good idea to add css class to html/root tag, especially if we change it later.
+    Zaenal
+    March 2nd, 2012 at 23:26 #175
+    Reply
+
+    change
+
+    html class="no-js"
+
+    to
+
+    html class="js"
+
+    on the fly will reflow the browser, isn't it? That's the way Modernizr works, and it's so obvious when we visit modernizr.com. On mobile phone, browser reflow will eat your batteries.
+
+    So I guess it's not good idea to add css class to html/root tag, especially if we change it later.
+    Stefani
+    March 15th, 2012 at 11:05 #176
+    Reply
+
+    I've had the most success with using php to serve conditional stylesheets. Doesn't cause additional load for the browsers not affected and the code still looks perfect, without hideous comments bloating it (which is important for SEO).
+
+    Given the number of websites being developed in WordPress these days, think it's reasonable to consider using php for this, instead of the javascript option, which would not degrade well if javascript is disabled.
+    Reinier Kaper
+    March 15th, 2012 at 11:41 #177
+    Reply
+
+    I still love this, but I have one addition: an lt-ie10 class.
+    Regrettably I'm still dependant on stuff like CSS3PIE to satisfy our clients in older IE versions and for that you also have to target IE9 and down (as IE9 doesn't support some CSS3 stuff like gradients).
+    Jonathan Maron
+    March 19th, 2012 at 04:07 #178
+    Reply
+
+    @Reiner: You are right with the gradient issue in MSIE9. I would suggest updating the technique Paul describes to include MSIE10:
+    https://gist.github.com/2107792
+    Reinier Kaper
+    March 19th, 2012 at 10:43 #179
+    Reply
+
+    @Jonathan Maron
+    Thanks for that, I now use that indeed to target silly IE9 stuff ;-)
+    Darren
+    April 5th, 2012 at 08:33 #180
+    Reply
+
+    I must be doing something silly because I can't seem to get this to work.
+
+    HTML
+
+    <!--[if lt IE 7]&gt;  &lt;![endif]-->
+    <!--[if IE 7]&gt;     &lt;![endif]-->
+    <!--[if IE 8]&gt;     &lt;![endif]-->
+    <!--[if gt IE 9]&gt;&gt;-->  &lt;!--
+
+    CSS
+
+    #sidebar nav {
+    	background-color: rgba(171, 161, 141, 0.25);
+    	border: 1px solid rgba(102, 102, 102, 0.25);
+    	border-radius: 22px;
+    	padding-top: 15px;
+    	padding-bottom: 15px;
+    	margin-bottom: 60px;
+    }
+     
+    .ie6 #sidebar nav,
+    .ie7 #sidebar nav,
+    .ie8 #sidebar nav {
+    	background-color: #d5d2c9;
+    	border: 1px solid #b5b2ac;
+    }
+
+Name (required)
+E-Mail (will not be published) (required)
+Website
+
+For code blocks, use <pre lang="javascript">. css and html4strict are also accepted.
+Subscribe to comments feed
+Get Gyazo for seriously-instant screen-grabbing Release: infinite-scroll.com! (w/ jquery and wordpress plugins)
+
+Heyo, I'm Paul Irish.
+
+I'm a front-end developer,
+a Google Chrome dev relations guy,
+a jQuery Board member,
+a lead developer of Modernizr, CSS3 Please and HTML5 Boilerplate,
+a curator of HTML5 Rocks,
+a creator of mothereffingtextshadow, mothereffinghsl, HTML5 Please, Move the Web Forward, Mothereffing Animated GIF, W3Fools, chromestatus.com, HTML5 Readiness, Front-end Coding Standards, Type Rendering Project, Infinite-scroll.com, jQuery plugin stuff .
+a former host on the yayQuery Podcast,
+and an mp3 blogger at Aurgasm.
+
+I live in sunny San Francisco.
+
+Contact me or read more about me
+[Photo by Ben Alman. Scribble made here on this site background by @gravitywins. ]
+Add +Paul Irish to your Google+ circles
+Follow me on twitter: @paul_irish
+
+    RT @Modernizr: !!navigator.geolocation will leak memory in IE9, block page caching in WebKit, and can throw in FF. Doc'd and fixed: https://t.co/nQVp4WMb
+    RT @smashingmag: A round-up of Web browser internals resources by @paul_irish - http://t.co/uIf5ql48
+    RT @mrdoob: WebGL and E-commerce - http://t.co/KMTgrFxZ Some interesting points there. /via @alteredq
+    RT @hakimel: Improved the scroll effect performance, thanks @paul_irish! http://t.co/Oq1auhmZ
+    RT @chriscoyier: I'm already starting to kind of despise writing CSS without a preprocessor. Little scary, but not worried.
+    RT @valueof: Internal JSHint architecture: https://t.co/mc3KCHk5 Thoughts? Suggestions?
+    RT @ScottKellum: Behind the scenes of my dev/design in browser workflow — http://t.co/PGaMnXDe #teamSass
+    RT @dalmaer: "Light Table: we need a real work surface to code on, not just an editor and a project explorer." http://t.co/7EQDp36a
+    RT @hackernewsbot: Meteor meets NoGPL... http://t.co/vNUeS29I
+    RT @chriseppstein: Compass 0.13 + Sass 3.2 = We will have a kick-ass animation module! Example: http://t.co/kWtsRUFm Commit: http://t.co/6SfvKkiv
+
+Subscribe to the RSS feed
+Recent Posts
+
+    Vendor prefixes are not developer-friendly
+    * { box-sizing: border-box } FTW
+    Moving The Web Forward
+    Web browser, frontend and standards feeds to follow
+    The Fundamentals, Primitives and History of HTML5
+
+Categories
+
+    chrome
+    front-end development
+    hacks
+    hmm!
+    javascript
+    jquery
+    me
+    typography
+
+That's so book: my TMI lifestream.
+Top
+
+Paul Irish doesn't care about attribution, bro. — It's all yours under Creative Commons CC0.

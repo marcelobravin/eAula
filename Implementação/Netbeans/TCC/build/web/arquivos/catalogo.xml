@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet type="text/css" href="cd_catalog.css"?>
+
+<catalogo>
+	<jogo>
+		<titulo>Escolaridade</titulo>
+		<tipo>escolaridade</tipo>
+                <opcoes>
+                    <valor>Ensino basico</valor>
+                    <nome>Ensino básico</nome>
+               
+                    <valor>Ensino medio</valor>
+                    <nome>Ensino médio</nome>
+               
+                    <valor>Bacharel</valor>
+                    <nome>Bacharel</nome>
+               
+                    <valor>Mestre</valor>
+                    <nome>Mestre</nome>
+               
+                    <valor>Doutor</valor>
+                    <nome>Doutor</nome>
+                </opcoes>
+	</jogo>
+</catalogo>

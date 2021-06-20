@@ -1,0 +1,58 @@
+ null : Java Glossary
+home page go to the Java Glossary Home go to the Computer Buyer’s Glossary up local find full screen, hide local find menu Google search web for more information on this topic jump to foot of page translate this page with Babelfish punctuation 0-9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z (all)
+
+    * You are here :
+    * home
+    * Java Glossary
+    * N words
+    * null
+    *  
+
+©1996-2011 Roedy Green, Canadian Mind Products
+
+null
+    null is the reserved constant used in Java to represent a void reference i.e a pointer to nothing. Internally it is just a binary 0, but in the high level Java language, it is a magic constant, quite distinct from zero, that internally could have any representation.
+
+    If
+
+    x.doSomething();
+
+    and x is null, you will raise an NPE (Null Pointer Exception). Note NullPointerException, not NullReferenceException.
+
+    The difference between a null reference and a reference to an empty object, (e.g. a freshly minted default object, empty collection or empty Iterator) is a major headache in Java. When dealing with other people’s code I want to strangle them. Why won’t they tell me when a method might return null or empty? Why won’t they tell me if a method can’t accept
+
+    if ( x != null )
+       {
+       x.doSomething();
+       }
+
+    must be the most common Java code fragment. I wish there were some more elegant way to handle this, that gives you the speed and space conservation of null, without the coding overhead bubblgum of checking for it at every turn. I have five solutions:
+
+       1. Don’t return Lists from your methods; return Iterators instead. This way you can return the empty Iterator. The Iterator’s consumer does not need to deal specially with the null case. You don’t need the overhead of cloned empty List objects.
+       2. Create a singleton empty prototype object for each class that you pass around to act like null. The catch is, it may actually need to be a subclass so that its methods don’t actually do anything. You have to make sure nobody modifies the empty object. You can safely call methods on this object and nothing will happen. You can safely retrieve its empty/default-value fields. You would need an amanuensis to compose the code for such objects. The effort of composing them manually would be even more work than dealing with null. Using this technique would be more robust however. You would make all methods final so that they would inline down to nothing. This would be even faster than checking explicitly for null! Null is typeless. Empty objects are typed. This may or may not be considered a Good Thing™.
+       3. New Java syntax to insert if (x != null) more tersely: e.g. t!.doit(); is the same as if (t != null) t.doit();.
+       4. Use rigid Javadoc conventions to track whether a method consumes/produces null references, empty objects, or blank Strings.
+       5. Simply ignore java.lang.NullPointerExceptions. The catch is, there is no way to do that in Java. You can’t just ignore them and return to the code just after the call. You can’t turn them off. This would require a new language where NullPointerExceptions are simply treated as no-ops.
+
+    @NotNull
+    @Nullable
+    blank
+    C# ?? the null coalesing operator
+    discarding output
+    empty
+    error messages
+    Groovy ?: the Elvis operator
+    intern
+    Javadoc
+    literal
+    pointer
+    reference
+    void
+
+CMP homejump to top 	You can get the freshest copy of this page from: 	or possibly from your local J: drive (Java virtual drive/mindprod.com website mirror)
+	http://mindprod.com/jgloss/null.html 	J:\mindprod\jgloss\null.html
+logo	feedback Please email your feedback for publication, letters to the editor, errors, omissions, typos, formatting errors, ambiguities, unclear wording, broken/redirected link reports, suggestions to improve this page or comments to Roedy Green : feedback email If you want your message kept confidential, not considered for posting, please explicitly specify that.
+Canadian Mind Products 	
+mindprod.com IP:[65.110.21.43]
+view Blog	Your face IP:[200.246.78.100]
+Feedback	You are visitor number 135,859.	

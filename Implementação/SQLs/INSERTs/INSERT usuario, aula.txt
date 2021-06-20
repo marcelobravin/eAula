@@ -1,0 +1,39 @@
+
+insert into aulas (titulo, descricao, autor, area, materia, disciplina, tipo, senha, datacriacao, utilizacoes, votos, media, conclusoes, aprovacao) 
+	values('Titulo1', 'descricao', 'Marcelo', 'area', 'materia', 'disciplina', 0, 'senha', now(), 0, 0, 0.0, 0, 0);
+
+insert into aulas (titulo, descricao, autor, area, materia, disciplina, tipo, senha, datacriacao, utilizacoes, votos, media, conclusoes, aprovacao) 
+	values('Titulo1', 'descricao', 'Marcelo', 'area', 'materia', 'disciplina', 0, 'senha', now(), 0, 0, 0.0, 0, 0);
+
+insert into aulas (titulo, descricao, autor, area, materia, disciplina, tipo, senha, datacriacao, utilizacoes, votos, media, conclusoes, aprovacao) 
+	values('Titulo1', 'descricao', 'Professor', 'area', 'materia', 'disciplina', 0, 'senha', now(), 0, 0, 0.0, 0, 0);
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	INSERT INTO usuarios (nome, cpf, email, escolaridade, senha, profissao, privilegios, sexo, logradouro, numero, cidade, uf, cep, dataCadastro)
+	VALUES ('Marcelo', 30748523804, 'markness@hotmail.com', 'Ensino superior', '', 'profissao', 3, true, 'logradouro', 001, 'cidade', 'uf', 08710190, now())
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+ 
+ 
+INSERT INTO materias(nome, area, descricao) VALUES ('nome', '1', 'area 1');
+INSERT INTO materias(nome, area, descricao) VALUES ('nome2', '2', 'area 2');
+INSERT INTO materias(nome, area, descricao) VALUES ('nome3', '3', 'area 3');
+INSERT INTO materias(nome, area, descricao) VALUES ('nome4', '4', 'area 4');
+INSERT INTO materias(nome, area, descricao) VALUES ('nome5', '5', 'area 5');

@@ -1,0 +1,8 @@
+id
+tipo
+legenda
+height
+width
+
+transformar favicon em semitransparente e gerar novamente
+http://www.genfavicon.com/pt/

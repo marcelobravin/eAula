@@ -1,0 +1,14 @@
+    Compile o less para css : http://incident57.com/less/
+
+    avatar
+
+    Ronildo Costa escreveu em 08/09/2011 às 11:19:19
+
+    @ze nao entendi o seu comentário... na última linha do artigo eu coloquei esse link.
+
+    avatar
+
+    Bruno escreveu em 30/03/2012 às 10:15:46
+
+    O ganho do LESS é no tempo de desenvolvimento, devido a essa possibilidade de reaproveitar código. Em termos de desempenho, se o estilo for servido em .less e compilado no browser, o desempenho com certeza será mais lento, já que é necessário um passo a mais para exibir os estilos .css No entanto, podemos compilar os arquivos de .less em .css para colocar o app/site em produção. Eliminando a dependência do js no browser, a lerdeza e ganhando em tempo de desenvolvimento.
+

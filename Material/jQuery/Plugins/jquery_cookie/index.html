@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Mostrar/Ocultar informações com JQuery + Cookie</title>
+
+<script type="text/javascript" language="javascript" src="js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" language="javascript" src="js/jquery.cookie.js"></script>
+
+<style type="text/css">
+h1 {
+   border-bottom: 1px dashed #CCC;
+   font-size: 18px;
+   margin: 5px;
+   color: #900;
+}
+div.box {
+    border: 1px dotted #CCC;
+    width: 500px;
+    margin-bottom: 10px;
+}
+
+div.box img {
+    float: right;
+    margin: 5px;
+    cursor: pointer;
+}
+
+p.conteudo {
+    padding: 10px;
+    text-align: justify;
+}
+</style>
+
+<script type="text/javascript">
+// Quando carregar a página
+$(function($) {
+       
+    // Quando clicado em uma imagem das caixas
+    $('div.box img').click(function() {
+        // Recuperando ID da DIV da qual a imagem se encontra
+        var id = $(this).parent('div').attr('id');
+        // Armazendo elemento que será oculto
+        var conteudo = $('#'+id+' p.conteudo');
+        // Escondendo ou exibindo o conteúdo do box
+        conteudo.slideToggle(function() {
+            // Caso a box esteja vísivel
+            if (conteudo.css('display') == 'block')
+                // Cria um cookie que recebe o ID do elemento como nome e o valor 1
+                $.cookie(id, 1, {expires: 365});
+            // Caso esteja oculta
+            else
+                 // Cria um cookie que recebe o ID do elemento como nome e o valor 0
+                $.cookie(id, 0, {expires: 365});
+        });
+    });
+    
+// Procurando e passando por cada box da página
+$("body").find("div.box").each(function(){
+    // Recuperando ID
+	var id = $(this).attr('id');
+    // Armazendo elemento que será oculto
+    var conteudo = $('#'+id+' p.conteudo');
+    // Caso ele não tenha sido criado
+	if ($.cookie(id) == null)
+        // Ocultamos
+        conteudo.css("display", "none");
+    // Se um cookie foi criado e está com 1, ou seja, visível
+	else if ($.cookie(id) == 1)
+        // Exibimos
+        conteudo.css("display", "block");
+    // Se um cookie foi criado e está com 0, ou seja, oculto
+    else if ($.cookie(id) == 0)
+        // Ocultamos
+        conteudo.css("display", "none");
+});
+    
+});
+
+</script>
+</head>
+
+<body>
+
+<h2>Mostrar/Ocultar informações com JQuery + Cookie</h2>
+
+<div id="ingles" class="box">
+
+    <img src="image/show_hide.png" align="Mostrar/Ocultar" />
+    
+    <h1>Inglês</h1>
+    
+    <p class="conteudo">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+</div>
+
+<div id="alemao" class="box">
+
+    <img src="image/show_hide.png" align="Mostrar/Ocultar" />
+    
+    <h1>Alemão</h1>
+    
+    <p class="conteudo">Lorem Ipsum ist ein einfacher Demo-Text für die Print- und Schriftindustrie. Lorem Ipsum ist in der Industrie bereits der Standard Demo-Text seit 1500, als ein unbekannter Schriftsteller eine Hand voll Wörter nahm und diese durcheinander warf um ein Musterbuch zu erstellen. Es hat nicht nur 5 Jahrhunderte überlebt, sondern auch in Spruch in die elektronische Schriftbearbeitung geschafft (bemerke, nahezu unverändert). Bekannt wurde es 1960, mit dem erscheinen von "Letraset", welches Passagen von Lorem Ipsum enhielt, so wie Desktop Software wie "Aldus PageMaker" - ebenfalls mit Lorem Ipsum</p>
+</div>
+
+<div id="espanhol" class="box">
+
+    <img src="image/show_hide.png" align="Mostrar/Ocultar" />
+    
+    <h1>Espanhol</h1>
+    
+    <p class="conteudo">Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas "Letraset", las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.</p>
+</div>
+
+<div id="portugues" class="box">
+
+    <img src="image/show_hide.png" align="Mostrar/Ocultar" />
+    
+    <h1>Português</h1>
+    
+    <p class="conteudo">O Lorem Ipsum é um texto modelo da indústria tipográfica e de impressão. O Lorem Ipsum tem vindo a ser o texto padrão usado por estas indústrias desde o ano de 1500, quando uma misturou os caracteres de um texto para criar um espécime de livro. Este texto não só sobreviveu 5 séculos, mas também o salto para a tipografia electrónica, mantendo-se essencialmente inalterada. Foi popularizada nos anos 60 com a disponibilização das folhas de Letraset, que continham passagens com Lorem Ipsum, e mais recentemente com os programas de publicação como o Aldus PageMaker que incluem versões do Lorem Ipsum.</p>
+</div>
+
+</body>
+</html>

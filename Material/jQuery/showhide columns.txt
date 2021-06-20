@@ -1,0 +1,54 @@
+th titulo
+td class=th
+
+
+
+
+select exibir
+	= ocultar.removeClass('invisivel');
+
+select ocultar
+on change
+	$('.'+this.value).addClass('invisivel');
+	
+	exibir add option this.val()
+
+
+
+
+
+
+
+for campos
+th
+	nome campo
+/th
+ 
+ 
+ 
+ 
+for campos
+td class="nome campo"
+	valor
+/td
+
+
+
+
+
+
+
+
+==============================================================
+substituir valores
+
+if usuario.getSexo() == true {
+	write('masculino');
+} else {
+	write('feminino');
+}
+
+
+
+
+

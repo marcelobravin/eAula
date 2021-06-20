@@ -1,0 +1,57 @@
+/* desenvolvido por Bernard De Luna - www.bernarddeluna.com  / @bernarddeluna */
+
+
+/***********
+	css reset 
+************/
+* {	margin: 0;	padding: 0;	list-style: none;	border: 0;	text-decoration: none;outline:0;}
+input, label, img {vertical-align: middle;}
+h1, h2, h3, h4, h5, h6 {line-height:100%;vertical-align: top;}
+
+/* separator */
+.jfa {position:absolute; left:0px;top:0px; width:0px; height:0px; visibility:hidden;}
+.sep {margin-bottom: 40px !important;}
+.clear {clear:both;}
+.tx-right {text-align: right;}
+.tx-left {text-align: left;}
+.left {float:left;}
+.right {float:right;}
+.alignleft {float:left;margin-right:30px;margin-bottom:30px;}
+.alignright {float:right;margin-left:30px;margin-bottom:30px;}
+hr {display: none;}
+
+/* fixing firefox bug */
+div:after, ol:after, li:after, form:after, ul:after, dl:after,q:after {content:".";display:block;clear:both;visibility:hidden;height:0;overflow:hidden;}
+
+
+
+/***********
+	structure
+************/
+html {background: #F4F6F7 url("http://bernarddeluna.com/blog/wp-content/themes/miniwp/img/bg-blog.jpg") repeat-x scroll left top;; height: 100%;}
+body {font-size: 10px; line-height:1.2em; color:#2b2b2b;text-align: center;font-family: Arial, Tahoma, Helvetica, sans-serif;background: transparent url("http://bernarddeluna.com/blog/wp-content/themes/miniwp/img/titulo-slogan.png") no-repeat scroll center 20px;padding-top:120px;}
+
+
+
+/* content */
+.content {margin: 0 auto;text-align:left;position: relative;padding: 40px;width:918px;height:100%;}
+h1 {font-size:4em; line-height: 1em; margin-bottom:0.4em;letter-spacing: -.025em;}
+h2 {font-size:2.4em; line-height: 1.1em; margin-bottom:0.4em;letter-spacing: -.025em;}
+p {font-size:1.6em; line-height: 1.4em; margin-bottom:1.4em;}
+
+
+/* acessibilidade */
+.acessibilidade {background: #2b2b2b;}
+.acessibilidade ul {padding:20px; width: 940px;height:100%;margin: 0 auto;text-align:left;position: relative;}
+.acessibilidade li {display: inline-block; float: left;margin-right:1px;}
+.acessibilidade li a { color:#fff; font-size:1.4em;padding:10px;background: #333;vertical-align: middle;display: block; height:auto;
+-moz-border-radius: 8px; -webkit-border-radius: 8px; -khtml-border-radius: 8px;border-radius: 8px;}
+.acessibilidade li a:hover {background: #4F4F4F;}
+
+/* footer */
+cite {background:#2b2b2b;margin-top:1px; display: block;height:auto;padding:10px;text-align:center;}
+cite a {color:#fff;font-size:1.2em;}
+cite a:hover {color:#F90;}
+
+.visitar {position:absolute; font-size:14px; top:75px;left:40%;right:60%;color:#fff;background:#2b2b2b;width:100px;display: inline-block; padding:10px;
+-moz-border-radius: 8px; -webkit-border-radius: 8px; -khtml-border-radius: 8px;border-radius: 8px;}
